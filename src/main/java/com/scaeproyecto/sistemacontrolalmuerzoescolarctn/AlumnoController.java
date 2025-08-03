@@ -7,6 +7,7 @@ package com.scaeproyecto.sistemacontrolalmuerzoescolarctn;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -89,6 +89,12 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void nuevo(ActionEvent event) {
+        TxtCodigo.setDisable(false);
+        TxtNombre.setDisable(false);
+        TxtApellido.setDisable(false);
+        BtnNuevo.setDisable(true);
+        BtnGuardar.setDisable(false);
+        BtnCancelar.setDisable(false);
     }
 
     @FXML
@@ -105,6 +111,15 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void cancelar(ActionEvent event) {
+        TxtCodigo.setText("");
+        TxtNombre.setText("");
+        TxtApellido.setText("");
+        TxtCodigo.setDisable(true);
+        TxtNombre.setDisable(true);
+        TxtApellido.setDisable(true);
+        BtnNuevo.setDisable(false);
+        BtnGuardar.setDisable(true);
+        BtnCancelar.setDisable(true);
     }
 
     @FXML
