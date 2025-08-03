@@ -25,6 +25,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  * FXML Controller class
  *
@@ -168,6 +172,42 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
+        String codigo = TxtCodigo.getText();
+        String nombre = TxtNombre.getText();
+        String apellido = TxtApellido.getText();
+        String curso = dropmenuCurso.getText();
+        String seccion = dropmenuSeccion.getText();
+        String especialidad = dropmenuEspe.getText();
+
+        // Validación básica
+        if (codigo.isEmpty() || nombre.isEmpty() || apellido.isEmpty()
+                || curso.equals("Seleccionar Curso") || seccion.equals("Seleccionar Sección") || especialidad.equals("Seleccionar Especialidad")) {
+            // Muestra un mensaje de error al usuario
+            System.out.println("Todos los campos son obligatorios.");
+            return;
+        }
+
+        try (Connection conn = ConeccionDB.getConnection()) {
+            String sql = "INSERT INTO Estudiante (Estado, Nombre, Apellido, Curso, Seccion, Especialidad) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, 1); // Estado activo, puedes poner lógica según necesites
+                pstmt.setString(2, nombre);
+                pstmt.setString(3, apellido);
+                pstmt.setInt(4, Integer.parseInt(curso));
+                pstmt.setInt(5, Integer.parseInt(seccion));
+                pstmt.setString(6, especialidad);
+
+                int filasAfectadas = pstmt.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Alumno guardado correctamente.");
+                    // Limpia los campos o actualiza la tabla
+                } else {
+                    System.out.println("No se pudo guardar el alumno.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -199,6 +239,5 @@ public class AlumnoController implements Initializable {
             e.printStackTrace();
         }
     }
-
 
 }
