@@ -40,7 +40,7 @@
                     <columns>
                       <TableColumn fx:id="ColumnId" prefWidth="68.79998779296875" text="ID" />
                       <TableColumn fx:id="ColumnNombre" prefWidth="124.0" text="Nombre" />
-                        <TableColumn fx:id="ColumnApellido" prefWidth="118.39996337890625" text="Ingredientes" />
+                        <TableColumn fx:id="ColumnApellido" prefWidth="118.39996337890625" text="Fecha" />
                     </columns>
                   </TableView>
                </children>

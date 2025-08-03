@@ -19,8 +19,8 @@
                   </Text>
                </children>
             </Pane>
-            <Button layoutX="12.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Profesores" />
-            <Button layoutX="13.0" layoutY="142.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Profesores" />
+            <Button layoutX="12.0" layoutY="90.0" mnemonicParsing="false" onAction="#abrirMenuProfe" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Profesores" />
+            <Button layoutX="13.0" layoutY="142.0" mnemonicParsing="false" onAction="#formularioProfe" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Profesores" />
          </children>
       </Pane>
       <Pane layoutX="230.0" prefHeight="400.0" prefWidth="200.0" style="-fx-border-style: dashed; -fx-border-radius: 10px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="10.0">
@@ -34,8 +34,8 @@
                   </Text>
                </children>
             </Pane>
-            <Button layoutX="5.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Alumnos" />
-            <Button layoutX="6.0" layoutY="142.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Alumnos" />
+            <Button layoutX="5.0" layoutY="90.0" mnemonicParsing="false" onAction="#abrirMenuAlumnos" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Alumnos" />
+            <Button layoutX="6.0" layoutY="142.0" mnemonicParsing="false" onAction="#formularioAlumno" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Alumnos" />
          </children>
       </Pane>
       <Pane layoutX="432.0" prefHeight="400.0" prefWidth="200.0" style="-fx-border-style: dashed; -fx-border-radius: 10px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
@@ -49,9 +49,9 @@
                   </Text>
                </children>
             </Pane>
-            <Button layoutX="12.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Comidas" />
-            <Button layoutX="13.0" layoutY="142.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Comidas" />
-            <Button layoutX="13.0" layoutY="190.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="175.0" text="Ver comida de hoy" />
+            <Button layoutX="12.0" layoutY="90.0" mnemonicParsing="false" onAction="#abrirMenuComida" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Comidas" />
+            <Button layoutX="13.0" layoutY="142.0" mnemonicParsing="false" onAction="#formularioComida" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Comidas" />
+            <Button layoutX="13.0" layoutY="190.0" mnemonicParsing="false" onAction="#comidaHoy" prefHeight="25.0" prefWidth="175.0" text="Ver comida de hoy" />
          </children>
       </Pane>
       <Pane layoutX="10.0" layoutY="9.0" prefHeight="86.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-radius: 10px;" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
