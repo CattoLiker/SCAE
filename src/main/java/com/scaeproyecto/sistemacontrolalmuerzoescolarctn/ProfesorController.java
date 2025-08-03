@@ -4,11 +4,16 @@
  */
 package com.scaeproyecto.sistemacontrolalmuerzoescolarctn;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -16,6 +21,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
 /**
  * FXML Controller class
  *
@@ -23,6 +30,19 @@ import javafx.scene.input.MouseEvent;
  */
 public class ProfesorController implements Initializable {
 
+    public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
+        // Cargar el nuevo FXML
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(recurso));
+        Parent root = fxmlLoader.load();
+
+        // Obtener el Stage actual desde el botón o cualquier nodo que disparó el evento
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Reemplazar la escena
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
     private TextField TxtCodigo;
@@ -50,14 +70,15 @@ public class ProfesorController implements Initializable {
     private Button BtnGuardar;
     @FXML
     private Button BtnCancelar;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
     @FXML
     private void buscar(KeyEvent event) {
     }
@@ -84,6 +105,17 @@ public class ProfesorController implements Initializable {
 
     @FXML
     private void cancelar(ActionEvent event) {
+    }
+
+    @FXML
+    private void abrirMenuPrincipal(ActionEvent event) {
+        String menuprincipal = "menu.fxml";
+
+        try {
+            abrirMenuOtro(event, menuprincipal);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
