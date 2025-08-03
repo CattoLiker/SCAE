@@ -59,8 +59,6 @@ public class AlumnoController implements Initializable {
     @FXML
     private Button BtnCancelar;
     @FXML
-    private MenuItem menuCurso;
-    @FXML
     private TableColumn<?, ?> columnCurso;
     @FXML
     private TableColumn<?, ?> columnSeccion;
@@ -68,32 +66,60 @@ public class AlumnoController implements Initializable {
     private TableColumn<?, ?> columnEspecialidad;
     @FXML
     private SplitMenuButton dropmenuCurso;
-    private SplitMenuButton dropmenuSección;
-    @FXML
-    private MenuItem menuCurso1;
     @FXML
     private SplitMenuButton dropmenuSeccion;
     @FXML
     private SplitMenuButton dropmenuEspe;
     @FXML
-    private MenuItem menuCurso11;
+    private MenuItem espeInfo;
     @FXML
-    private MenuItem menuCurso111;
+    private MenuItem espeCC;
     @FXML
-    private MenuItem menuCurso1111;
+    private MenuItem espeEdad;
     @FXML
-    private MenuItem menuCurso1112;
+    private MenuItem espeEtronica;
     @FXML
-    private MenuItem menuCurso11121;
+    private MenuItem espeEtrocanica;
     @FXML
-    private MenuItem menuCurso11122;
+    private MenuItem espeMecGen;
+    @FXML
+    private MenuItem espeAuto;
+    @FXML
+    private MenuItem espeQca;
+    @FXML
+    private MenuItem curso1;
+    @FXML
+    private MenuItem curso2;
+    @FXML
+    private MenuItem curso3;
+    @FXML
+    private MenuItem seccion1;
+    @FXML
+    private MenuItem seccion2;
+    @FXML
+    private MenuItem seccion3;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        espeInfo.setOnAction(e -> dropmenuEspe.setText(espeInfo.getText()));
+        espeCC.setOnAction(e -> dropmenuEspe.setText(espeCC.getText()));
+        espeEdad.setOnAction(e -> dropmenuEspe.setText(espeEdad.getText()));
+        espeEtronica.setOnAction(e -> dropmenuEspe.setText(espeEtronica.getText()));
+        espeEtrocanica.setOnAction(e -> dropmenuEspe.setText(espeEtrocanica.getText()));
+        espeMecGen.setOnAction(e -> dropmenuEspe.setText(espeMecGen.getText()));
+        espeAuto.setOnAction(e -> dropmenuEspe.setText(espeAuto.getText()));
+        espeQca.setOnAction(e -> dropmenuEspe.setText(espeQca.getText()));
+
+        curso1.setOnAction(e -> dropmenuCurso.setText(curso1.getText()));
+        curso2.setOnAction(e -> dropmenuCurso.setText(curso2.getText()));
+        curso3.setOnAction(e -> dropmenuCurso.setText(curso3.getText()));
+
+        seccion1.setOnAction(e -> dropmenuSeccion.setText(seccion1.getText()));
+        seccion2.setOnAction(e -> dropmenuSeccion.setText(seccion2.getText()));
+        seccion3.setOnAction(e -> dropmenuSeccion.setText(seccion3.getText()));
     }
 
     public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
@@ -173,5 +199,6 @@ public class AlumnoController implements Initializable {
             e.printStackTrace();
         }
     }
+
 
 }

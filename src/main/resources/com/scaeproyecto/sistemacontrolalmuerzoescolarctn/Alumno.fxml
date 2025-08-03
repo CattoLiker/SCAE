@@ -71,9 +71,9 @@
             </Label>
             <SplitMenuButton fx:id="dropmenuCurso" disable="true" layoutX="11.0" layoutY="271.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Curso">
               <items>
-                <MenuItem mnemonicParsing="false" text="1ro" />
-                <MenuItem mnemonicParsing="false" text="2do" />
-                  <MenuItem fx:id="menuCurso" mnemonicParsing="false" text="3ro" />
+                <MenuItem fx:id="curso1" mnemonicParsing="false" text="1ro" />
+                <MenuItem fx:id="curso2" mnemonicParsing="false" text="2do" />
+                  <MenuItem fx:id="curso3" mnemonicParsing="false" text="3ro" />
               </items>
             </SplitMenuButton>
             <Label layoutX="13.0" layoutY="308.0" text="Sección:" textFill="WHITE">
@@ -83,9 +83,9 @@
             </Label>
             <SplitMenuButton fx:id="dropmenuSeccion" disable="true" layoutX="11.0" layoutY="331.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Sección">
                <items>
-                  <MenuItem mnemonicParsing="false" text="1ra" />
-                  <MenuItem mnemonicParsing="false" text="2da" />
-                  <MenuItem fx:id="menuCurso1" mnemonicParsing="false" text="3ra" />
+                  <MenuItem fx:id="seccion1" mnemonicParsing="false" text="1ra" />
+                  <MenuItem fx:id="seccion2" mnemonicParsing="false" text="2da" />
+                  <MenuItem fx:id="seccion3" mnemonicParsing="false" text="3ra" />
                </items>
             </SplitMenuButton>
             <Label layoutX="12.0" layoutY="374.0" text="Especialidad:" textFill="WHITE">
@@ -95,14 +95,14 @@
             </Label>
             <SplitMenuButton fx:id="dropmenuEspe" disable="true" layoutX="11.0" layoutY="392.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Especialidad">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Informática" />
-                  <MenuItem mnemonicParsing="false" text="Construcciones Civiles" />
-                  <MenuItem fx:id="menuCurso11" mnemonicParsing="false" text="Electricidad" />
-                  <MenuItem fx:id="menuCurso111" mnemonicParsing="false" text="Electrónica" />
-                  <MenuItem fx:id="menuCurso1111" mnemonicParsing="false" text="Electromecánica" />
-                  <MenuItem fx:id="menuCurso1112" mnemonicParsing="false" text="Mecánica General" />
-                  <MenuItem fx:id="menuCurso11121" mnemonicParsing="false" text="Mecánica Automotriz" />
-                  <MenuItem fx:id="menuCurso11122" mnemonicParsing="false" text="Química Industrial" />
+                  <MenuItem fx:id="espeInfo" mnemonicParsing="false" text="Informática" />
+                  <MenuItem fx:id="espeCC" mnemonicParsing="false" text="Construcciones Civiles" />
+                  <MenuItem fx:id="espeEdad" mnemonicParsing="false" text="Electricidad" />
+                  <MenuItem fx:id="espeEtronica" mnemonicParsing="false" text="Electrónica" />
+                  <MenuItem fx:id="espeEtrocanica" mnemonicParsing="false" text="Electromecánica" />
+                  <MenuItem fx:id="espeMecGen" mnemonicParsing="false" text="Mecánica General" />
+                  <MenuItem fx:id="espeAuto" mnemonicParsing="false" text="Mecánica Automotriz" />
+                  <MenuItem fx:id="espeQca" mnemonicParsing="false" text="Química Industrial" />
                </items>
             </SplitMenuButton>
          </children>
