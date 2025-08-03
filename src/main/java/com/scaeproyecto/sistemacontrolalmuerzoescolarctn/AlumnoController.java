@@ -16,6 +16,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -56,6 +58,35 @@ public class AlumnoController implements Initializable {
     private Button BtnGuardar;
     @FXML
     private Button BtnCancelar;
+    @FXML
+    private MenuItem menuCurso;
+    @FXML
+    private TableColumn<?, ?> columnCurso;
+    @FXML
+    private TableColumn<?, ?> columnSeccion;
+    @FXML
+    private TableColumn<?, ?> columnEspecialidad;
+    @FXML
+    private SplitMenuButton dropmenuCurso;
+    private SplitMenuButton dropmenuSección;
+    @FXML
+    private MenuItem menuCurso1;
+    @FXML
+    private SplitMenuButton dropmenuSeccion;
+    @FXML
+    private SplitMenuButton dropmenuEspe;
+    @FXML
+    private MenuItem menuCurso11;
+    @FXML
+    private MenuItem menuCurso111;
+    @FXML
+    private MenuItem menuCurso1111;
+    @FXML
+    private MenuItem menuCurso1112;
+    @FXML
+    private MenuItem menuCurso11121;
+    @FXML
+    private MenuItem menuCurso11122;
 
     /**
      * Initializes the controller class.
@@ -95,6 +126,10 @@ public class AlumnoController implements Initializable {
         BtnNuevo.setDisable(true);
         BtnGuardar.setDisable(false);
         BtnCancelar.setDisable(false);
+        TxtCodigo.requestFocus();
+        dropmenuCurso.setDisable(false);
+        dropmenuSeccion.setDisable(false);
+        dropmenuEspe.setDisable(false);
     }
 
     @FXML
@@ -120,6 +155,12 @@ public class AlumnoController implements Initializable {
         BtnNuevo.setDisable(false);
         BtnGuardar.setDisable(true);
         BtnCancelar.setDisable(true);
+        dropmenuCurso.setDisable(true);
+        dropmenuCurso.setText("Seleccionar Curso");
+        dropmenuSeccion.setDisable(true);
+        dropmenuSeccion.setText("Seleccionar Sección");
+        dropmenuEspe.setDisable(true);
+        dropmenuEspe.setText("Seleccionar Especialidad");
     }
 
     @FXML
