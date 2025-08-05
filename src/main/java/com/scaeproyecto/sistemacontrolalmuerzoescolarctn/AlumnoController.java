@@ -175,6 +175,18 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void mostrarFila(MouseEvent event) {
+        Alumno alumnoSeleccionado = TablaClientes.getSelectionModel().getSelectedItem();
+        if (alumnoSeleccionado != null) {
+            TxtCodigo.setText(String.valueOf(alumnoSeleccionado.getIdEstudiante()));
+            TxtNombre.setText(alumnoSeleccionado.getNombre());
+            TxtApellido.setText(alumnoSeleccionado.getApellido());
+            dropmenuCurso.setText(alumnoSeleccionado.getCurso());
+            dropmenuSeccion.setText(alumnoSeleccionado.getSeccion());
+            dropmenuEspe.setText(alumnoSeleccionado.getEspecialidad());
+
+            BtnModificar.setDisable(false);
+            BtnEliminar.setDisable(false);
+        }
     }
 
     @FXML
@@ -193,10 +205,67 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void modificar(ActionEvent event) {
+        Alumno alumnoSeleccionado = TablaClientes.getSelectionModel().getSelectedItem();
+        if (alumnoSeleccionado == null) {
+            System.out.println("Selecciona un alumno para modificar.");
+            return;
+        }
+
+        String nombre = TxtNombre.getText();
+        String apellido = TxtApellido.getText();
+        String curso = dropmenuCurso.getText();
+        String seccion = dropmenuSeccion.getText();
+        String especialidad = dropmenuEspe.getText();
+        int idEstudiante = alumnoSeleccionado.getIdEstudiante();
+
+        try (Connection conn = ConeccionDB.getConnection()) {
+            String sql = "UPDATE Estudiante SET Nombre=?, Apellido=?, Curso=?, Seccion=?, Especialidad=? WHERE idEstudiante=?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, nombre);
+                pstmt.setString(2, apellido);
+                pstmt.setInt(3, Integer.parseInt(curso));
+                pstmt.setInt(4, Integer.parseInt(seccion));
+                pstmt.setString(5, especialidad);
+                pstmt.setInt(6, idEstudiante);
+
+                int filasAfectadas = pstmt.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Alumno modificado correctamente.");
+                    cargarAlumnos();
+                } else {
+                    System.out.println("No se pudo modificar el alumno.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void eliminar(ActionEvent event) {
+        Alumno alumnoSeleccionado = TablaClientes.getSelectionModel().getSelectedItem();
+        if (alumnoSeleccionado == null) {
+            System.out.println("Selecciona un alumno para eliminar.");
+            return;
+        }
+
+        int idEstudiante = alumnoSeleccionado.getIdEstudiante();
+        try (Connection conn = ConeccionDB.getConnection()) {
+            String sql = "DELETE FROM Estudiante WHERE idEstudiante=?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, idEstudiante);
+
+                int filasAfectadas = pstmt.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Alumno eliminado correctamente.");
+                    cargarAlumnos();
+                } else {
+                    System.out.println("No se pudo eliminar el alumno.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
