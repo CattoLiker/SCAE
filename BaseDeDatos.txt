@@ -18,12 +18,12 @@ USE `SCAE` ;
 -- Table `SCAE`.`Estudiante`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SCAE`.`Estudiante` (
-  `idEstudiante` INT NOT NULL AUTO_INCREMENT,
-  `Estado` TINYINT NOT NULL,
+  `idEstudiante` INT NOT NULL,
+  `Estado` TINYINT NOT NULL DEFAULT 0,
   `Nombre` VARCHAR(90) NOT NULL,
   `Apellido` VARCHAR(90) NOT NULL,
-  `Curso` INT(3) NOT NULL,
-  `Seccion` INT(3) NOT NULL,
+  `Curso` VARCHAR(6) NOT NULL,
+  `Seccion` VARCHAR(6) NOT NULL,
   `Especialidad` VARCHAR(100) NOT NULL,
   `InformacionHuella` BLOB NULL,
   PRIMARY KEY (`idEstudiante`))
@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 -- Table `SCAE`.`Docente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SCAE`.`Docente` (
-  `idDocente` INT NOT NULL AUTO_INCREMENT,
+  `idDocente` INT NOT NULL,
   `Nombre` VARCHAR(90) NOT NULL,
   `Apellido` VARCHAR(90) NOT NULL,
   PRIMARY KEY (`idDocente`))

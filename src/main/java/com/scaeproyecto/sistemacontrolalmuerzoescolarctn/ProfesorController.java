@@ -141,6 +141,7 @@ public class ProfesorController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        cancelar(event);
     }
 
     @FXML
@@ -165,7 +166,7 @@ public class ProfesorController implements Initializable {
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, nombre);
                     pstmt.setString(2, apellido);
-                    pstmt.setInt(3, DocenteSeleccionado.getidDocente());
+                    pstmt.setInt(3, DocenteSeleccionado.getIdDocente());
 
                     int filasAfectadas = pstmt.executeUpdate();
                     if (filasAfectadas > 0) {
@@ -187,6 +188,7 @@ public class ProfesorController implements Initializable {
                 e.printStackTrace();
             }
         }
+        cancelar(event);
     }
 
     @FXML
@@ -206,7 +208,7 @@ public class ProfesorController implements Initializable {
             try (Connection conn = ConeccionDB.getConnection()) {
                 String sql = "DELETE FROM Docente WHERE idDocente=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                    pstmt.setInt(1, DocenteSeleccionado.getidDocente());
+                    pstmt.setInt(1, DocenteSeleccionado.getIdDocente());
 
                     int filasAfectadas = pstmt.executeUpdate();
                     if (filasAfectadas > 0) {
@@ -228,6 +230,7 @@ public class ProfesorController implements Initializable {
                 e.printStackTrace();
             }
         }
+        cancelar(event);
     }
 
     @FXML
@@ -269,7 +272,7 @@ public class ProfesorController implements Initializable {
         ObservableList<Profesor> ProfesorFiltrados = FXCollections.observableArrayList();
 
         for (Profesor profe : listaProfesor) {
-            if (String.valueOf(profe.getidDocente()).contains(filtro) || profe.getNombre().toLowerCase().contains(filtro) || profe.getApellido().toLowerCase().contains(filtro)) {
+            if (String.valueOf(profe.getIdDocente()).contains(filtro) || profe.getNombre().toLowerCase().contains(filtro) || profe.getApellido().toLowerCase().contains(filtro)) {
                 ProfesorFiltrados.add(profe);
             }
         }
@@ -280,7 +283,7 @@ public class ProfesorController implements Initializable {
     private void mostrarFila(MouseEvent event) {
         Profesor DocenteSeleccionado = TablaProfesor.getSelectionModel().getSelectedItem();
         if (DocenteSeleccionado != null) {
-            TxtCodigo.setText(String.valueOf(DocenteSeleccionado.getidDocente()));
+            TxtCodigo.setText(String.valueOf(DocenteSeleccionado.getIdDocente()));
             TxtNombre.setText(DocenteSeleccionado.getNombre());
             TxtApellido.setText(DocenteSeleccionado.getApellido());
 

@@ -28,6 +28,14 @@ public class Profesor {
         this.idDocente = idDocente;
     }
 
+    public int getIdDocente() {
+        return idDocente;
+    }
+
+    public void setIdDocente(int idDocente) {
+        this.idDocente = idDocente;
+    }
+
     public String getNombre() {
         return nombre;
     }
