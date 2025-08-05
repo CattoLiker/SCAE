@@ -31,6 +31,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import java.util.Optional;
+import javafx.scene.control.Label;
+
 /**
  * FXML Controller class
  *
@@ -106,6 +112,16 @@ public class AlumnoController implements Initializable {
     private MenuItem seccion3;
 
     private ObservableList<Alumno> listaAlumnos = FXCollections.observableArrayList();
+    @FXML
+    private TableColumn<?, ?> columnEstado;
+    @FXML
+    private SplitMenuButton dropmenuEstado;
+    @FXML
+    private MenuItem estadoActivo;
+    @FXML
+    private MenuItem estadoDesActivo;
+    @FXML
+    private Label labelEstado;
 
     /**
      * Initializes the controller class.
@@ -120,6 +136,9 @@ public class AlumnoController implements Initializable {
         espeMecGen.setOnAction(e -> dropmenuEspe.setText(espeMecGen.getText()));
         espeAuto.setOnAction(e -> dropmenuEspe.setText(espeAuto.getText()));
         espeQca.setOnAction(e -> dropmenuEspe.setText(espeQca.getText()));
+        
+        estadoActivo.setOnAction(e -> dropmenuEstado.setText(estadoActivo.getText()));
+        estadoDesActivo.setOnAction(e -> dropmenuEstado.setText(estadoDesActivo.getText()));
 
         curso1.setOnAction(e -> dropmenuCurso.setText(curso1.getText()));
         curso2.setOnAction(e -> dropmenuCurso.setText(curso2.getText()));
@@ -135,6 +154,10 @@ public class AlumnoController implements Initializable {
         columnCurso.setCellValueFactory(new PropertyValueFactory<>("curso"));
         columnSeccion.setCellValueFactory(new PropertyValueFactory<>("seccion"));
         columnEspecialidad.setCellValueFactory(new PropertyValueFactory<>("especialidad"));
+        columnEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+
+        labelEstado.setVisible(false);
+        dropmenuEstado.setVisible(false);
 
         cargarAlumnos();
     }
@@ -183,9 +206,23 @@ public class AlumnoController implements Initializable {
             dropmenuCurso.setText(alumnoSeleccionado.getCurso());
             dropmenuSeccion.setText(alumnoSeleccionado.getSeccion());
             dropmenuEspe.setText(alumnoSeleccionado.getEspecialidad());
+            dropmenuEstado.setText(alumnoSeleccionado.getEstado());
 
+            BtnCancelar.setDisable(false);
             BtnModificar.setDisable(false);
             BtnEliminar.setDisable(false);
+            BtnNuevo.setDisable(true);
+
+            TxtCodigo.setDisable(false);
+            TxtNombre.setDisable(false);
+            TxtApellido.setDisable(false);
+            dropmenuCurso.setDisable(false);
+            dropmenuSeccion.setDisable(false);
+            dropmenuEspe.setDisable(false);
+
+            labelEstado.setVisible(true);
+            dropmenuEstado.setVisible(true);
+            dropmenuEstado.setDisable(false);
         }
     }
 
@@ -216,29 +253,60 @@ public class AlumnoController implements Initializable {
         String curso = dropmenuCurso.getText();
         String seccion = dropmenuSeccion.getText();
         String especialidad = dropmenuEspe.getText();
+        String estado = dropmenuEstado.getText();
+        int estadoReal = 1;
+        if (estado.equals("ACTIVO")) {
+            estadoReal = 1;
+        } else if (estado.equals("NO ACTIVO")) {
+            estadoReal = 0;
+        }
         int idEstudiante = alumnoSeleccionado.getIdEstudiante();
 
-        try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "UPDATE Estudiante SET Nombre=?, Apellido=?, Curso=?, Seccion=?, Especialidad=? WHERE idEstudiante=?";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, nombre);
-                pstmt.setString(2, apellido);
-                pstmt.setInt(3, Integer.parseInt(curso));
-                pstmt.setInt(4, Integer.parseInt(seccion));
-                pstmt.setString(5, especialidad);
-                pstmt.setInt(6, idEstudiante);
+        Alert alerta = new Alert(AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmación de Modificación");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿Desea modificar al alumno?");
+        Optional<ButtonType> resultado = alerta.showAndWait();
 
-                int filasAfectadas = pstmt.executeUpdate();
-                if (filasAfectadas > 0) {
-                    System.out.println("Alumno modificado correctamente.");
-                    cargarAlumnos();
-                } else {
-                    System.out.println("No se pudo modificar el alumno.");
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            try (Connection conn = ConeccionDB.getConnection()) {
+                String sql = "UPDATE Estudiante SET Nombre=?, Apellido=?, Curso=?, Seccion=?, Especialidad=?, Estado=? WHERE idEstudiante=?";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setString(1, nombre);
+                    pstmt.setString(2, apellido);
+                    pstmt.setString(3, curso);
+                    pstmt.setString(4, seccion);
+                    pstmt.setString(5, especialidad);
+                    pstmt.setInt(6, idEstudiante);
+                    pstmt.setInt(7, estadoReal);
+
+                    int filasAfectadas = pstmt.executeUpdate();
+                    if (filasAfectadas > 0) {
+                        Alert alerta2 = new Alert(AlertType.INFORMATION);
+                        alerta2.setTitle("Confirmado");
+                        alerta2.setHeaderText(null);
+                        alerta2.setContentText("Alumno modificado correctamente");
+                        alerta2.show();
+                        cargarAlumnos();
+                    } else {
+                        Alert alerta2 = new Alert(AlertType.ERROR);
+                        alerta2.setTitle("Error");
+                        alerta2.setHeaderText(null);
+                        alerta2.setContentText("No se pudo modificar al alumno.");
+                        alerta2.show();
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            Alert alerta2 = new Alert(AlertType.INFORMATION);
+            alerta2.setTitle("Cancelado");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("El alumno no ha sido modificado.");
+            alerta2.show();
         }
+        cancelar(event);
     }
 
     @FXML
@@ -249,23 +317,47 @@ public class AlumnoController implements Initializable {
             return;
         }
 
-        int idEstudiante = alumnoSeleccionado.getIdEstudiante();
-        try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "DELETE FROM Estudiante WHERE idEstudiante=?";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setInt(1, idEstudiante);
+        // Popup de confirmación
+        Alert alerta = new Alert(AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmación de Eliminación");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿Desea eliminar al alumno?");
+        Optional<ButtonType> resultado = alerta.showAndWait();
 
-                int filasAfectadas = pstmt.executeUpdate();
-                if (filasAfectadas > 0) {
-                    System.out.println("Alumno eliminado correctamente.");
-                    cargarAlumnos();
-                } else {
-                    System.out.println("No se pudo eliminar el alumno.");
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            int idEstudiante = alumnoSeleccionado.getIdEstudiante();
+            try (Connection conn = ConeccionDB.getConnection()) {
+                String sql = "DELETE FROM Estudiante WHERE idEstudiante=?";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setInt(1, idEstudiante);
+
+                    int filasAfectadas = pstmt.executeUpdate();
+                    if (filasAfectadas > 0) {
+                        Alert alerta2 = new Alert(AlertType.INFORMATION);
+                        alerta2.setTitle("Confirmado");
+                        alerta2.setHeaderText(null);
+                        alerta2.setContentText("Alumno eliminado correctamente");
+                        alerta2.show();
+                        cargarAlumnos();
+                    } else {
+                        Alert alerta2 = new Alert(AlertType.ERROR);
+                        alerta2.setTitle("Error");
+                        alerta2.setHeaderText(null);
+                        alerta2.setContentText("No se pudo eliminar al alumno.");
+                        alerta2.show();
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            Alert alerta2 = new Alert(AlertType.INFORMATION);
+            alerta2.setTitle("Cancelado");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("El alumno no ha sido eliminado.");
+            alerta2.show();
         }
+        cancelar(event);
     }
 
     @FXML
@@ -278,8 +370,7 @@ public class AlumnoController implements Initializable {
         String especialidad = dropmenuEspe.getText();
 
         // Validación básica
-        if (TxtCodigo.getText().isEmpty() || nombre.isEmpty() || apellido.isEmpty()
-                || curso.equals("Seleccionar Curso") || seccion.equals("Seleccionar Sección") || especialidad.equals("Seleccionar Especialidad")) {
+        if (TxtCodigo.getText().isEmpty() || nombre.isEmpty() || apellido.isEmpty() || curso.equals("Seleccionar Curso") || seccion.equals("Seleccionar Sección") || especialidad.equals("Seleccionar Especialidad")) {
             // Muestra un mensaje de error al usuario
             System.out.println("Todos los campos son obligatorios.");
             return;
@@ -299,9 +390,20 @@ public class AlumnoController implements Initializable {
                 int filasAfectadas = pstmt.executeUpdate();
                 if (filasAfectadas > 0) {
                     System.out.println("Alumno guardado correctamente.");
-                    // Limpia los campos o actualiza la tabla
+
+                    Alert alerta2 = new Alert(AlertType.INFORMATION);
+                    alerta2.setTitle("Éxito");
+                    alerta2.setHeaderText(null);
+                    alerta2.setContentText("Alumno guardado correctamente.");
+                    alerta2.show();
                 } else {
                     System.out.println("No se pudo guardar el alumno.");
+
+                    Alert alerta2 = new Alert(AlertType.ERROR);
+                    alerta2.setTitle("Error");
+                    alerta2.setHeaderText(null);
+                    alerta2.setContentText("No se pudo guardar al alumno.");
+                    alerta2.show();
                 }
             }
         } catch (Exception e) {
@@ -313,15 +415,22 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void cancelar(ActionEvent event) {
+        labelEstado.setVisible(false);
+        dropmenuEstado.setVisible(false);
+
         TxtCodigo.setText("");
         TxtNombre.setText("");
         TxtApellido.setText("");
         TxtCodigo.setDisable(true);
         TxtNombre.setDisable(true);
         TxtApellido.setDisable(true);
+
         BtnNuevo.setDisable(false);
         BtnGuardar.setDisable(true);
         BtnCancelar.setDisable(true);
+        BtnModificar.setDisable(true);
+        BtnEliminar.setDisable(true);
+
         dropmenuCurso.setDisable(true);
         dropmenuCurso.setText("Seleccionar Curso");
         dropmenuSeccion.setDisable(true);
@@ -345,16 +454,21 @@ public class AlumnoController implements Initializable {
         listaAlumnos.clear();
 
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT idEstudiante, Nombre, Apellido, Curso, Seccion, Especialidad FROM Estudiante";
+            String sql = "SELECT idEstudiante, Nombre, Apellido, Curso, Seccion, Especialidad, Estado FROM Estudiante";
             try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
+                    String estadito = "NO ACTIVO";
+                    if (rs.getInt("Estado") == 1) {
+                        estadito = "ACTIVO";
+                    }
                     Alumno alumno = new Alumno(
                             rs.getInt("idEstudiante"),
                             rs.getString("Nombre"),
                             rs.getString("Apellido"),
                             String.valueOf(rs.getString("Curso")),
                             String.valueOf(rs.getString("Seccion")),
-                            rs.getString("Especialidad")
+                            rs.getString("Especialidad"),
+                            estadito
                     );
                     listaAlumnos.add(alumno);
                 }

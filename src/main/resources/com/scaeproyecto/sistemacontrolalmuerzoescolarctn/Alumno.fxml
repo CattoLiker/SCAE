@@ -34,17 +34,18 @@
                </font>
             </Label>
             <TextField fx:id="TxtApellido" disable="true" layoutX="15.0" layoutY="214.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su apellido" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
-            <Pane layoutX="330.0" layoutY="60.0" prefHeight="273.0" prefWidth="673.0" style="-fx-background-color: #8b0000; -fx-border-radius: 10px;">
+            <Pane layoutX="277.0" layoutY="60.0" prefHeight="273.0" prefWidth="717.0" style="-fx-background-color: #8b0000; -fx-border-radius: 10px;">
                <children>
-                  <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="652.0" promptText="🔍" style="-fx-background-radius: 10px;" />
-                  <TableView fx:id="TablaClientes" layoutX="14.0" layoutY="51.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="652.0" style="-fx-background-radius: 10px;">
+                  <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="696.0" promptText="🔍" style="-fx-background-radius: 10px;" />
+                  <TableView fx:id="TablaClientes" layoutX="14.0" layoutY="51.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="696.0" style="-fx-background-radius: 10px;">
                     <columns>
                       <TableColumn fx:id="ColumnId" prefWidth="68.79998779296875" text="ID" />
                       <TableColumn fx:id="ColumnNombre" prefWidth="124.0" text="Nombre" />
                         <TableColumn fx:id="ColumnApellido" prefWidth="118.39996337890625" text="Apellido" />
                         <TableColumn fx:id="columnCurso" prefWidth="75.0" text="Curso" />
                         <TableColumn fx:id="columnSeccion" prefWidth="75.0" text="Sección" />
-                        <TableColumn fx:id="columnEspecialidad" prefWidth="178.66656494140625" text="Especialidad" />
+                        <TableColumn fx:id="columnEspecialidad" prefWidth="136.79998779296875" text="Especialidad" />
+                        <TableColumn fx:id="columnEstado" prefWidth="96.79998779296875" text="Estado" />
                     </columns>
                   </TableView>
                </children>
@@ -103,6 +104,17 @@
                   <MenuItem fx:id="espeMecGen" mnemonicParsing="false" text="Mecánica General" />
                   <MenuItem fx:id="espeAuto" mnemonicParsing="false" text="Mecánica Automotriz" />
                   <MenuItem fx:id="espeQca" mnemonicParsing="false" text="Química Industrial" />
+               </items>
+            </SplitMenuButton>
+            <Label fx:id="labelEstado" layoutX="12.0" layoutY="432.0" text="Estado:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <SplitMenuButton fx:id="dropmenuEstado" disable="true" layoutX="11.0" layoutY="450.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Cambiar Estado de alumno">
+               <items>
+                  <MenuItem fx:id="estadoActivo" mnemonicParsing="false" text="ACTIVO" />
+                  <MenuItem fx:id="estadoDesActivo" mnemonicParsing="false" text="NO ACTIVO" />
                </items>
             </SplitMenuButton>
          </children>

@@ -8,19 +8,29 @@ public class Alumno {
     private String curso;
     private String seccion;
     private String especialidad;
+    private String estado;
 
     // Constructor, getters y setters
-    public Alumno(int idEstudiante, String nombre, String apellido, String curso, String seccion, String especialidad) {
+    public Alumno(int idEstudiante, String nombre, String apellido, String curso, String seccion, String especialidad, String estado) {
         this.idEstudiante = idEstudiante;
         this.nombre = nombre;
         this.apellido = apellido;
         this.curso = curso;
         this.seccion = seccion;
         this.especialidad = especialidad;
+        this.estado = estado;
     }
 
     public int getIdEstudiante() {
         return idEstudiante;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getNombre() {
