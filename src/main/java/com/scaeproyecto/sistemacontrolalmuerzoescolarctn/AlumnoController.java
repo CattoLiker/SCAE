@@ -213,7 +213,6 @@ public class AlumnoController implements Initializable {
             BtnEliminar.setDisable(false);
             BtnNuevo.setDisable(true);
 
-            TxtCodigo.setDisable(false);
             TxtNombre.setDisable(false);
             TxtApellido.setDisable(false);
             dropmenuCurso.setDisable(false);
@@ -277,8 +276,9 @@ public class AlumnoController implements Initializable {
                     pstmt.setString(3, curso);
                     pstmt.setString(4, seccion);
                     pstmt.setString(5, especialidad);
-                    pstmt.setInt(6, idEstudiante);
-                    pstmt.setInt(7, estadoReal);
+                    pstmt.setInt(6, estadoReal);
+                    pstmt.setInt(7, idEstudiante);
+                    
 
                     int filasAfectadas = pstmt.executeUpdate();
                     if (filasAfectadas > 0) {
