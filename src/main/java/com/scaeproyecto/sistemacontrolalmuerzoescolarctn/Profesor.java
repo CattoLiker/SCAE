@@ -10,22 +10,22 @@ package com.scaeproyecto.sistemacontrolalmuerzoescolarctn;
  */
 public class Profesor {
 
-    private int idProfesor;
+    private int idDocente;
     private String nombre;
     private String apellido;
 
-    public Profesor(int idProfesor, String nombre, String apellido) {
-        this.idProfesor = idProfesor;
+    public Profesor(int idDocente, String nombre, String apellido) {
+        this.idDocente = idDocente;
         this.nombre = nombre;
         this.apellido = apellido;
     }
 
-    public int getIdProfesor() {
-        return idProfesor;
+    public int getidDocente() {
+        return idDocente;
     }
 
-    public void setIdProfesor(int idProfesor) {
-        this.idProfesor = idProfesor;
+    public void setidDocente(int idDocente) {
+        this.idDocente = idDocente;
     }
 
     public String getNombre() {
