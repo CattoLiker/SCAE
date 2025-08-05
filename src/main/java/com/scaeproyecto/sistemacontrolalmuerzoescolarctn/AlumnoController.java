@@ -6,7 +6,12 @@ package com.scaeproyecto.sistemacontrolalmuerzoescolarctn;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,13 +26,10 @@ import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 /**
  * FXML Controller class
@@ -45,13 +47,13 @@ public class AlumnoController implements Initializable {
     @FXML
     private TextField TxtBuscar;
     @FXML
-    private TableView<?> TablaClientes;
+    private TableView<Alumno> TablaClientes;
     @FXML
-    private TableColumn<?, ?> ColumnId;
+    private TableColumn<Alumno, Integer> ColumnId;
     @FXML
-    private TableColumn<?, ?> ColumnNombre;
+    private TableColumn<Alumno, String> ColumnNombre;
     @FXML
-    private TableColumn<?, ?> ColumnApellido;
+    private TableColumn<Alumno, String> ColumnApellido;
     @FXML
     private Button BtnNuevo;
     @FXML
@@ -63,11 +65,11 @@ public class AlumnoController implements Initializable {
     @FXML
     private Button BtnCancelar;
     @FXML
-    private TableColumn<?, ?> columnCurso;
+    private TableColumn<Alumno, String> columnCurso;
     @FXML
-    private TableColumn<?, ?> columnSeccion;
+    private TableColumn<Alumno, String> columnSeccion;
     @FXML
-    private TableColumn<?, ?> columnEspecialidad;
+    private TableColumn<Alumno, String> columnEspecialidad;
     @FXML
     private SplitMenuButton dropmenuCurso;
     @FXML
@@ -103,6 +105,8 @@ public class AlumnoController implements Initializable {
     @FXML
     private MenuItem seccion3;
 
+    private ObservableList<Alumno> listaAlumnos = FXCollections.observableArrayList();
+
     /**
      * Initializes the controller class.
      */
@@ -124,6 +128,15 @@ public class AlumnoController implements Initializable {
         seccion1.setOnAction(e -> dropmenuSeccion.setText(seccion1.getText()));
         seccion2.setOnAction(e -> dropmenuSeccion.setText(seccion2.getText()));
         seccion3.setOnAction(e -> dropmenuSeccion.setText(seccion3.getText()));
+
+        ColumnId.setCellValueFactory(new PropertyValueFactory<>("idEstudiante"));
+        ColumnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        ColumnApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+        columnCurso.setCellValueFactory(new PropertyValueFactory<>("curso"));
+        columnSeccion.setCellValueFactory(new PropertyValueFactory<>("seccion"));
+        columnEspecialidad.setCellValueFactory(new PropertyValueFactory<>("especialidad"));
+
+        cargarAlumnos();
     }
 
     public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
@@ -142,6 +155,22 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void buscar(KeyEvent event) {
+        String filtro = TxtBuscar.getText().toLowerCase();
+
+        if (filtro.isEmpty()) {
+            TablaClientes.setItems(listaAlumnos);
+            return;
+        }
+
+        ObservableList<Alumno> alumnosFiltrados = FXCollections.observableArrayList();
+
+        for (Alumno alumno : listaAlumnos) {
+            if (String.valueOf(alumno.getIdEstudiante()).contains(filtro) || alumno.getNombre().toLowerCase().contains(filtro) || alumno.getApellido().toLowerCase().contains(filtro) || alumno.getCurso().toLowerCase().contains(filtro) || alumno.getSeccion().toLowerCase().contains(filtro) || alumno.getEspecialidad().toLowerCase().contains(filtro)) {
+                alumnosFiltrados.add(alumno);
+            }
+        }
+        TablaClientes.setItems(alumnosFiltrados);
+
     }
 
     @FXML
@@ -172,7 +201,7 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
-        String codigo = TxtCodigo.getText();
+        int codigo = Integer.parseInt(TxtCodigo.getText());
         String nombre = TxtNombre.getText();
         String apellido = TxtApellido.getText();
         String curso = dropmenuCurso.getText();
@@ -180,7 +209,7 @@ public class AlumnoController implements Initializable {
         String especialidad = dropmenuEspe.getText();
 
         // Validación básica
-        if (codigo.isEmpty() || nombre.isEmpty() || apellido.isEmpty()
+        if (TxtCodigo.getText().isEmpty() || nombre.isEmpty() || apellido.isEmpty()
                 || curso.equals("Seleccionar Curso") || seccion.equals("Seleccionar Sección") || especialidad.equals("Seleccionar Especialidad")) {
             // Muestra un mensaje de error al usuario
             System.out.println("Todos los campos son obligatorios.");
@@ -188,14 +217,15 @@ public class AlumnoController implements Initializable {
         }
 
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "INSERT INTO Estudiante (Estado, Nombre, Apellido, Curso, Seccion, Especialidad) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Estudiante (idEstudiante, Estado, Nombre, Apellido, Curso, Seccion, Especialidad) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setInt(1, 1); // Estado activo, puedes poner lógica según necesites
-                pstmt.setString(2, nombre);
-                pstmt.setString(3, apellido);
-                pstmt.setInt(4, Integer.parseInt(curso));
-                pstmt.setInt(5, Integer.parseInt(seccion));
-                pstmt.setString(6, especialidad);
+                pstmt.setInt(1, codigo);
+                pstmt.setInt(2, 1);
+                pstmt.setString(3, nombre);
+                pstmt.setString(4, apellido);
+                pstmt.setString(5, curso);
+                pstmt.setString(6, seccion);
+                pstmt.setString(7, especialidad);
 
                 int filasAfectadas = pstmt.executeUpdate();
                 if (filasAfectadas > 0) {
@@ -208,6 +238,8 @@ public class AlumnoController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        cargarAlumnos();
+        cancelar(event);
     }
 
     @FXML
@@ -238,6 +270,31 @@ public class AlumnoController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void cargarAlumnos() {
+        listaAlumnos.clear();
+
+        try (Connection conn = ConeccionDB.getConnection()) {
+            String sql = "SELECT idEstudiante, Nombre, Apellido, Curso, Seccion, Especialidad FROM Estudiante";
+            try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Alumno alumno = new Alumno(
+                            rs.getInt("idEstudiante"),
+                            rs.getString("Nombre"),
+                            rs.getString("Apellido"),
+                            String.valueOf(rs.getString("Curso")),
+                            String.valueOf(rs.getString("Seccion")),
+                            rs.getString("Especialidad")
+                    );
+                    listaAlumnos.add(alumno);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        TablaClientes.setItems(listaAlumnos);
     }
 
 }
