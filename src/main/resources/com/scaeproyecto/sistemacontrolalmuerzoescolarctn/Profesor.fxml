@@ -35,7 +35,7 @@
             <Pane layoutX="249.0" layoutY="53.0" prefHeight="273.0" prefWidth="334.0" style="-fx-background-color: #8b0000; -fx-border-radius: 10px;">
                <children>
                   <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="306.0" promptText="🔍" style="-fx-background-radius: 10px;" />
-                  <TableView fx:id="TablaClientes" layoutX="14.0" layoutY="51.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="306.0" style="-fx-background-radius: 10px;">
+                  <TableView fx:id="TablaProfesores" layoutX="14.0" layoutY="51.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="306.0" style="-fx-background-radius: 10px;">
                     <columns>
                       <TableColumn fx:id="ColumnId" prefWidth="68.79998779296875" text="ID" />
                       <TableColumn fx:id="ColumnNombre" prefWidth="124.0" text="Nombre" />
