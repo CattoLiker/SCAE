@@ -50,8 +50,9 @@
                </children>
             </Pane>
             <Button layoutX="12.0" layoutY="90.0" mnemonicParsing="false" onAction="#abrirMenuComida" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Comidas" />
-            <Button layoutX="13.0" layoutY="142.0" mnemonicParsing="false" onAction="#formularioComida" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Comidas" />
-            <Button layoutX="13.0" layoutY="190.0" mnemonicParsing="false" onAction="#comidaHoy" prefHeight="25.0" prefWidth="175.0" text="Ver comida de hoy" />
+            <Button layoutX="13.0" layoutY="292.0" mnemonicParsing="false" onAction="#formularioComida" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Comidas" />
+            <Button layoutX="13.0" layoutY="340.0" mnemonicParsing="false" onAction="#comidaHoy" prefHeight="25.0" prefWidth="175.0" text="Ver comida de hoy" />
+            <Button layoutX="12.0" layoutY="134.0" mnemonicParsing="false" onAction="#abrirMenuSemana" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Semanas" />
          </children>
       </Pane>
       <Pane layoutX="10.0" layoutY="9.0" prefHeight="86.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-radius: 10px;" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">

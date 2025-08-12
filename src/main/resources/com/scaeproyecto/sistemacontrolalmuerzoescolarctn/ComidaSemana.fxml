@@ -65,7 +65,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <SplitMenuButton fx:id="Día1" disable="true" layoutX="15.0" layoutY="141.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Semana">
+                  <SplitMenuButton fx:id="Semana" disable="true" layoutX="15.0" layoutY="141.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Semana">
                      <items>
                         <MenuItem fx:id="semana1" mnemonicParsing="false" text="Semana 1" />
                         <MenuItem fx:id="semana2" mnemonicParsing="false" text="Semana 2" />
@@ -78,7 +78,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="TxtNombre" disable="true" layoutX="16.0" layoutY="250.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su nombre" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
+                  <TextField fx:id="TxtNombre" disable="true" layoutX="16.0" layoutY="250.0" prefHeight="27.0" prefWidth="235.0" promptText="Seleccione nombre de la comida" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
                   <Button fx:id="btnMenuComida" disable="true" layoutX="259.0" layoutY="251.0" mnemonicParsing="false" onAction="#desplegarMenuComida" prefHeight="25.0" prefWidth="33.0" text="..." />
                </children>
             </Pane>
