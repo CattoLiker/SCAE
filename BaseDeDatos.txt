@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `SCAE`.`SemanaMenuComidas` (
   `DiaSemana` INT(5) NOT NULL,
   `Comidas_idComidas` INT NOT NULL,
   `SemanaMenu_idSemanaMenu` INT NOT NULL,
-  PRIMARY KEY (`Comidas_idComidas`, `SemanaMenu_idSemanaMenu`),
+  PRIMARY KEY (`Comidas_idComidas`, `SemanaMenu_idSemanaMenu`, `DiaSemana`),
   INDEX `fk_SemanaMenuComidas_SemanaMenu1_idx` (`SemanaMenu_idSemanaMenu` ASC) VISIBLE,
   CONSTRAINT `fk_SemanaMenuComidas_Comidas`
     FOREIGN KEY (`Comidas_idComidas`)
