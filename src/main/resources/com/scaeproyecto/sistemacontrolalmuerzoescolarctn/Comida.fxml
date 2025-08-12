@@ -26,20 +26,20 @@
                </font>
             </Label>
             <TextField fx:id="TxtNombre" disable="true" layoutX="12.0" layoutY="153.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su nombre" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
-            <Label layoutX="16.0" layoutY="190.0" text="Ingredientes:" textFill="WHITE">
+            <Label layoutX="16.0" layoutY="190.0" text="Descripcion:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="TxtApellido" disable="true" layoutX="12.0" layoutY="210.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su apellido" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
+            <TextField fx:id="TxtDescripcion" disable="true" layoutX="12.0" layoutY="210.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su apellido" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
             <Pane layoutX="253.0" layoutY="54.0" prefHeight="273.0" prefWidth="334.0" style="-fx-background-color: #8b0000; -fx-border-radius: 10px;">
                <children>
                   <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="306.0" promptText="🔍" style="-fx-background-radius: 10px;" />
-                  <TableView fx:id="TablaClientes" layoutX="14.0" layoutY="51.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="306.0" style="-fx-background-radius: 10px;">
+                  <TableView fx:id="TablaComidas" layoutX="14.0" layoutY="51.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="306.0" style="-fx-background-radius: 10px;">
                     <columns>
                       <TableColumn fx:id="ColumnId" prefWidth="68.79998779296875" text="ID" />
                       <TableColumn fx:id="ColumnNombre" prefWidth="124.0" text="Nombre" />
-                        <TableColumn fx:id="ColumnApellido" prefWidth="118.39996337890625" text="Fecha" />
+                        <TableColumn fx:id="ColumnDescripcion" prefWidth="118.39996337890625" text="Descripcion" />
                     </columns>
                   </TableView>
                </children>

@@ -23,12 +23,35 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 /**
  * FXML Controller class
  *
  * @author USER
  */
 public class ComidaController implements Initializable {
+
+    @FXML
+    private TextField TxtApellido;
+    @FXML
+    private TextField TxtBuscar;
+    @FXML
+    private TableView<?> TablaClientes;
 
     public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
         // Cargar el nuevo FXML
@@ -49,17 +72,15 @@ public class ComidaController implements Initializable {
     @FXML
     private TextField TxtNombre;
     @FXML
-    private TextField TxtApellido;
+    private TextField TxtDescripcion;
     @FXML
-    private TextField TxtBuscar;
+    private TableView<Comida> TablaComidas;
     @FXML
-    private TableView<?> TablaClientes;
+    private TableColumn<Comida, Integer> ColumnId;
     @FXML
-    private TableColumn<?, ?> ColumnId;
+    private TableColumn<Comida, String> ColumnNombre;
     @FXML
-    private TableColumn<?, ?> ColumnNombre;
-    @FXML
-    private TableColumn<?, ?> ColumnApellido;
+    private TableColumn<Comida, String> ColumnDescripcion;
     @FXML
     private Button BtnNuevo;
     @FXML
@@ -71,40 +92,202 @@ public class ComidaController implements Initializable {
     @FXML
     private Button BtnCancelar;
 
+    private ObservableList<Comida> listaComidas = FXCollections.observableArrayList();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        ColumnId.setCellValueFactory(new PropertyValueFactory<>("idComidas"));
+        ColumnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        ColumnDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+
+        cargarComidas();
     }
 
-    @FXML
-    private void buscar(KeyEvent event) {
-    }
-
-    @FXML
-    private void mostrarFila(MouseEvent event) {
-    }
-
-    @FXML
-    private void nuevo(ActionEvent event) {
-    }
-
-    @FXML
-    private void modificar(ActionEvent event) {
-    }
-
-    @FXML
-    private void eliminar(ActionEvent event) {
+    private void cargarComidas() {
+        listaComidas.clear();
+        try (Connection conn = ConeccionDB.getConnection()) {
+            String sql = "SELECT idComidas, Nombre, Descripcion FROM Comidas";
+            try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Comida comida = new Comida(
+                            rs.getInt("idComidas"),
+                            rs.getString("Nombre"),
+                            rs.getString("Descripcion")
+                    );
+                    listaComidas.add(comida);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        TablaComidas.setItems(listaComidas);
     }
 
     @FXML
     private void guardar(ActionEvent event) {
+        int codigo;
+        try {
+            codigo = Integer.parseInt(TxtCodigo.getText());
+        } catch (NumberFormatException e) {
+            System.out.println("El código debe ser numérico.");
+            return;
+        }
+        String nombre = TxtNombre.getText();
+        String descripcion = TxtDescripcion.getText();
+
+        if (nombre.isEmpty() || descripcion.isEmpty() || TxtCodigo.getText().isEmpty()) {
+            System.out.println("Todos los campos son obligatorios.");
+            return;
+        }
+
+        try (Connection conn = ConeccionDB.getConnection()) {
+            String sql = "INSERT INTO Comidas (idComidas, Nombre, Descripcion) VALUES (?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, codigo);
+                pstmt.setString(2, nombre);
+                pstmt.setString(3, descripcion);
+
+                int filasAfectadas = pstmt.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Comida guardada correctamente.");
+                    cargarComidas();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        cancelar(event);
+    }
+
+    @FXML
+    private void modificar(ActionEvent event) {
+        Comida comidaSeleccionada = TablaComidas.getSelectionModel().getSelectedItem();
+        if (comidaSeleccionada == null) {
+            System.out.println("Selecciona una comida para modificar.");
+            return;
+        }
+
+        String nombre = TxtNombre.getText();
+        String descripcion = TxtDescripcion.getText();
+
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmación de Modificación");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿Desea modificar la comida?");
+        Optional<ButtonType> resultado = alerta.showAndWait();
+
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            try (Connection conn = ConeccionDB.getConnection()) {
+                String sql = "UPDATE Comidas SET Nombre=?, Descripcion=? WHERE idComidas=?";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setString(1, nombre);
+                    pstmt.setString(2, descripcion);
+                    pstmt.setInt(3, comidaSeleccionada.getIdComidas());
+
+                    int filasAfectadas = pstmt.executeUpdate();
+                    if (filasAfectadas > 0) {
+                        System.out.println("Comida modificada correctamente.");
+                        
+                        Alert alerta2 = new Alert(Alert.AlertType.INFORMATION);
+                        alerta2.setTitle("Confirmado");
+                        alerta2.setHeaderText(null);
+                        alerta2.setContentText("Comida modificada correctamente");
+                        alerta2.show();
+                        cargarComidas();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        cancelar(event);
+    }
+
+    @FXML
+    private void eliminar(ActionEvent event) {
+        Comida comidaSeleccionada = TablaComidas.getSelectionModel().getSelectedItem();
+        if (comidaSeleccionada == null) {
+            System.out.println("Selecciona una comida para eliminar.");
+            return;
+        }
+
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmación de Eliminación");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿Desea eliminar la comida?");
+        Optional<ButtonType> resultado = alerta.showAndWait();
+
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            try (Connection conn = ConeccionDB.getConnection()) {
+                String sql = "DELETE FROM Comidas WHERE idComidas=?";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setInt(1, comidaSeleccionada.getIdComidas());
+
+                    int filasAfectadas = pstmt.executeUpdate();
+                    if (filasAfectadas > 0) {
+                        System.out.println("Comida eliminada correctamente.");
+                        
+                        Alert alerta2 = new Alert(Alert.AlertType.INFORMATION);
+                        alerta2.setTitle("Confirmado");
+                        alerta2.setHeaderText(null);
+                        alerta2.setContentText("Comida eliminada correctamente");
+                        alerta2.show();
+                        cargarComidas();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        cancelar(event);
     }
 
     @FXML
     private void cancelar(ActionEvent event) {
+        TxtCodigo.setText("");
+        TxtNombre.setText("");
+        TxtDescripcion.setText("");
+        TxtCodigo.setDisable(true);
+        TxtNombre.setDisable(true);
+        TxtDescripcion.setDisable(true);
+
+        BtnNuevo.setDisable(false);
+        BtnGuardar.setDisable(true);
+        BtnCancelar.setDisable(true);
+        BtnModificar.setDisable(true);
+        BtnEliminar.setDisable(true);
+    }
+
+    @FXML
+    private void nuevo(ActionEvent event) {
+        TxtCodigo.setDisable(false);
+        TxtNombre.setDisable(false);
+        TxtDescripcion.setDisable(false);
+        BtnNuevo.setDisable(true);
+        BtnGuardar.setDisable(false);
+        BtnCancelar.setDisable(false);
+        TxtCodigo.requestFocus();
+    }
+
+    @FXML
+    private void mostrarFila(MouseEvent event) {
+        Comida comidaSeleccionada = TablaComidas.getSelectionModel().getSelectedItem();
+        if (comidaSeleccionada != null) {
+            TxtCodigo.setText(String.valueOf(comidaSeleccionada.getIdComidas()));
+            TxtNombre.setText(comidaSeleccionada.getNombre());
+            TxtDescripcion.setText(comidaSeleccionada.getDescripcion());
+
+            BtnCancelar.setDisable(false);
+            BtnModificar.setDisable(false);
+            BtnEliminar.setDisable(false);
+            BtnNuevo.setDisable(true);
+
+            TxtNombre.setDisable(false);
+            TxtDescripcion.setDisable(false);
+        }
     }
 
     @FXML
@@ -116,6 +299,25 @@ public class ComidaController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void buscar(KeyEvent event) {
+        String filtro = TxtBuscar.getText().toLowerCase();
+
+        if (filtro.isEmpty()) {
+            TablaComidas.setItems(listaComidas);
+            return;
+        }
+
+        ObservableList<Comida> comidasFiltradas = FXCollections.observableArrayList();
+
+        for (Comida comida : listaComidas) {
+            if (String.valueOf(comida.getIdComidas()).contains(filtro) || comida.getNombre().toLowerCase().contains(filtro) || comida.getDescripcion().toLowerCase().contains(filtro)) {
+                comidasFiltradas.add(comida);
+            }
+        }
+        TablaComidas.setItems(comidasFiltradas);
     }
 
 }
