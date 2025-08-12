@@ -198,6 +198,29 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void mostrarFila(MouseEvent event) {
+        labelEstado.setVisible(false);
+        dropmenuEstado.setVisible(false);
+
+        TxtCodigo.setText("");
+        TxtNombre.setText("");
+        TxtApellido.setText("");
+        TxtCodigo.setDisable(true);
+        TxtNombre.setDisable(true);
+        TxtApellido.setDisable(true);
+
+        BtnNuevo.setDisable(false);
+        BtnGuardar.setDisable(true);
+        BtnCancelar.setDisable(true);
+        BtnModificar.setDisable(true);
+        BtnEliminar.setDisable(true);
+
+        dropmenuCurso.setDisable(true);
+        dropmenuCurso.setText("Seleccionar Curso");
+        dropmenuSeccion.setDisable(true);
+        dropmenuSeccion.setText("Seleccionar Sección");
+        dropmenuEspe.setDisable(true);
+        dropmenuEspe.setText("Seleccionar Especialidad");
+        
         Alumno alumnoSeleccionado = TablaClientes.getSelectionModel().getSelectedItem();
         if (alumnoSeleccionado != null) {
             TxtCodigo.setText(String.valueOf(alumnoSeleccionado.getIdEstudiante()));

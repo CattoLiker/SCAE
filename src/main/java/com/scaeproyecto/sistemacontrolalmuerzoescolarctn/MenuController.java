@@ -95,4 +95,15 @@ public class MenuController implements Initializable {
     private void comidaHoy(ActionEvent event) {
     }
 
+    @FXML
+    private void abrirMenuSemana(ActionEvent event) {
+        String menusemana = "ComidaSemana.fxml";
+
+        try {
+            abrirMenuOtro(event, menusemana);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

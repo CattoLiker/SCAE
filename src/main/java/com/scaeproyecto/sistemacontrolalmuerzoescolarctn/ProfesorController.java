@@ -281,6 +281,19 @@ public class ProfesorController implements Initializable {
 
     @FXML
     private void mostrarFila(MouseEvent event) {
+        TxtCodigo.setText("");
+        TxtNombre.setText("");
+        TxtApellido.setText("");
+        TxtCodigo.setDisable(true);
+        TxtNombre.setDisable(true);
+        TxtApellido.setDisable(true);
+
+        BtnNuevo.setDisable(false);
+        BtnGuardar.setDisable(true);
+        BtnCancelar.setDisable(true);
+        BtnModificar.setDisable(true);
+        BtnEliminar.setDisable(true);
+                
         Profesor DocenteSeleccionado = TablaProfesor.getSelectionModel().getSelectedItem();
         if (DocenteSeleccionado != null) {
             TxtCodigo.setText(String.valueOf(DocenteSeleccionado.getIdDocente()));

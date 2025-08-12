@@ -274,6 +274,19 @@ public class ComidaController implements Initializable {
 
     @FXML
     private void mostrarFila(MouseEvent event) {
+        TxtCodigo.setText("");
+        TxtNombre.setText("");
+        TxtDescripcion.setText("");
+        TxtCodigo.setDisable(true);
+        TxtNombre.setDisable(true);
+        TxtDescripcion.setDisable(true);
+
+        BtnNuevo.setDisable(false);
+        BtnGuardar.setDisable(true);
+        BtnCancelar.setDisable(true);
+        BtnModificar.setDisable(true);
+        BtnEliminar.setDisable(true);
+        
         Comida comidaSeleccionada = TablaComidas.getSelectionModel().getSelectedItem();
         if (comidaSeleccionada != null) {
             TxtCodigo.setText(String.valueOf(comidaSeleccionada.getIdComidas()));
