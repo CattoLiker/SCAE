@@ -6,13 +6,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="646.0" style="-fx-background-color: #8b0000;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.MenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="647.0" style="-fx-background-color: #8b0000; -fx-border-color: Black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.MenuController">
    <children>
       <Pane layoutX="10.0" layoutY="107.0" prefHeight="283.0" prefWidth="200.0" style="-fx-border-style: dashed; -fx-border-radius: 10px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
          <children>
             <Pane layoutX="13.0" layoutY="14.0" prefHeight="46.0" prefWidth="175.0" style="-fx-border-style: dotted; -fx-border-radius: 10px; -fx-background-radius: 10px;">
                <children>
-                  <Text layoutX="48.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Profesores" textAlignment="CENTER">
+                  <Text fill="WHITE" layoutX="48.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Profesores" textAlignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -27,7 +27,7 @@
          <children>
             <Pane layoutX="6.0" layoutY="14.0" prefHeight="46.0" prefWidth="175.0" style="-fx-border-style: dotted; -fx-border-radius: 10px;">
                <children>
-                  <Text layoutX="54.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Alumnos" textAlignment="CENTER">
+                  <Text fill="WHITE" layoutX="54.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Alumnos" textAlignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -42,7 +42,7 @@
          <children>
             <Pane layoutX="13.0" layoutY="14.0" prefHeight="46.0" prefWidth="175.0" style="-fx-border-style: dotted; -fx-border-radius: 10px;">
                <children>
-                  <Text layoutX="55.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Comidas" textAlignment="CENTER">
+                  <Text fill="WHITE" layoutX="55.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Comidas" textAlignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -57,7 +57,7 @@
       </Pane>
       <Pane layoutX="10.0" layoutY="9.0" prefHeight="86.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-radius: 10px;" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Text layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Panel de Administración" textAlignment="CENTER" wrappingWidth="200.0">
+            <Text fill="WHITE" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: Bold;" text="Panel de Administración" textAlignment="CENTER" wrappingWidth="200.0">
                <font>
                   <Font size="26.0" />
                </font>
