@@ -52,10 +52,13 @@ public class InicioSesionController {
         }
         boolean correctuser = false;
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT idUsuario FROM USUARIO WHERE Username = '" + Txtuser;
-            try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    correctuser = true; //si existe el usuario
+            String sql = "SELECT idUsuario FROM USUARIO WHERE Username = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, Txtuser);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        correctuser = true; // si existe el usuario
+                    }
                 }
             }
         } catch (Exception e) {
@@ -64,22 +67,29 @@ public class InicioSesionController {
 
         boolean correctpassword = false;
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT Contrasena FROM USUARIO WHERE idUsuario= '" + Txtuser + "'";
-            try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {    
-                    correctpassword = true;
+            String sql = "SELECT Contrasena FROM USUARIO WHERE Username = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, Txtuser);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        String dbPassword = rs.getString("Contrasena");
+                        if (dbPassword.equals(Txtpassword)) {
+                            correctpassword = true;
+                        }
+                    }
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (correctuser = false || !correctuser && !correctpassword) {
-            JOptionPane.showMessageDialog(null, "Usuario incorrecto", "Error", JOptionPane.ERROR_MESSAGE);  //si no existe es incorrecto
+        if (!correctuser && !correctpassword) {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecta", "Error", JOptionPane.ERROR_MESSAGE);  //si no existe es incorrecto
             user.clear();
             password.clear();
             return;
         }
-        if (correctpassword = false) {
+        if (!correctpassword) {
             JOptionPane.showMessageDialog(null, "Contrasena incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
             password.clear();
             return;
@@ -87,9 +97,14 @@ public class InicioSesionController {
 
         int usertype = 2;
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT TipoUsuario FROM USUARIO WHERE Username = '" + Txtuser + "'";
-            try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-                usertype = rs.getInt(1);
+            String sql = "SELECT TipoUsuario FROM USUARIO WHERE Username = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, Txtuser);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if(rs.next()) {
+                        usertype = rs.getInt("TipoUsuario");
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,6 +144,4 @@ public class InicioSesionController {
         }
     }
 
-// Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.control.TextField field
-//  com.scaeproyecto.sistemacontrolalmuerzoescolarctn.InicioSesionController.user to javafx.scene.control.Label
 }
