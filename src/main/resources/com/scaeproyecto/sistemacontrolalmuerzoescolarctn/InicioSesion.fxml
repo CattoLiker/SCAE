@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8b0000; -fx-border-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.InicioSesionController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8b0000; -fx-border-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.InicioSesionController">
    <children>
       <Label layoutX="223.0" layoutY="24.0" prefHeight="17.0" prefWidth="149.0" text="Inicie Sesion" textAlignment="CENTER" textFill="WHITE">
          <font>
@@ -20,7 +20,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btnContrasena" layoutX="226.0" layoutY="263.0" mnemonicParsing="false" onAction="#contrasena" prefHeight="25.0" prefWidth="143.0" text="Cambiar Contrasena">
+      <Button fx:id="btnContrasena" layoutX="226.0" layoutY="263.0" mnemonicParsing="false" onAction="#contrasena" prefHeight="25.0" prefWidth="143.0" text="Cambiar Contraseña">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -51,5 +51,6 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
+      <Button layoutX="424.0" layoutY="14.0" mnemonicParsing="false" onAction="#volver" text="⬅ Volver al inicio de sesión" />
    </children>
 </Pane>

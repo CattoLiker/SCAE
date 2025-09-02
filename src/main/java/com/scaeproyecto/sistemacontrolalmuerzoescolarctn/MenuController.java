@@ -105,5 +105,16 @@ public class MenuController implements Initializable {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    private void volver(ActionEvent event) throws IOException {
+        String inicio = "MenuInicio.fxml";
+        
+        try {
+            abrirMenuOtro(event, inicio);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

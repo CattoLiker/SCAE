@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -20,52 +21,63 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
-public class RegistroController implements Initializable {
+public class MenuCambioController implements Initializable {
 
     @FXML
-    private Button registro;
+    private PasswordField TxtCodigo;
     @FXML
-    private PasswordField Codigo;
+    private PasswordField TxtContra1;
     @FXML
-    private TextField nombreUsuario;
+    private PasswordField TxtContra2;
     @FXML
-    private PasswordField Contra1;
+    private Button BtnCambiar;
     @FXML
-    private PasswordField Contra2;
+    private TextField TxtUsername;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        registro.setOnAction(event -> registrarUsuario());
+        BtnCambiar.setOnAction(event -> cambiarContrasena());
     }
 
-    private void registrarUsuario() {
-        String codigo = Codigo.getText();
-        String nombre = nombreUsuario.getText();
-        String contrasena1 = Contra1.getText();
-        String contrasena2 = Contra2.getText();
+    private void cambiarContrasena() {
+        String codigo = TxtCodigo.getText();
+        String username = TxtUsername.getText();
+        String nuevaContra1 = TxtContra1.getText();
+        String nuevaContra2 = TxtContra2.getText();
 
-        if (codigo.isEmpty() || nombre.isEmpty() || contrasena1.isEmpty() || contrasena2.isEmpty()) {
+        if (codigo.isEmpty() || username.isEmpty() || nuevaContra1.isEmpty() || nuevaContra2.isEmpty()) {
             mostrarAlerta("Campos vacíos", "Por favor complete todos los campos.");
             return;
         }
-        if (!contrasena1.equals(contrasena2)) {
+        if (!nuevaContra1.equals(nuevaContra2)) {
             mostrarAlerta("Contraseña", "Las contraseñas no coinciden.");
             return;
         }
-        if (codigo.equals("sUp3rSeCrEt")) {
+        if(codigo.equals("sUp3rSeCrEt")) {
             try (Connection conn = ConeccionDB.getConnection()) {
-                String sql = "INSERT INTO Usuario (TipoUsuario, Contrasena, Username) VALUES (?, ?, ?)";
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, 1); // Cambia el tipo de usuario según tu lógica (1 = Estudiante, por ejemplo)
-                stmt.setString(2, contrasena1);
-                stmt.setString(3, nombre);
+                // Verifica que el usuario exista
+                String sqlVerifica = "SELECT idUsuario FROM Usuario WHERE Username = ?";
+                PreparedStatement stmtVerifica = conn.prepareStatement(sqlVerifica);
+                stmtVerifica.setString(1, username);
+                ResultSet rs = stmtVerifica.executeQuery();
 
-                int rows = stmt.executeUpdate();
+                if (!rs.next()) {
+                    mostrarAlerta("Usuario no encontrado", "El nombre de usuario no corresponde a ningún usuario registrado.");
+                    return;
+                }
+
+                // Actualiza la contraseña
+                String sqlUpdate = "UPDATE Usuario SET Contrasena = ? WHERE Username = ?";
+                PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate);
+                stmtUpdate.setString(1, nuevaContra1);
+                stmtUpdate.setString(2, username);
+
+                int rows = stmtUpdate.executeUpdate();
                 if (rows > 0) {
-                    mostrarAlerta("Éxito", "Usuario registrado correctamente.");
+                    mostrarAlerta("Éxito", "La contraseña ha sido cambiada correctamente.");
                     limpiarCampos();
                 } else {
-                    mostrarAlerta("Error", "No se pudo registrar el usuario.");
+                    mostrarAlerta("Error", "No se pudo cambiar la contraseña.");
                 }
             } catch (SQLException e) {
                 mostrarAlerta("Error SQL", e.getMessage());
@@ -84,10 +96,10 @@ public class RegistroController implements Initializable {
     }
 
     private void limpiarCampos() {
-        Codigo.clear();
-        nombreUsuario.clear();
-        Contra1.clear();
-        Contra2.clear();
+        TxtCodigo.clear();
+        TxtUsername.clear();
+        TxtContra1.clear();
+        TxtContra2.clear();
     }
 
     public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
@@ -114,4 +126,5 @@ public class RegistroController implements Initializable {
             e.printStackTrace();
         }
     }
+    
 }
