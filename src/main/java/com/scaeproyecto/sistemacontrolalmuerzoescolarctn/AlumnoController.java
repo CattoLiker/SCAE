@@ -266,7 +266,11 @@ public class AlumnoController implements Initializable {
     private void modificar(ActionEvent event) {
         Alumno alumnoSeleccionado = TablaClientes.getSelectionModel().getSelectedItem();
         if (alumnoSeleccionado == null) {
-            System.out.println("Selecciona un alumno para modificar.");
+            Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("Selecciona un alumno para continuar");
+            alerta2.show(); 
             return;
         }
 
@@ -344,7 +348,11 @@ public class AlumnoController implements Initializable {
     private void eliminar(ActionEvent event) {
         Alumno alumnoSeleccionado = TablaClientes.getSelectionModel().getSelectedItem();
         if (alumnoSeleccionado == null) {
-            System.out.println("Selecciona un alumno para eliminar.");
+            Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("Seleccione un alumno para continuar");
+            alerta2.show(); //verificar q el ci sea numercio
             return;
         }
 

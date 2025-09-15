@@ -6,7 +6,13 @@ package com.scaeproyecto.sistemacontrolalmuerzoescolarctn;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,44 +20,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
  *
  * @author USER
  */
-public class ComidaController implements Initializable {
-
-    @FXML
-    private TextField TxtApellido;
-    @FXML
-    private TextField TxtBuscar;
-    @FXML
-    private TableView<?> TablaClientes;
+public class ProfesorController implements Initializable {
 
     public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
         // Cargar el nuevo FXML
@@ -72,15 +58,17 @@ public class ComidaController implements Initializable {
     @FXML
     private TextField TxtNombre;
     @FXML
-    private TextField TxtDescripcion;
+    private TextField TxtApellido;
     @FXML
-    private TableView<Comida> TablaComidas;
+    private TextField TxtBuscar;
     @FXML
-    private TableColumn<Comida, Integer> ColumnId;
+    private TableView<Profesor> TablaProfesor;
     @FXML
-    private TableColumn<Comida, String> ColumnNombre;
+    private TableColumn<Profesor, Integer> ColumnId;
     @FXML
-    private TableColumn<Comida, String> ColumnDescripcion;
+    private TableColumn<Profesor, String> ColumnNombre;
+    @FXML
+    private TableColumn<Profesor, String> ColumnApellido;
     @FXML
     private Button BtnNuevo;
     @FXML
@@ -92,80 +80,89 @@ public class ComidaController implements Initializable {
     @FXML
     private Button BtnCancelar;
 
-    private ObservableList<Comida> listaComidas = FXCollections.observableArrayList();
-
     /**
      * Initializes the controller class.
      */
+    private ObservableList<Profesor> listaProfesor = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ColumnId.setCellValueFactory(new PropertyValueFactory<>("idComidas"));
+        ColumnId.setCellValueFactory(new PropertyValueFactory<>("idDocente"));
         ColumnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        ColumnDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        ColumnApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
 
-        cargarComidas();
+        cargarProfesor();
     }
 
-    private void cargarComidas() {
-        listaComidas.clear();
+    private void cargarProfesor() {
+        listaProfesor.clear();
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT idComidas, Nombre, Descripcion FROM Comidas";
+            String sql = "SELECT idDocente, Nombre, Apellido FROM Docente";
             try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    Comida comida = new Comida(
-                            rs.getInt("idComidas"),
+                    Profesor Docente = new Profesor(
+                            rs.getInt("idDocente"),
                             rs.getString("Nombre"),
-                            rs.getString("Descripcion")
+                            rs.getString("Apellido")
                     );
-                    listaComidas.add(comida);
+                    listaProfesor.add(Docente);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        TablaComidas.setItems(listaComidas);
+        TablaProfesor.setItems(listaProfesor);
     }
 
     @FXML
     private void guardar(ActionEvent event) {
-        int codigo;
+        int codigo=0;
+        String nombre = TxtNombre.getText();
+        String apellido = TxtApellido.getText();
+
+        if (TxtCodigo.getText().isEmpty() || nombre.isEmpty() || apellido.isEmpty()) {
+            Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("Todos los campos debe estar completos");
+            alerta2.show(); //verificar q el ci sea numercio
+            return;
+        }
         try {
+            Integer.parseInt(TxtCodigo.getText());
             codigo = Integer.parseInt(TxtCodigo.getText());
         } catch (NumberFormatException e) {
             Alert alerta2 = new Alert(Alert.AlertType.ERROR);
             alerta2.setTitle("Error");
             alerta2.setHeaderText(null);
-            alerta2.setContentText("El codigo debe ser numerico");
-            alerta2.show(); //verificar q el codigo sea numercio
-            return;
+            alerta2.setContentText("El CI debe ser numerico");
+            alerta2.show(); //verificar q el ci sea numercio
+
         }
-        
-        String nombre = TxtNombre.getText();
-        String descripcion = TxtDescripcion.getText();
-        if(TxtCodigo.getText().isBlank() || nombre.isBlank() || descripcion.isBlank()){
-             Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+        if(codigo<1000000){
+            Alert alerta2 = new Alert(Alert.AlertType.ERROR);
             alerta2.setTitle("Error");
             alerta2.setHeaderText(null);
-            alerta2.setContentText("Completar todos los campos");
-            alerta2.show(); //verificar q el codigo sea numercio
+            alerta2.setContentText("CI incorrecto");
+            alerta2.show();//verificar que el ci no sea un num cualquiera
             return;
         }
-        if (nombre.isEmpty() || descripcion.isEmpty() || TxtCodigo.getText().isEmpty()) {
-            System.out.println("Todos los campos son obligatorios.");
-            return;
-        }
-
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "INSERT INTO Comidas (idComidas, Nombre, Descripcion) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO Docente (idDocente, Nombre, Apellido) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, codigo);
                 pstmt.setString(2, nombre);
-                pstmt.setString(3, descripcion);
+                pstmt.setString(3, apellido);
 
                 int filasAfectadas = pstmt.executeUpdate();
                 if (filasAfectadas > 0) {
-                    System.out.println("Comida guardada correctamente.");
-                    cargarComidas();
+                    Alert alerta2 = new Alert(Alert.AlertType.INFORMATION);
+                    alerta2.setTitle("Exito");
+                    alerta2.setHeaderText(null);
+                    alerta2.setContentText("Docente guardado corectamente");
+                    alerta2.show();//verificar que el ci no sea un num cualquiera
+                    
+                    cargarProfesor();
                 }
             }
         } catch (Exception e) {
@@ -176,39 +173,42 @@ public class ComidaController implements Initializable {
 
     @FXML
     private void modificar(ActionEvent event) {
-        Comida comidaSeleccionada = TablaComidas.getSelectionModel().getSelectedItem();
-        if (comidaSeleccionada == null) {
-            System.out.println("Selecciona una comida para modificar.");
+        Profesor DocenteSeleccionado = TablaProfesor.getSelectionModel().getSelectedItem();
+        if (DocenteSeleccionado == null) {
+            System.out.println("Selecciona un Docente para modificar.");
             return;
         }
-
         String nombre = TxtNombre.getText();
-        String descripcion = TxtDescripcion.getText();
+        String apellido = TxtApellido.getText();
 
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Confirmación de Modificación");
         alerta.setHeaderText(null);
-        alerta.setContentText("¿Desea modificar la comida?");
+        alerta.setContentText("¿Desea modificar al Docente?");
         Optional<ButtonType> resultado = alerta.showAndWait();
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try (Connection conn = ConeccionDB.getConnection()) {
-                String sql = "UPDATE Comidas SET Nombre=?, Descripcion=? WHERE idComidas=?";
+                String sql = "UPDATE Docente SET Nombre=?, Apellido=? WHERE idDocente=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, nombre);
-                    pstmt.setString(2, descripcion);
-                    pstmt.setInt(3, comidaSeleccionada.getIdComidas());
+                    pstmt.setString(2, apellido);
+                    pstmt.setInt(3, DocenteSeleccionado.getIdDocente());
 
                     int filasAfectadas = pstmt.executeUpdate();
                     if (filasAfectadas > 0) {
-                        System.out.println("Comida modificada correctamente.");
-                        
                         Alert alerta2 = new Alert(Alert.AlertType.INFORMATION);
                         alerta2.setTitle("Confirmado");
                         alerta2.setHeaderText(null);
-                        alerta2.setContentText("Comida modificada correctamente");
+                        alerta2.setContentText("Docente modificado correctamente");
                         alerta2.show();
-                        cargarComidas();
+                        cargarProfesor();
+                    } else {
+                        Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+                        alerta2.setTitle("Error");
+                        alerta2.setHeaderText(null);
+                        alerta2.setContentText("No se pudo modificar al Docente.");
+                        alerta2.show();
                     }
                 }
             } catch (Exception e) {
@@ -220,34 +220,41 @@ public class ComidaController implements Initializable {
 
     @FXML
     private void eliminar(ActionEvent event) {
-        Comida comidaSeleccionada = TablaComidas.getSelectionModel().getSelectedItem();
-        if (comidaSeleccionada == null) {
-            System.out.println("Selecciona una comida para eliminar.");
+        Profesor DocenteSeleccionado = TablaProfesor.getSelectionModel().getSelectedItem();
+        if (DocenteSeleccionado == null) {
+            Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("Seleccione un docente para continuar");
+            alerta2.show(); //verificar q el ci sea numercio
             return;
         }
-
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Confirmación de Eliminación");
         alerta.setHeaderText(null);
-        alerta.setContentText("¿Desea eliminar la comida?");
+        alerta.setContentText("¿Desea eliminar al Docente?");
         Optional<ButtonType> resultado = alerta.showAndWait();
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try (Connection conn = ConeccionDB.getConnection()) {
-                String sql = "DELETE FROM Comidas WHERE idComidas=?";
+                String sql = "DELETE FROM Docente WHERE idDocente=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                    pstmt.setInt(1, comidaSeleccionada.getIdComidas());
+                    pstmt.setInt(1, DocenteSeleccionado.getIdDocente());
 
                     int filasAfectadas = pstmt.executeUpdate();
                     if (filasAfectadas > 0) {
-                        System.out.println("Comida eliminada correctamente.");
-                        
                         Alert alerta2 = new Alert(Alert.AlertType.INFORMATION);
                         alerta2.setTitle("Confirmado");
                         alerta2.setHeaderText(null);
-                        alerta2.setContentText("Comida eliminada correctamente");
+                        alerta2.setContentText("Docente eliminado correctamente");
                         alerta2.show();
-                        cargarComidas();
+                        cargarProfesor();
+                    } else {
+                        Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+                        alerta2.setTitle("Error");
+                        alerta2.setHeaderText(null);
+                        alerta2.setContentText("No se pudo eliminar al Docente.");
+                        alerta2.show();
                     }
                 }
             } catch (Exception e) {
@@ -261,10 +268,10 @@ public class ComidaController implements Initializable {
     private void cancelar(ActionEvent event) {
         TxtCodigo.setText("");
         TxtNombre.setText("");
-        TxtDescripcion.setText("");
+        TxtApellido.setText("");
         TxtCodigo.setDisable(true);
         TxtNombre.setDisable(true);
-        TxtDescripcion.setDisable(true);
+        TxtApellido.setDisable(true);
 
         BtnNuevo.setDisable(false);
         BtnGuardar.setDisable(true);
@@ -277,7 +284,7 @@ public class ComidaController implements Initializable {
     private void nuevo(ActionEvent event) {
         TxtCodigo.setDisable(false);
         TxtNombre.setDisable(false);
-        TxtDescripcion.setDisable(false);
+        TxtApellido.setDisable(false);
         BtnNuevo.setDisable(true);
         BtnGuardar.setDisable(false);
         BtnCancelar.setDisable(false);
@@ -285,25 +292,44 @@ public class ComidaController implements Initializable {
     }
 
     @FXML
+    private void buscar(KeyEvent event) {
+        String filtro = TxtBuscar.getText().toLowerCase();
+
+        if (filtro.isEmpty()) {
+            TablaProfesor.setItems(listaProfesor);
+            return;
+        }
+
+        ObservableList<Profesor> ProfesorFiltrados = FXCollections.observableArrayList();
+
+        for (Profesor profe : listaProfesor) {
+            if (String.valueOf(profe.getIdDocente()).contains(filtro) || profe.getNombre().toLowerCase().contains(filtro) || profe.getApellido().toLowerCase().contains(filtro)) {
+                ProfesorFiltrados.add(profe);
+            }
+        }
+        TablaProfesor.setItems(ProfesorFiltrados);
+    }
+
+    @FXML
     private void mostrarFila(MouseEvent event) {
         TxtCodigo.setText("");
         TxtNombre.setText("");
-        TxtDescripcion.setText("");
+        TxtApellido.setText("");
         TxtCodigo.setDisable(true);
         TxtNombre.setDisable(true);
-        TxtDescripcion.setDisable(true);
+        TxtApellido.setDisable(true);
 
         BtnNuevo.setDisable(false);
         BtnGuardar.setDisable(true);
         BtnCancelar.setDisable(true);
         BtnModificar.setDisable(true);
         BtnEliminar.setDisable(true);
-        
-        Comida comidaSeleccionada = TablaComidas.getSelectionModel().getSelectedItem();
-        if (comidaSeleccionada != null) {
-            TxtCodigo.setText(String.valueOf(comidaSeleccionada.getIdComidas()));
-            TxtNombre.setText(comidaSeleccionada.getNombre());
-            TxtDescripcion.setText(comidaSeleccionada.getDescripcion());
+                
+        Profesor DocenteSeleccionado = TablaProfesor.getSelectionModel().getSelectedItem();
+        if (DocenteSeleccionado != null) {
+            TxtCodigo.setText(String.valueOf(DocenteSeleccionado.getIdDocente()));
+            TxtNombre.setText(DocenteSeleccionado.getNombre());
+            TxtApellido.setText(DocenteSeleccionado.getApellido());
 
             BtnCancelar.setDisable(false);
             BtnModificar.setDisable(false);
@@ -311,7 +337,7 @@ public class ComidaController implements Initializable {
             BtnNuevo.setDisable(true);
 
             TxtNombre.setDisable(false);
-            TxtDescripcion.setDisable(false);
+            TxtApellido.setDisable(false);
         }
     }
 
@@ -324,25 +350,6 @@ public class ComidaController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void buscar(KeyEvent event) {
-        String filtro = TxtBuscar.getText().toLowerCase();
-
-        if (filtro.isEmpty()) {
-            TablaComidas.setItems(listaComidas);
-            return;
-        }
-
-        ObservableList<Comida> comidasFiltradas = FXCollections.observableArrayList();
-
-        for (Comida comida : listaComidas) {
-            if (String.valueOf(comida.getIdComidas()).contains(filtro) || comida.getNombre().toLowerCase().contains(filtro) || comida.getDescripcion().toLowerCase().contains(filtro)) {
-                comidasFiltradas.add(comida);
-            }
-        }
-        TablaComidas.setItems(comidasFiltradas);
     }
 
 }

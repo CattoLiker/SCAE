@@ -45,7 +45,7 @@ public class InicioSesionController {
         Txtuser = user.getText();
         String Txtpassword;
         Txtpassword = password.getText();
-        if (Txtuser.isBlank() || Txtpassword.isBlank()) { //verifica si no esta vacioa
+        if (Txtuser.isBlank()) { //verifica si no esta vacioa
             JOptionPane.showMessageDialog(
                     null, "Informacion Incompleta", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -121,6 +121,19 @@ public class InicioSesionController {
             } catch (IOException ex) {
                 System.getLogger(InicioSesionController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
+        }else if (usertype == 2){
+            try {
+                //si es admin
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuInicioUser.fxml"));
+                Parent root = fxmlLoader.load();
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show(); //cargar menu 
+            } catch (IOException ex) {
+                System.getLogger(InicioSesionController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        
         }
 
     }
