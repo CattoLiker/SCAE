@@ -31,7 +31,8 @@ import javafx.stage.Stage;
  * @author abiga
  */
 public class RegistroCIController implements Initializable {
-
+    @FXML
+    private Button btnMenu;
     @FXML
     private TextField user;
     @FXML
@@ -239,4 +240,17 @@ public class RegistroCIController implements Initializable {
     
     }
     
+    @FXML
+    private void volverMenu(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuInicioUser.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
