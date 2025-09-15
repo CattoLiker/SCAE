@@ -121,7 +121,7 @@ public class InicioSesionController {
             } catch (IOException ex) {
                 System.getLogger(InicioSesionController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
-        }else if (usertype == 2){
+        }else if (usertype == 0){
             try {
                 //si es admin
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuInicioUser.fxml"));
