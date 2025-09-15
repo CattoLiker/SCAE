@@ -132,12 +132,24 @@ public class ComidaController implements Initializable {
         try {
             codigo = Integer.parseInt(TxtCodigo.getText());
         } catch (NumberFormatException e) {
-            System.out.println("El código debe ser numérico.");
+            Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("El codigo debe ser numerico");
+            alerta2.show(); //verificar q el codigo sea numercio
             return;
         }
+        
         String nombre = TxtNombre.getText();
         String descripcion = TxtDescripcion.getText();
-
+        if(TxtCodigo.getText().isBlank() || nombre.isBlank() || descripcion.isBlank()){
+             Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("Completar todos los campos");
+            alerta2.show(); //verificar q el codigo sea numercio
+            return;
+        }
         if (nombre.isEmpty() || descripcion.isEmpty() || TxtCodigo.getText().isEmpty()) {
             System.out.println("Todos los campos son obligatorios.");
             return;

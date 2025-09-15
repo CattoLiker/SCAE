@@ -116,15 +116,37 @@ public class ProfesorController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
-        int codigo = Integer.parseInt(TxtCodigo.getText());
+        int codigo=0;
         String nombre = TxtNombre.getText();
         String apellido = TxtApellido.getText();
 
         if (TxtCodigo.getText().isEmpty() || nombre.isEmpty() || apellido.isEmpty()) {
-            System.out.println("Todos los campos son obligatorios.");
+            Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("Todos los campos debe estar completos");
+            alerta2.show(); //verificar q el ci sea numercio
             return;
         }
+        try {
+            Integer.parseInt(TxtCodigo.getText());
+            codigo = Integer.parseInt(TxtCodigo.getText());
+        } catch (NumberFormatException e) {
+            Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("El CI debe ser numerico");
+            alerta2.show(); //verificar q el ci sea numercio
 
+        }
+        if(codigo<1000000){
+            Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("CI incorrecto");
+            alerta2.show();//verificar que el ci no sea un num cualquiera
+            return;
+        }
         try (Connection conn = ConeccionDB.getConnection()) {
             String sql = "INSERT INTO Docente (idDocente, Nombre, Apellido) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -134,7 +156,12 @@ public class ProfesorController implements Initializable {
 
                 int filasAfectadas = pstmt.executeUpdate();
                 if (filasAfectadas > 0) {
-                    System.out.println("Docente guardado correctamente.");
+                    Alert alerta2 = new Alert(Alert.AlertType.INFORMATION);
+                    alerta2.setTitle("Exito");
+                    alerta2.setHeaderText(null);
+                    alerta2.setContentText("Docente guardado corectamente");
+                    alerta2.show();//verificar que el ci no sea un num cualquiera
+                    
                     cargarProfesor();
                 }
             }
@@ -195,7 +222,11 @@ public class ProfesorController implements Initializable {
     private void eliminar(ActionEvent event) {
         Profesor DocenteSeleccionado = TablaProfesor.getSelectionModel().getSelectedItem();
         if (DocenteSeleccionado == null) {
-            System.out.println("Selecciona un Docente para eliminar.");
+            Alert alerta2 = new Alert(Alert.AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("Seleccione un docente para continuar");
+            alerta2.show(); //verificar q el ci sea numercio
             return;
         }
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
