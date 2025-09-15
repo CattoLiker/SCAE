@@ -38,17 +38,20 @@ public class RegistroCIController implements Initializable {
     private Button btnRegistro;
     private LocalDate fecha;
     private int semanaDelAno;
-    private int SemanaMenu ;
-    int diaSemana ;
-    java.sql.Date sqlDate ;
+    private int SemanaMenu;
+    int diaSemana;
+    java.sql.Date sqlDate;
     LocalTime limite = LocalTime.of(12, 30);
     LocalTime finServicio = LocalTime.of(13, 00);
     private int idComida;
+    @FXML
+    private Button btnMenu;
+
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) { 
+    public void initialize(URL url, ResourceBundle rb) {
         fecha = LocalDate.now(); //fecha de hoy
         sqlDate = java.sql.Date.valueOf(fecha);
         semanaDelAno = semanaDelAno = fecha.get(WeekFields.ISO.weekOfYear());
@@ -68,11 +71,11 @@ public class RegistroCIController implements Initializable {
                 }
             }
         } catch (SQLException e) {
-             e.printStackTrace();   
+            e.printStackTrace();
         }
-    }    
+    }
 
-    private void aprobar(){
+    private void aprobar() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AccederComida.fxml"));
             Parent root = fxmlLoader.load();
@@ -84,54 +87,54 @@ public class RegistroCIController implements Initializable {
             ex.printStackTrace();
         }
 
-    
     }
+
     @FXML
     private void registroCI(ActionEvent event) {
         String CI = user.getText();
-        
-        if(CI.isBlank()){
+
+        if (CI.isBlank()) {
             JOptionPane.showMessageDialog(null, "ID vacio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         int CInum;
         try {
-           CInum = Integer.parseInt(CI);
+            CInum = Integer.parseInt(CI);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "ID inválido, debe ser numérico", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        boolean alumnoExiste=false;
+        boolean alumnoExiste = false;
         try (Connection conn = ConeccionDB.getConnection()) {
-                String sql = " SELECT idEstudiante FROM estudiante WHERE idEstudiante = ? AND Estado = 1"; //busca que exista y que el alumno este activo
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, CInum); 
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) { //si existe el CI en la bd
-                        alumnoExiste=true;
-                    }
-                }    
+            String sql = " SELECT idEstudiante FROM estudiante WHERE idEstudiante = ? AND Estado = 1"; //busca que exista y que el alumno este activo
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, CInum);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) { //si existe el CI en la bd
+                    alumnoExiste = true;
+                }
+            }
         } catch (SQLException e) {
-             e.printStackTrace();   
+            e.printStackTrace();
         }
-        boolean docenteExiste=false;
+        boolean docenteExiste = false;
         try (Connection conn = ConeccionDB.getConnection()) {
-                String sql = " SELECT idDocente FROM docente WHERE idDocente = ?"; //busca que exista
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, CInum); 
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) { //si existe el CI en la bd
-                        docenteExiste=true;
-                    }
-                }    
+            String sql = " SELECT idDocente FROM docente WHERE idDocente = ?"; //busca que exista
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, CInum);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) { //si existe el CI en la bd
+                    docenteExiste = true;
+                }
+            }
         } catch (SQLException e) {
-             e.printStackTrace();   
+            e.printStackTrace();
         }
-        if(!docenteExiste && !alumnoExiste){
+        if (!docenteExiste && !alumnoExiste) {
             //abrir el fxml explicando que hacer
         }
-        if(alumnoExiste && LocalTime.now().isBefore(limite)){ //insertar en la base de datos
-             try (Connection conn = ConeccionDB.getConnection()) {
+        if (alumnoExiste && LocalTime.now().isBefore(limite)) { //insertar en la base de datos
+            try (Connection conn = ConeccionDB.getConnection()) {
                 String sql = "SELECT 1 FROM registroconsumo WHERE Estudiante_idEstudiante = ? AND Fecha = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, CInum);
@@ -140,8 +143,7 @@ public class RegistroCIController implements Initializable {
                     if (rs.next()) { //si el alumno ya comio 
                         JOptionPane.showMessageDialog(null, "No puedes repetir la comidaprevio a las 12.30", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
-                    }
-                    else{
+                    } else {
                         String insertcomer = "INSERT INTO registroconsumo (Fecha,Observaciones,Estudiante_idEstudiante,SemanaMenuComidas_Comidas_idComidas,SemanaMenuComidas_SemanaMenu_idSemanaMenu,HaComido) values (?,?,?,?,?,?)";
                         PreparedStatement insertstmt = conn.prepareStatement(insertcomer);
                         insertstmt.setDate(1, sqlDate);
@@ -152,14 +154,14 @@ public class RegistroCIController implements Initializable {
                         insertstmt.setBoolean(6, true);
                         insertstmt.executeUpdate();
                         aprobar();
-                   }
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            
+
         }
-        if(alumnoExiste && LocalTime.now().isAfter(limite)){ //insertar en la base de datos   
+        if (alumnoExiste && LocalTime.now().isAfter(limite)) { //insertar en la base de datos   
             try (Connection conn = ConeccionDB.getConnection()) {
                 String sql = "SELECT 1 FROM registroconsumo WHERE Estudiante_idEstudiante = ? AND Fecha = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
@@ -178,8 +180,7 @@ public class RegistroCIController implements Initializable {
                         insertstmt.executeUpdate();
                         aprobar();
 
-                    }
-                    else{
+                    } else {
                         String insertcomer = "INSERT INTO registroconsumo (Fecha,Observaciones,Estudiante_idEstudiante,SemanaMenuComidas_Comidas_idComidas,SemanaMenuComidas_SemanaMenu_idSemanaMenu,HaComido) values (?,?,?,?,?,?)";
                         PreparedStatement insertstmt = conn.prepareStatement(insertcomer);
                         insertstmt.setDate(1, sqlDate);
@@ -190,32 +191,32 @@ public class RegistroCIController implements Initializable {
                         insertstmt.setBoolean(6, true);
                         insertstmt.executeUpdate();
                         aprobar();
-                   }
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            
+
         }
-        if(docenteExiste && LocalTime.now().isBefore(limite)){
+        if (docenteExiste && LocalTime.now().isBefore(limite)) {
             JOptionPane.showMessageDialog(null, "Los docentes solo pueden consumir el almuerzo a partir de las 12.30", "Atencion", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(docenteExiste && LocalTime.now().isAfter(limite)){   
+        if (docenteExiste && LocalTime.now().isAfter(limite)) {
             try (Connection conn = ConeccionDB.getConnection()) {
                 String insertrepetir = "INSERT INTO registrodocente(Docente_idDocente,SemanaMenuComidas_Comidas_idComidas,SemanaMenuComidas_SemanaMenu_idSemanaMenu) values (?,?,?,?,?,?)";
                 PreparedStatement insertstmt = conn.prepareStatement(insertrepetir);
                 insertstmt.setInt(1, CInum);
                 insertstmt.setInt(2, idComida);
                 insertstmt.setInt(3, SemanaMenu);
-                insertstmt.executeUpdate();   
+                insertstmt.executeUpdate();
                 aprobar();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            
+
         }
-        if(LocalTime.now().isAfter(finServicio)){ //despues del servicio se registran los estudiantes que no comieron 
+        if (LocalTime.now().isAfter(finServicio)) { //despues del servicio se registran los estudiantes que no comieron 
             String sql = "INSERT INTO registroconsumo (idEstudiante, idComida, fecha, HaComido) "
                     + "SELECT e.idEstudiante, ?, CURRENT_DATE, false "
                     + "FROM estudiante e "
@@ -225,18 +226,40 @@ public class RegistroCIController implements Initializable {
                     + ")";
 
             try (Connection conn = ConeccionDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setInt(1, idComida); 
+                stmt.setInt(1, idComida);
                 int filasInsertadas = stmt.executeUpdate();
 
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+
         }
-        
-        
-        
-         
+
+    }
+
+    public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
+        // Cargar el nuevo FXML
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(recurso));
+        Parent root = fxmlLoader.load();
+
+        // Obtener el Stage actual desde el botón o cualquier nodo que disparó el evento
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Reemplazar la escena
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
     
+    @FXML
+    private void volverMenu(ActionEvent event) {
+        String inicio = "MenuInicioUser.fxml";
+
+        try {
+            abrirMenuOtro(event, inicio);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    
+
 }
