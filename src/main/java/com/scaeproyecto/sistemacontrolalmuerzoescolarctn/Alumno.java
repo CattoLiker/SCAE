@@ -8,7 +8,7 @@ public class Alumno {
     private String curso;
     private String seccion;
     private String especialidad;
-    private String estado;
+    private String estado;  // Test
 
     // Constructor, getters y setters
     public Alumno(int idEstudiante, String nombre, String apellido, String curso, String seccion, String especialidad, String estado) {
