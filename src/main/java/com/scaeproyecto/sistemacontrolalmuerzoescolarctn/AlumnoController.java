@@ -276,6 +276,14 @@ public class AlumnoController implements Initializable {
         String seccion = dropmenuSeccion.getText();
         String especialidad = dropmenuEspe.getText();
         String estado = dropmenuEstado.getText();
+        if ((!especialidad.equals("Construcciones Civiles") && !especialidad.equals("Química Industrial") && !especialidad.equals("Electrónica")) && seccion.equals("3ra")){
+            Alert alerta2 = new Alert(AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("Seccion invalida");
+            alerta2.show();
+            return;
+        }
         int estadoReal = 1;
         if (estado.equals("ACTIVO")) {
             estadoReal = 1;
@@ -385,20 +393,51 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
-        int codigo = Integer.parseInt(TxtCodigo.getText());
+        int codigo=0;
+        try {
+            Integer.parseInt(TxtCodigo.getText());
+            codigo = Integer.parseInt(TxtCodigo.getText());
+        } catch (NumberFormatException e) {
+            Alert alerta2 = new Alert(AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("El CI debe ser numerico");
+            alerta2.show(); //verificar q el ci sea numercio
+
+        }
+        if(codigo<1000000){
+            Alert alerta2 = new Alert(AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("CI incorrecto");
+            alerta2.show();//verificar que el ci no sea un num cualquiera
+            return;
+        }
+       
         String nombre = TxtNombre.getText();
         String apellido = TxtApellido.getText();
         String curso = dropmenuCurso.getText();
         String seccion = dropmenuSeccion.getText();
         String especialidad = dropmenuEspe.getText();
+       if ((!especialidad.equals("Construcciones Civiles") && !especialidad.equals("Química Industrial") && !especialidad.equals("Electrónica")) && seccion.equals("3ra")){
+            Alert alerta2 = new Alert(AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("Seccion invalida");
+            alerta2.show();
+            return;
+        }
 
         // Validación básica
         if (TxtCodigo.getText().isEmpty() || nombre.isEmpty() || apellido.isEmpty() || curso.equals("Seleccionar Curso") || seccion.equals("Seleccionar Sección") || especialidad.equals("Seleccionar Especialidad")) {
             // Muestra un mensaje de error al usuario
-            System.out.println("Todos los campos son obligatorios.");
+            Alert alerta2 = new Alert(AlertType.ERROR);
+            alerta2.setTitle("Error");
+            alerta2.setHeaderText(null);
+            alerta2.setContentText("Todos los campos son obligatorios.");
+            alerta2.show();
             return;
         }
-
         try (Connection conn = ConeccionDB.getConnection()) {
             String sql = "INSERT INTO Estudiante (idEstudiante, Estado, Nombre, Apellido, Curso, Seccion, Especialidad) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -406,8 +445,8 @@ public class AlumnoController implements Initializable {
                 pstmt.setInt(2, 1);
                 pstmt.setString(3, nombre);
                 pstmt.setString(4, apellido);
-                pstmt.setString(5, curso);
-                pstmt.setString(6, seccion);
+                pstmt.setInt(5, Character.getNumericValue(curso.charAt(0)));
+                pstmt.setInt(6, Character.getNumericValue(seccion.charAt(0)));
                 pstmt.setString(7, especialidad);
 
                 int filasAfectadas = pstmt.executeUpdate();

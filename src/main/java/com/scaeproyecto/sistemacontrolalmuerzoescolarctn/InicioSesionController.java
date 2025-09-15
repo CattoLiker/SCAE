@@ -124,23 +124,51 @@ public class InicioSesionController {
         }
 
     }
+    
+        public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
+        // Cargar el nuevo FXML
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(recurso));
+        Parent root = fxmlLoader.load();
+
+        // Obtener el Stage actual desde el botón o cualquier nodo que disparó el evento
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Reemplazar la escena
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
-    private void contrasena(ActionEvent event) {
+    private void volver(ActionEvent event) throws IOException {
+        String inicio = "MenuInicio.fxml";
 
+        try {
+            abrirMenuOtro(event, inicio);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void contrasena(ActionEvent event) {
+        String contra = "MenuCambio.fxml";
+        
+        try {
+            abrirMenuOtro(event, contra);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void registro(ActionEvent event) {
+        String registro = "Registro.fxml";
+        
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Registro.fxml"));
-            Parent root = fxmlLoader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            System.getLogger(RegistroController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            abrirMenuOtro(event, registro);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
