@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 /**
@@ -47,6 +48,9 @@ public class AccederComidaController implements Initializable {
             // Reemplazar la escena
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             stage.show();
 
         } catch (IOException ex) {

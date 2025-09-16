@@ -26,13 +26,13 @@
                                  <children>
                                     <HBox prefHeight="92.0" prefWidth="1810.0" style="-fx-background-color: \\;">
                                        <children>
-                                          <VBox prefHeight="92.0" prefWidth="576.0" />
-                                          <Label fx:id="elija" contentDisplay="CENTER" prefHeight="92.0" prefWidth="766.0" text="Bienvenidos al SCAE" textAlignment="CENTER" textFill="WHITE">
+                                          <VBox prefHeight="92.0" prefWidth="480.0" />
+                                          <Label fx:id="elija" contentDisplay="CENTER" prefHeight="92.0" prefWidth="625.0" text="Bienvenidos al SCAE" textAlignment="CENTER" textFill="WHITE">
                                              <font>
                                                 <Font name="System Bold" size="63.0" />
                                              </font>
                                           </Label>
-                                          <VBox prefHeight="92.0" prefWidth="463.0" />
+                                          <VBox prefHeight="92.0" prefWidth="466.0" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -43,7 +43,7 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="92.0" prefWidth="494.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <ImageView fitHeight="350.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+                                    <ImageView fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                                        <image>
                                           <Image url="@../../../images/ctn-logo-2%20(1).png" />
                                        </image>
@@ -56,7 +56,7 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <HBox prefHeight="100.0" prefWidth="1510.0" />
                   <VBox alignment="CENTER" prefHeight="100.0" prefWidth="167.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
