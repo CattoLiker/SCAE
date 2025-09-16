@@ -178,6 +178,8 @@ public class ComidaSemanaController implements Initializable {
                 if (filas > 0) {
                     mostrarInfo("Éxito", "Registro guardado correctamente.");
                     cargarSemanaMenuComidas();
+                    return;
+                    
                 }
             }
         } catch (SQLException e) {
@@ -246,7 +248,8 @@ public class ComidaSemanaController implements Initializable {
     private void eliminar(ActionEvent event) {
         SemanaMenuComidas seleccion = TablaComidas.getSelectionModel().getSelectedItem();
         if (seleccion == null) {
-            System.out.println("Selecciona un registro para eliminar.");
+            Alert alerta = new Alert(Alert.AlertType.WARNING, "Selecciona una regstro para eliminar", ButtonType.OK);
+            alerta.showAndWait();
             return;
         }
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "¿Desea eliminar el registro?", ButtonType.YES, ButtonType.NO);
@@ -275,6 +278,8 @@ public class ComidaSemanaController implements Initializable {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                Alert alerta1 = new Alert(Alert.AlertType.ERROR, "No se pudo eliminar los datos", ButtonType.OK);
+                alerta.showAndWait();
             }
         }
         cancelar(event);
@@ -436,6 +441,8 @@ public class ComidaSemanaController implements Initializable {
             abrirMenuOtro(event, menuprincipal);
         } catch (IOException e) {
             e.printStackTrace();
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "No se pudo abrir el menu", ButtonType.OK);
+            alerta.showAndWait();
         }
     }
 

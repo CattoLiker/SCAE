@@ -34,7 +34,7 @@
             <TextField fx:id="TxtApellido" disable="true" layoutX="14.0" layoutY="259.0" onKeyPressed="#abrirDoc" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su apellido" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
             <Pane layoutX="249.0" layoutY="53.0" prefHeight="273.0" prefWidth="334.0" style="-fx-background-color: #8b0000; -fx-border-radius: 10px;">
                <children>
-                  <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyPressed="#abrirMenuOtro" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="306.0" promptText="🔍" style="-fx-background-radius: 10px;" />
+                  <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyPressed="#abrirDoc" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="306.0" promptText="🔍" style="-fx-background-radius: 10px;" />
                   <TableView fx:id="TablaProfesor" layoutX="14.0" layoutY="51.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="306.0" style="-fx-background-radius: 10px;">
                     <columns>
                       <TableColumn fx:id="ColumnId" prefWidth="68.79998779296875" text="ID" />

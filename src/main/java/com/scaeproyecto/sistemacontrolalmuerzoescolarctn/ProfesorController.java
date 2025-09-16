@@ -361,6 +361,8 @@ public class ProfesorController implements Initializable {
             abrirMenuOtro(event, menuprincipal);
         } catch (IOException e) {
             e.printStackTrace();
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "No se pudo abrir el menu", ButtonType.OK);
+            alerta.showAndWait();
         }
     }
 
