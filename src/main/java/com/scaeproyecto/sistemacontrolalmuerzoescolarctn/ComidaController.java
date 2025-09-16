@@ -151,7 +151,8 @@ public class ComidaController implements Initializable {
             return;
         }
         if (nombre.isEmpty() || descripcion.isEmpty() || TxtCodigo.getText().isEmpty()) {
-            System.out.println("Todos los campos son obligatorios.");
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Completar los campos", ButtonType.OK);
+            alerta.showAndWait();
             return;
         }
 
@@ -164,12 +165,15 @@ public class ComidaController implements Initializable {
 
                 int filasAfectadas = pstmt.executeUpdate();
                 if (filasAfectadas > 0) {
-                    System.out.println("Comida guardada correctamente.");
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Comida guardada correctamente.", ButtonType.OK);
+                    alerta.showAndWait();
                     cargarComidas();
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+             Alert alerta = new Alert(Alert.AlertType.ERROR, "No se pudo guardar la comida", ButtonType.OK);
+             alerta.showAndWait();
         }
         cancelar(event);
     }
@@ -178,7 +182,9 @@ public class ComidaController implements Initializable {
     private void modificar(ActionEvent event) {
         Comida comidaSeleccionada = TablaComidas.getSelectionModel().getSelectedItem();
         if (comidaSeleccionada == null) {
-            System.out.println("Selecciona una comida para modificar.");
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Selecciona una comida para modificar.", ButtonType.OK);
+            alerta.showAndWait();
+        
             return;
         }
 
@@ -213,6 +219,8 @@ public class ComidaController implements Initializable {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                Alert alerta2 = new Alert(Alert.AlertType.ERROR, "No se pudo modificar la comida", ButtonType.OK);
+                alerta.showAndWait();
             }
         }
         cancelar(event);
@@ -222,7 +230,9 @@ public class ComidaController implements Initializable {
     private void eliminar(ActionEvent event) {
         Comida comidaSeleccionada = TablaComidas.getSelectionModel().getSelectedItem();
         if (comidaSeleccionada == null) {
-            System.out.println("Selecciona una comida para eliminar.");
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Selecciona una comida para eliminar.", ButtonType.OK);
+            alerta.showAndWait();
+           
             return;
         }
 
@@ -240,7 +250,7 @@ public class ComidaController implements Initializable {
 
                     int filasAfectadas = pstmt.executeUpdate();
                     if (filasAfectadas > 0) {
-                        System.out.println("Comida eliminada correctamente.");
+                       
                         
                         Alert alerta2 = new Alert(Alert.AlertType.INFORMATION);
                         alerta2.setTitle("Confirmado");
@@ -323,6 +333,8 @@ public class ComidaController implements Initializable {
             abrirMenuOtro(event, menuprincipal);
         } catch (IOException e) {
             e.printStackTrace();
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "No se pudo abrir el menu", ButtonType.OK);
+            alerta.showAndWait();
         }
     }
 

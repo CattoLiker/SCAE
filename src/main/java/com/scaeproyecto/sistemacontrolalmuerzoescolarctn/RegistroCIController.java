@@ -23,6 +23,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 /**
@@ -65,7 +67,8 @@ public class RegistroCIController implements Initializable {
                     idComida = rs.getInt("Comidas_idComidas");
                     System.out.println("ID de la comida para hoy: " + idComida);
                 } else {
-                    System.out.println("⚠️ No se encontró comida para hoy.");
+                    Alert alerta = new Alert(Alert.AlertType.ERROR, "No se encontro comida para hoy", ButtonType.OK);
+                    alerta.showAndWait();
                 }
             }
         } catch (SQLException e) {
@@ -129,7 +132,7 @@ public class RegistroCIController implements Initializable {
              e.printStackTrace();   
         }
         if(!docenteExiste && !alumnoExiste){
-            //abrir el fxml explicando que hacer
+            
         }
         if(alumnoExiste && LocalTime.now().isBefore(limite)){ //insertar en la base de datos
              try (Connection conn = ConeccionDB.getConnection()) {
