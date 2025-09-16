@@ -149,7 +149,8 @@ public class ComidaSemanaController implements Initializable {
     @FXML
     private void guardar(ActionEvent event) {
         if (idComidasSeleccionada == -1 || idSemanaMenuSeleccionada == 0 || diaSemanaSeleccionado == 0) {
-            System.out.println("Debe seleccionar comida, semana y día.");
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Seleccione los datos correspondientes", ButtonType.OK);
+            alerta.showAndWait();
             return;
         }
         try (Connection conn = ConeccionDB.getConnection()) {
@@ -161,12 +162,18 @@ public class ComidaSemanaController implements Initializable {
 
                 int filas = pstmt.executeUpdate();
                 if (filas > 0) {
-                    System.out.println("Registro guardado correctamente.");
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Registro guardado correctamente", ButtonType.OK);
+                    alerta.showAndWait();
                     cargarSemanaMenuComidas();
+                    return;
+                    
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "No se pudo guardar los datos", ButtonType.OK);
+            alerta.showAndWait();
+            
         }
         cancelar(event);
     }
@@ -175,7 +182,8 @@ public class ComidaSemanaController implements Initializable {
     private void modificar(ActionEvent event) {
         SemanaMenuComidas seleccion = TablaComidas.getSelectionModel().getSelectedItem();
         if (seleccion == null) {
-            System.out.println("Selecciona un registro para modificar.");
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Selecciona un registro para modificar.", ButtonType.OK);
+            alerta.showAndWait();
             return;
         }
         try (Connection conn = ConeccionDB.getConnection()) {
@@ -189,12 +197,15 @@ public class ComidaSemanaController implements Initializable {
 
                 int filas = pstmt.executeUpdate();
                 if (filas > 0) {
-                    System.out.println("Registro modificado correctamente.");
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Registro modificado correctamente.", ButtonType.OK);
+                    alerta.showAndWait();
                     cargarSemanaMenuComidas();
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "No se pudo modificar los datos", ButtonType.OK);
+            alerta.showAndWait();
         }
         cancelar(event);
     }
@@ -203,7 +214,8 @@ public class ComidaSemanaController implements Initializable {
     private void eliminar(ActionEvent event) {
         SemanaMenuComidas seleccion = TablaComidas.getSelectionModel().getSelectedItem();
         if (seleccion == null) {
-            System.out.println("Selecciona un registro para eliminar.");
+            Alert alerta = new Alert(Alert.AlertType.WARNING, "Selecciona una regstro para eliminar", ButtonType.OK);
+            alerta.showAndWait();
             return;
         }
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "¿Desea eliminar el registro?", ButtonType.YES, ButtonType.NO);
@@ -224,6 +236,8 @@ public class ComidaSemanaController implements Initializable {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                Alert alerta1 = new Alert(Alert.AlertType.ERROR, "No se pudo eliminar los datos", ButtonType.OK);
+                alerta.showAndWait();
             }
         }
         cancelar(event);
