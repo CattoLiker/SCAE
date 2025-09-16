@@ -4,7 +4,11 @@
  */
 package com.scaeproyecto.sistemacontrolalmuerzoescolarctn;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -38,6 +42,7 @@ import java.sql.ResultSet;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 
 /**
  * FXML Controller class
@@ -234,6 +239,7 @@ public class ComidaController implements Initializable {
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try (Connection conn = ConeccionDB.getConnection()) {
+                
                 String sql = "DELETE FROM Comidas WHERE idComidas=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setInt(1, comidaSeleccionada.getIdComidas());
@@ -345,4 +351,56 @@ public class ComidaController implements Initializable {
         TablaComidas.setItems(comidasFiltradas);
     }
 
+    @FXML
+    private void abrirDoc(KeyEvent event) {
+        if (event.getCode() == KeyCode.CONTROL) {
+            try {
+                String docu = "/Documentacion/manual.chm";
+                InputStream inputStream = getClass().getResourceAsStream(docu);
+
+                if (inputStream == null) {
+                    System.err.println("No se pudo encontrar el archivo: " + docu);
+                    mostrarError("Archivo no encontrado", "No se pudo encontrar el manual de ayuda.");
+                    return;
+                }
+
+                // Crear archivo temporal
+                File tempFile = File.createTempFile("manual", ".chm");
+                tempFile.deleteOnExit(); // Se eliminará al cerrar la aplicación
+
+                // Copiar el contenido del InputStream al archivo temporal
+                try (FileOutputStream out = new FileOutputStream(tempFile)) {
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        out.write(buffer, 0, bytesRead);
+                    }
+                }
+
+                // Abrir el archivo con la aplicación predeterminada
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.OPEN)) {
+                    desktop.open(tempFile);
+                } else {
+                    System.err.println("La acción OPEN no está soportada en este sistema");
+                    mostrarError("Error", "No se puede abrir el archivo en este sistema.");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarError("Error", "No se pudo abrir el manual: " + e.getMessage());
+            }
+        }
+    }
+
+    private void mostrarError(String titulo, String mensaje) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                javafx.scene.control.Alert.AlertType.ERROR
+        );
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+    
 }

@@ -1,10 +1,15 @@
 package com.scaeproyecto.sistemacontrolalmuerzoescolarctn;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -19,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -149,9 +155,18 @@ public class ComidaSemanaController implements Initializable {
     @FXML
     private void guardar(ActionEvent event) {
         if (idComidasSeleccionada == -1 || idSemanaMenuSeleccionada == 0 || diaSemanaSeleccionado == 0) {
-            System.out.println("Debe seleccionar comida, semana y día.");
+            mostrarError("Error", "Debe seleccionar comida, semana y día.");
             return;
         }
+
+        // Validar si ya existe esta combinación de semana y día
+        if (existeCombinacionSemanaDia(idSemanaMenuSeleccionada, diaSemanaSeleccionado)) {
+            mostrarError("Error", "Ya existe una comida asignada para la semana "
+                    + idSemanaMenuSeleccionada + " y el día " + diaNombre(diaSemanaSeleccionado)
+                    + ". No se permiten duplicados.");
+            return;
+        }
+
         try (Connection conn = ConeccionDB.getConnection()) {
             String sql = "INSERT INTO SemanaMenuComidas (DiaSemana, Comidas_idComidas, SemanaMenu_idSemanaMenu) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -161,12 +176,21 @@ public class ComidaSemanaController implements Initializable {
 
                 int filas = pstmt.executeUpdate();
                 if (filas > 0) {
-                    System.out.println("Registro guardado correctamente.");
+                    mostrarInfo("Éxito", "Registro guardado correctamente.");
                     cargarSemanaMenuComidas();
                 }
             }
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062 || e.getErrorCode() == 19 || e.getMessage().contains("UNIQUE")) {
+                // Código de error para violación de constraint único en MySQL/SQLite
+                mostrarError("Error", "Ya existe una comida asignada para esta semana y día.");
+            } else {
+                e.printStackTrace();
+                mostrarError("Error", "No se pudo guardar el registro: " + e.getMessage());
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            mostrarError("Error", "Error inesperado: " + e.getMessage());
         }
         cancelar(event);
     }
@@ -175,26 +199,45 @@ public class ComidaSemanaController implements Initializable {
     private void modificar(ActionEvent event) {
         SemanaMenuComidas seleccion = TablaComidas.getSelectionModel().getSelectedItem();
         if (seleccion == null) {
-            System.out.println("Selecciona un registro para modificar.");
+            mostrarError("Error", "Selecciona un registro para modificar.");
             return;
         }
+
+        // Validar si la nueva combinación ya existe (excluyendo el registro actual)
+        if (existeCombinacionSemanaDia(idSemanaMenuSeleccionada, diaSemanaSeleccionado,
+                seleccion.getIdSemanaMenu(), seleccion.getDiaSemana())) {
+            mostrarError("Error", "Ya existe una comida asignada para la semana "
+                    + idSemanaMenuSeleccionada + " y el día " + diaNombre(diaSemanaSeleccionado)
+                    + ". No se permiten duplicados.");
+            return;
+        }
+
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "UPDATE SemanaMenuComidas SET Comidas_idComidas=?, SemanaMenu_idSemanaMenu=? WHERE DiaSemana=? AND Comidas_idComidas=? AND SemanaMenu_idSemanaMenu=?";
+            String sql = "UPDATE SemanaMenuComidas SET Comidas_idComidas=?, SemanaMenu_idSemanaMenu=?, DiaSemana=? WHERE DiaSemana=? AND Comidas_idComidas=? AND SemanaMenu_idSemanaMenu=?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, idComidasSeleccionada);
                 pstmt.setInt(2, idSemanaMenuSeleccionada);
-                pstmt.setInt(3, seleccion.getDiaSemana());
-                pstmt.setInt(4, seleccion.getIdComidas());
-                pstmt.setInt(5, seleccion.getIdSemanaMenu());
+                pstmt.setInt(3, diaSemanaSeleccionado);
+                pstmt.setInt(4, seleccion.getDiaSemana());
+                pstmt.setInt(5, seleccion.getIdComidas());
+                pstmt.setInt(6, seleccion.getIdSemanaMenu());
 
                 int filas = pstmt.executeUpdate();
                 if (filas > 0) {
-                    System.out.println("Registro modificado correctamente.");
+                    mostrarInfo("Éxito", "Registro modificado correctamente.");
                     cargarSemanaMenuComidas();
                 }
             }
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062 || e.getErrorCode() == 19 || e.getMessage().contains("UNIQUE")) {
+                mostrarError("Error", "Ya existe una comida asignada para esta semana y día.");
+            } else {
+                e.printStackTrace();
+                mostrarError("Error", "No se pudo modificar el registro: " + e.getMessage());
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            mostrarError("Error", "Error inesperado: " + e.getMessage());
         }
         cancelar(event);
     }
@@ -211,6 +254,14 @@ public class ComidaSemanaController implements Initializable {
         Optional<ButtonType> resultado = alerta.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.YES) {
             try (Connection conn = ConeccionDB.getConnection()) {
+                String sql2 = "DELETE FROM registroconsumo WHERE SemanaMenuComidas_Comidas_idComidas = ? AND SemanaMenuComidas_SemanaMenu_idSemanaMenu = ?";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql2)) {
+                    pstmt.setInt(1, seleccion.getIdComidas());
+                    pstmt.setInt(2, seleccion.getIdSemanaMenu());
+                    pstmt.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 String sql = "DELETE FROM SemanaMenuComidas WHERE DiaSemana=? AND Comidas_idComidas=? AND SemanaMenu_idSemanaMenu=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setInt(1, seleccion.getDiaSemana());
@@ -258,7 +309,7 @@ public class ComidaSemanaController implements Initializable {
         diaSemanaSeleccionado = 0;
         BtnNuevo.setDisable(false);
         BtnGuardar.setDisable(true);
-        BtnCancelar.setDisable(true);
+        BtnCancelar.setDisable(false);
         BtnModificar.setDisable(true);
         BtnEliminar.setDisable(true);
         btnMenuComida.setDisable(true);
@@ -356,6 +407,11 @@ public class ComidaSemanaController implements Initializable {
         Día.setDisable(false);
         Semana.setDisable(false);
         btnMenuComida.setDisable(false);
+
+        idSemanaMenuSeleccionada = 0;
+        diaSemanaSeleccionado = 0;
+        Semana.setText("Seleccionar Semana");
+        Día.setText("Seleccionar Día");
     }
 
     public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
@@ -381,5 +437,102 @@ public class ComidaSemanaController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void abrirDoc(KeyEvent event) {
+        if (event.getCode() == KeyCode.CONTROL) {
+            try {
+                String docu = "/Documentacion/manual.chm";
+                InputStream inputStream = getClass().getResourceAsStream(docu);
+
+                if (inputStream == null) {
+                    System.err.println("No se pudo encontrar el archivo: " + docu);
+                    mostrarError("Archivo no encontrado", "No se pudo encontrar el manual de ayuda.");
+                    return;
+                }
+
+                // Crear archivo temporal
+                File tempFile = File.createTempFile("manual", ".chm");
+                tempFile.deleteOnExit(); // Se eliminará al cerrar la aplicación
+
+                // Copiar el contenido del InputStream al archivo temporal
+                try (FileOutputStream out = new FileOutputStream(tempFile)) {
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        out.write(buffer, 0, bytesRead);
+                    }
+                }
+
+                // Abrir el archivo con la aplicación predeterminada
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.OPEN)) {
+                    desktop.open(tempFile);
+                } else {
+                    System.err.println("La acción OPEN no está soportada en este sistema");
+                    mostrarError("Error", "No se puede abrir el archivo en este sistema.");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarError("Error", "No se pudo abrir el manual: " + e.getMessage());
+            }
+        }
+    }
+
+    private void mostrarError(String titulo, String mensaje) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                javafx.scene.control.Alert.AlertType.ERROR
+        );
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    private void mostrarInfo(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    // metodo para verificar si ya existe una combinación de semana y día
+    private boolean existeCombinacionSemanaDia(int idSemana, int dia) {
+        return existeCombinacionSemanaDia(idSemana, dia, -1, -1);
+    }
+
+    private boolean existeCombinacionSemanaDia(int idSemanaNueva, int diaNuevo, int idSemanaActual, int diaActual) {
+        try (Connection conn = ConeccionDB.getConnection()) {
+            String sql;
+            PreparedStatement pstmt;
+
+            if (idSemanaActual == -1 && diaActual == -1) {
+                // Para nuevo registro
+                sql = "SELECT COUNT(*) FROM SemanaMenuComidas WHERE SemanaMenu_idSemanaMenu = ? AND DiaSemana = ?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, idSemanaNueva);
+                pstmt.setInt(2, diaNuevo);
+            } else {
+                // Para modificar registro (excluir el actual)
+                sql = "SELECT COUNT(*) FROM SemanaMenuComidas WHERE SemanaMenu_idSemanaMenu = ? AND DiaSemana = ? AND (SemanaMenu_idSemanaMenu != ? OR DiaSemana != ?)";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, idSemanaNueva);
+                pstmt.setInt(2, diaNuevo);
+                pstmt.setInt(3, idSemanaActual);
+                pstmt.setInt(4, diaActual);
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

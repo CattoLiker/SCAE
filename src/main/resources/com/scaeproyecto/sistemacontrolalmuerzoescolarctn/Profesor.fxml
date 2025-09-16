@@ -19,22 +19,22 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="TxtCodigo" disable="true" layoutX="14.0" layoutY="153.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su identificación" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
+            <TextField fx:id="TxtCodigo" disable="true" layoutX="14.0" layoutY="153.0" onKeyPressed="#abrirDoc" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su identificación" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
             <Label layoutX="13.0" layoutY="180.0" text="Nombre:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="TxtNombre" disable="true" layoutX="14.0" layoutY="204.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su nombre" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
+            <TextField fx:id="TxtNombre" disable="true" layoutX="14.0" layoutY="204.0" onKeyPressed="#abrirDoc" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su nombre" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
             <Label layoutX="12.0" layoutY="231.0" text="Apellido:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="TxtApellido" disable="true" layoutX="14.0" layoutY="259.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su apellido" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
+            <TextField fx:id="TxtApellido" disable="true" layoutX="14.0" layoutY="259.0" onKeyPressed="#abrirDoc" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su apellido" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
             <Pane layoutX="249.0" layoutY="53.0" prefHeight="273.0" prefWidth="334.0" style="-fx-background-color: #8b0000; -fx-border-radius: 10px;">
                <children>
-                  <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="306.0" promptText="🔍" style="-fx-background-radius: 10px;" />
+                  <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyPressed="#abrirMenuOtro" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="306.0" promptText="🔍" style="-fx-background-radius: 10px;" />
                   <TableView fx:id="TablaProfesor" layoutX="14.0" layoutY="51.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="306.0" style="-fx-background-radius: 10px;">
                     <columns>
                       <TableColumn fx:id="ColumnId" prefWidth="68.79998779296875" text="ID" />
@@ -46,11 +46,11 @@
             </Pane>
             <Pane layoutX="93.0" layoutY="286.0" prefHeight="95.0" prefWidth="414.0">
                <children>
-                  <Button fx:id="BtnNuevo" alignment="CENTER" layoutY="41.0" mnemonicParsing="false" onAction="#nuevo" style="-fx-background-radius: 10px; -fx-border-radius: 10px;" text="➕ Nuevo" />
-                  <Button fx:id="BtnModificar" alignment="CENTER" disable="true" layoutX="75.0" layoutY="41.0" mnemonicParsing="false" onAction="#modificar" style="-fx-background-radius: 10px;" text="🔁 Modificar" />
-                  <Button fx:id="BtnEliminar" alignment="CENTER" disable="true" layoutX="167.0" layoutY="41.0" mnemonicParsing="false" onAction="#eliminar" style="-fx-background-radius: 10px;" text="❌ Eliminar" />
-                  <Button fx:id="BtnGuardar" alignment="CENTER" disable="true" layoutX="248.0" layoutY="41.0" mnemonicParsing="false" onAction="#guardar" style="-fx-background-radius: 10px;" text="💾 Guardar" />
-                  <Button fx:id="BtnCancelar" alignment="CENTER" disable="true" layoutX="331.0" layoutY="41.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-radius: 10px;" text="🚫 Cancelar" />
+                  <Button fx:id="BtnNuevo" alignment="CENTER" layoutY="41.0" mnemonicParsing="false" onAction="#nuevo" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px; -fx-border-radius: 10px;" text="➕ Nuevo" />
+                  <Button fx:id="BtnModificar" alignment="CENTER" disable="true" layoutX="75.0" layoutY="41.0" mnemonicParsing="false" onAction="#modificar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="🔁 Modificar" />
+                  <Button fx:id="BtnEliminar" alignment="CENTER" disable="true" layoutX="167.0" layoutY="41.0" mnemonicParsing="false" onAction="#eliminar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="❌ Eliminar" />
+                  <Button fx:id="BtnGuardar" alignment="CENTER" disable="true" layoutX="248.0" layoutY="41.0" mnemonicParsing="false" onAction="#guardar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="💾 Guardar" />
+                  <Button fx:id="BtnCancelar" alignment="CENTER" disable="true" layoutX="331.0" layoutY="41.0" mnemonicParsing="false" onAction="#cancelar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="🚫 Cancelar" />
                </children>
             </Pane>
             <Text fill="WHITE" layoutX="13.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Panel de control de profesores" wrappingWidth="188.8492431640625">
@@ -58,7 +58,7 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Button layoutX="409.0" layoutY="26.0" mnemonicParsing="false" onAction="#abrirMenuPrincipal" style="-fx-background-radius: 10px;" text="⬅ Volver al menu Principal" />
+            <Button layoutX="409.0" layoutY="26.0" mnemonicParsing="false" onAction="#abrirMenuPrincipal" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="⬅ Volver al menu Principal" />
          </children>
       </Pane>
    </children>

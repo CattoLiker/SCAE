@@ -14,15 +14,15 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <PasswordField id="Codigo" fx:id="Codigo" layoutX="224.0" layoutY="125.0" prefHeight="25.0" prefWidth="178.0" />
-      <TextField id="nombreUsuario" fx:id="nombreUsuario" layoutX="224.0" layoutY="165.0" prefHeight="25.0" prefWidth="178.0" />
+      <PasswordField id="Codigo" fx:id="Codigo" layoutX="224.0" layoutY="125.0" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="178.0" />
+      <TextField id="nombreUsuario" fx:id="nombreUsuario" layoutX="224.0" layoutY="165.0" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="178.0" />
       <Label layoutX="100.0" layoutY="120.0" text="Introduzca el Codigo" textFill="WHITE" />
       <Label layoutX="100.0" layoutY="169.0" text="Nombre:" textFill="WHITE" />
-      <PasswordField id="Contra1" fx:id="Contra1" layoutX="224.0" layoutY="213.0" prefHeight="25.0" prefWidth="178.0" />
+      <PasswordField id="Contra1" fx:id="Contra1" layoutX="224.0" layoutY="213.0" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="178.0" />
       <Label layoutX="100.0" layoutY="265.0" text="Repita contraseña:" textFill="WHITE" />
       <Label layoutX="100.0" layoutY="217.0" text="Contraseña" textFill="WHITE" />
-      <PasswordField id="Contra2" fx:id="Contra2" layoutX="224.0" layoutY="261.0" prefHeight="25.0" prefWidth="178.0" />
-      <Button id="btnRegistro" fx:id="registro" layoutX="261.0" layoutY="311.0" mnemonicParsing="false" text="Registrarse" />
-      <Button layoutX="424.0" layoutY="26.0" mnemonicParsing="false" onAction="#volver" text="⬅ Volver al inicio de sesión" />
+      <PasswordField id="Contra2" fx:id="Contra2" layoutX="224.0" layoutY="261.0" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="178.0" />
+      <Button id="btnRegistro" fx:id="registro" layoutX="261.0" layoutY="311.0" mnemonicParsing="false" onKeyPressed="#abrirDoc" text="Registrarse" />
+      <Button layoutX="424.0" layoutY="26.0" mnemonicParsing="false" onAction="#volver" onKeyPressed="#abrirDoc" text="⬅ Volver al inicio de sesión" />
    </children>
 </Pane>

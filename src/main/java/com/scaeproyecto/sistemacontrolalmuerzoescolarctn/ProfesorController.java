@@ -4,7 +4,11 @@
  */
 package com.scaeproyecto.sistemacontrolalmuerzoescolarctn;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -116,7 +121,7 @@ public class ProfesorController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
-        int codigo=0;
+        int codigo = 0;
         String nombre = TxtNombre.getText();
         String apellido = TxtApellido.getText();
 
@@ -139,7 +144,7 @@ public class ProfesorController implements Initializable {
             alerta2.show(); //verificar q el ci sea numercio
 
         }
-        if(codigo<1000000){
+        if (codigo < 1000000) {
             Alert alerta2 = new Alert(Alert.AlertType.ERROR);
             alerta2.setTitle("Error");
             alerta2.setHeaderText(null);
@@ -161,7 +166,7 @@ public class ProfesorController implements Initializable {
                     alerta2.setHeaderText(null);
                     alerta2.setContentText("Docente guardado corectamente");
                     alerta2.show();//verificar que el ci no sea un num cualquiera
-                    
+
                     cargarProfesor();
                 }
             }
@@ -237,6 +242,13 @@ public class ProfesorController implements Initializable {
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try (Connection conn = ConeccionDB.getConnection()) {
+                String sql2 = "DELETE FROM registrodocente WHERE Docente_idDocente = ?";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql2)) {
+                    pstmt.setInt(1, DocenteSeleccionado.getIdDocente());
+                    pstmt.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 String sql = "DELETE FROM Docente WHERE idDocente=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setInt(1, DocenteSeleccionado.getIdDocente());
@@ -324,7 +336,7 @@ public class ProfesorController implements Initializable {
         BtnCancelar.setDisable(true);
         BtnModificar.setDisable(true);
         BtnEliminar.setDisable(true);
-                
+
         Profesor DocenteSeleccionado = TablaProfesor.getSelectionModel().getSelectedItem();
         if (DocenteSeleccionado != null) {
             TxtCodigo.setText(String.valueOf(DocenteSeleccionado.getIdDocente()));
@@ -350,6 +362,58 @@ public class ProfesorController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void abrirDoc(KeyEvent event) {
+        if (event.getCode() == KeyCode.CONTROL) {
+            try {
+                String docu = "/Documentacion/manual.chm";
+                InputStream inputStream = getClass().getResourceAsStream(docu);
+
+                if (inputStream == null) {
+                    System.err.println("No se pudo encontrar el archivo: " + docu);
+                    mostrarError("Archivo no encontrado", "No se pudo encontrar el manual de ayuda.");
+                    return;
+                }
+
+                // Crear archivo temporal
+                File tempFile = File.createTempFile("manual", ".chm");
+                tempFile.deleteOnExit(); // Se eliminará al cerrar la aplicación
+
+                // Copiar el contenido del InputStream al archivo temporal
+                try (FileOutputStream out = new FileOutputStream(tempFile)) {
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        out.write(buffer, 0, bytesRead);
+                    }
+                }
+
+                // Abrir el archivo con la aplicación predeterminada
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.OPEN)) {
+                    desktop.open(tempFile);
+                } else {
+                    System.err.println("La acción OPEN no está soportada en este sistema");
+                    mostrarError("Error", "No se puede abrir el archivo en este sistema.");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarError("Error", "No se pudo abrir el manual: " + e.getMessage());
+            }
+        }
+    }
+
+    private void mostrarError(String titulo, String mensaje) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                javafx.scene.control.Alert.AlertType.ERROR
+        );
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
 }

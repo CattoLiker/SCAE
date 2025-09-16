@@ -21,19 +21,19 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="TxtCodigo" disable="true" layoutX="15.0" layoutY="108.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su identificación" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
+            <TextField fx:id="TxtCodigo" disable="true" layoutX="15.0" layoutY="108.0" onKeyPressed="#abrirDoc" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su identificación" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
             <Label layoutX="14.0" layoutY="135.0" text="Nombre:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="TxtNombre" disable="true" layoutX="15.0" layoutY="159.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su nombre" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
+            <TextField fx:id="TxtNombre" disable="true" layoutX="15.0" layoutY="159.0" onKeyPressed="#abrirDoc" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su nombre" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
             <Label layoutX="13.0" layoutY="186.0" text="Apellido:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="TxtApellido" disable="true" layoutX="15.0" layoutY="214.0" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su apellido" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
+            <TextField fx:id="TxtApellido" disable="true" layoutX="15.0" layoutY="214.0" onKeyPressed="#abrirDoc" prefHeight="27.0" prefWidth="235.0" promptText="Ingrese su apellido" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
             <Pane layoutX="277.0" layoutY="60.0" prefHeight="273.0" prefWidth="717.0" style="-fx-background-color: #8b0000; -fx-border-radius: 10px;">
                <children>
                   <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="696.0" promptText="🔍" style="-fx-background-radius: 10px;" />
@@ -52,11 +52,11 @@
             </Pane>
             <Pane layoutX="406.0" layoutY="384.0" prefHeight="95.0" prefWidth="414.0">
                <children>
-                  <Button fx:id="BtnNuevo" alignment="CENTER" layoutY="41.0" mnemonicParsing="false" onAction="#nuevo" style="-fx-background-radius: 10px; -fx-border-radius: 10px;" text="➕ Nuevo" />
-                  <Button fx:id="BtnModificar" alignment="CENTER" disable="true" layoutX="75.0" layoutY="41.0" mnemonicParsing="false" onAction="#modificar" style="-fx-background-radius: 10px;" text="🔁 Modificar" />
-                  <Button fx:id="BtnEliminar" alignment="CENTER" disable="true" layoutX="167.0" layoutY="41.0" mnemonicParsing="false" onAction="#eliminar" style="-fx-background-radius: 10px;" text="❌ Eliminar" />
-                  <Button fx:id="BtnGuardar" alignment="CENTER" disable="true" layoutX="248.0" layoutY="41.0" mnemonicParsing="false" onAction="#guardar" style="-fx-background-radius: 10px;" text="💾 Guardar" />
-                  <Button fx:id="BtnCancelar" alignment="CENTER" disable="true" layoutX="331.0" layoutY="41.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-radius: 10px;" text="🚫 Cancelar" />
+                  <Button fx:id="BtnNuevo" alignment="CENTER" layoutY="41.0" mnemonicParsing="false" onAction="#nuevo" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px; -fx-border-radius: 10px;" text="➕ Nuevo" />
+                  <Button fx:id="BtnModificar" alignment="CENTER" disable="true" layoutX="75.0" layoutY="41.0" mnemonicParsing="false" onAction="#modificar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="🔁 Modificar" />
+                  <Button fx:id="BtnEliminar" alignment="CENTER" disable="true" layoutX="167.0" layoutY="41.0" mnemonicParsing="false" onAction="#eliminar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="❌ Eliminar" />
+                  <Button fx:id="BtnGuardar" alignment="CENTER" disable="true" layoutX="248.0" layoutY="41.0" mnemonicParsing="false" onAction="#guardar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="💾 Guardar" />
+                  <Button fx:id="BtnCancelar" alignment="CENTER" disable="true" layoutX="331.0" layoutY="41.0" mnemonicParsing="false" onAction="#cancelar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="🚫 Cancelar" />
                </children>
             </Pane>
             <Text fill="WHITE" layoutX="13.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Panel de control de alumnos" wrappingWidth="188.8492431640625">
@@ -64,13 +64,13 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Button layoutX="820.0" layoutY="17.0" mnemonicParsing="false" onAction="#abrirMenuPrincipal" style="-fx-background-radius: 10px;" text="⬅ Volver al menu Principal" />
+            <Button layoutX="820.0" layoutY="17.0" mnemonicParsing="false" onAction="#abrirMenuPrincipal" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="⬅ Volver al menu Principal" />
             <Label layoutX="13.0" layoutY="248.0" text="Curso:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <SplitMenuButton fx:id="dropmenuCurso" disable="true" layoutX="11.0" layoutY="271.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Curso">
+            <SplitMenuButton fx:id="dropmenuCurso" disable="true" layoutX="11.0" layoutY="271.0" mnemonicParsing="false" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Curso">
               <items>
                 <MenuItem fx:id="curso1" mnemonicParsing="false" text="1ro" />
                 <MenuItem fx:id="curso2" mnemonicParsing="false" text="2do" />
@@ -82,7 +82,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <SplitMenuButton fx:id="dropmenuSeccion" disable="true" layoutX="11.0" layoutY="331.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Sección">
+            <SplitMenuButton fx:id="dropmenuSeccion" disable="true" layoutX="11.0" layoutY="331.0" mnemonicParsing="false" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Sección">
                <items>
                   <MenuItem fx:id="seccion1" mnemonicParsing="false" text="1ra" />
                   <MenuItem fx:id="seccion2" mnemonicParsing="false" text="2da" />
@@ -94,7 +94,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <SplitMenuButton fx:id="dropmenuEspe" disable="true" layoutX="11.0" layoutY="392.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Especialidad">
+            <SplitMenuButton fx:id="dropmenuEspe" disable="true" layoutX="11.0" layoutY="392.0" mnemonicParsing="false" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Especialidad">
                <items>
                   <MenuItem fx:id="espeInfo" mnemonicParsing="false" text="Informática" />
                   <MenuItem fx:id="espeCC" mnemonicParsing="false" text="Construcciones Civiles" />
@@ -111,7 +111,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <SplitMenuButton fx:id="dropmenuEstado" disable="true" layoutX="11.0" layoutY="450.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Cambiar Estado de alumno">
+            <SplitMenuButton fx:id="dropmenuEstado" disable="true" layoutX="11.0" layoutY="450.0" mnemonicParsing="false" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Cambiar Estado de alumno">
                <items>
                   <MenuItem fx:id="estadoActivo" mnemonicParsing="false" text="ACTIVO" />
                   <MenuItem fx:id="estadoDesActivo" mnemonicParsing="false" text="NO ACTIVO" />

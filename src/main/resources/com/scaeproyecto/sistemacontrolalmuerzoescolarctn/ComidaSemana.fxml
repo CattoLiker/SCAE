@@ -12,14 +12,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="482.0" prefWidth="710.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/24.0.1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.ComidaSemanaController">
+<AnchorPane id="AnchorPane" prefHeight="482.0" prefWidth="710.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.ComidaSemanaController">
    <children>
       <Pane prefHeight="482.0" prefWidth="710.0" style="-fx-border-color: black; -fx-background-color: #8b0000;">
          <children>
             <Pane layoutX="355.0" layoutY="100.0" prefHeight="273.0" prefWidth="334.0" style="-fx-background-color: #8b0000; -fx-border-radius: 10px;">
                <children>
-                  <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="306.0" promptText="🔍" style="-fx-background-radius: 10px;" />
+                  <TextField fx:id="TxtBuscar" layoutX="14.0" layoutY="14.0" onKeyPressed="#abrirDoc" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="306.0" promptText="🔍" style="-fx-background-radius: 10px;" />
                   <TableView fx:id="TablaComidas" layoutX="14.0" layoutY="51.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="306.0" style="-fx-background-radius: 10px;">
                      <columns>
                         <TableColumn fx:id="ColumnDia" prefWidth="68.79998779296875" text="Día" />
@@ -29,14 +28,14 @@
                   </TableView>
                </children>
             </Pane>
-            <Button layoutX="522.0" layoutY="32.0" mnemonicParsing="false" onAction="#abrirMenuPrincipal" style="-fx-background-radius: 10px;" text="⬅ Volver al menu Principal" />
+            <Button layoutX="522.0" layoutY="32.0" mnemonicParsing="false" onAction="#abrirMenuPrincipal" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="⬅ Volver al menu Principal" />
             <Pane layoutX="148.0" layoutY="373.0" prefHeight="95.0" prefWidth="414.0">
                <children>
-                  <Button fx:id="BtnNuevo" alignment="CENTER" layoutY="41.0" mnemonicParsing="false" onAction="#nuevo" style="-fx-background-radius: 10px; -fx-border-radius: 10px;" text="➕ Nuevo" />
-                  <Button fx:id="BtnModificar" alignment="CENTER" disable="true" layoutX="75.0" layoutY="41.0" mnemonicParsing="false" onAction="#modificar" style="-fx-background-radius: 10px;" text="🔁 Modificar" />
-                  <Button fx:id="BtnEliminar" alignment="CENTER" disable="true" layoutX="167.0" layoutY="41.0" mnemonicParsing="false" onAction="#eliminar" style="-fx-background-radius: 10px;" text="❌ Eliminar" />
-                  <Button fx:id="BtnGuardar" alignment="CENTER" disable="true" layoutX="248.0" layoutY="41.0" mnemonicParsing="false" onAction="#guardar" style="-fx-background-radius: 10px;" text="💾 Guardar" />
-                  <Button fx:id="BtnCancelar" alignment="CENTER" disable="true" layoutX="331.0" layoutY="41.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-radius: 10px;" text="🚫 Cancelar" />
+                  <Button fx:id="BtnNuevo" alignment="CENTER" layoutY="41.0" mnemonicParsing="false" onAction="#nuevo" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px; -fx-border-radius: 10px;" text="➕ Nuevo" />
+                  <Button fx:id="BtnModificar" alignment="CENTER" disable="true" layoutX="75.0" layoutY="41.0" mnemonicParsing="false" onAction="#modificar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="🔁 Modificar" />
+                  <Button fx:id="BtnEliminar" alignment="CENTER" disable="true" layoutX="167.0" layoutY="41.0" mnemonicParsing="false" onAction="#eliminar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="❌ Eliminar" />
+                  <Button fx:id="BtnGuardar" alignment="CENTER" disable="true" layoutX="248.0" layoutY="41.0" mnemonicParsing="false" onAction="#guardar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="💾 Guardar" />
+                  <Button fx:id="BtnCancelar" alignment="CENTER" disable="true" layoutX="331.0" layoutY="41.0" mnemonicParsing="false" onAction="#cancelar" onKeyPressed="#abrirDoc" style="-fx-background-radius: 10px;" text="🚫 Cancelar" />
                </children>
             </Pane>
             <Text fill="WHITE" layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Panel de control de Semana y Comida" wrappingWidth="448.8492431640625">
@@ -51,7 +50,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <SplitMenuButton fx:id="Día" disable="true" layoutX="15.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Día">
+                  <SplitMenuButton fx:id="Día" disable="true" layoutX="15.0" layoutY="34.0" mnemonicParsing="false" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Día">
                      <items>
                         <MenuItem fx:id="diaLun" mnemonicParsing="false" text="Lunes" />
                         <MenuItem fx:id="diaMar" mnemonicParsing="false" text="Martes" />
@@ -65,7 +64,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <SplitMenuButton fx:id="Semana" disable="true" layoutX="15.0" layoutY="141.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Semana">
+                  <SplitMenuButton fx:id="Semana" disable="true" layoutX="15.0" layoutY="141.0" mnemonicParsing="false" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="235.0" style="-fx-background-radius: 10px; -fx-border-radius: 8px; -fx-border-style: solid;" text="Seleccionar Semana">
                      <items>
                         <MenuItem fx:id="semana1" mnemonicParsing="false" text="Semana 1" />
                         <MenuItem fx:id="semana2" mnemonicParsing="false" text="Semana 2" />
@@ -78,8 +77,8 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="TxtNombre" disable="true" layoutX="16.0" layoutY="250.0" prefHeight="27.0" prefWidth="235.0" promptText="Seleccione nombre de la comida" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
-                  <Button fx:id="btnMenuComida" disable="true" layoutX="259.0" layoutY="251.0" mnemonicParsing="false" onAction="#desplegarMenuComida" prefHeight="25.0" prefWidth="33.0" text="..." />
+                  <TextField fx:id="TxtNombre" disable="true" layoutX="16.0" layoutY="250.0" onKeyPressed="#abrirDoc" prefHeight="27.0" prefWidth="235.0" promptText="Seleccione nombre de la comida" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-background-radius: 10px; -fx-border-radius: 10px;" />
+                  <Button fx:id="btnMenuComida" disable="true" layoutX="259.0" layoutY="251.0" mnemonicParsing="false" onAction="#desplegarMenuComida" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="33.0" text="..." />
                </children>
             </Pane>
          </children>

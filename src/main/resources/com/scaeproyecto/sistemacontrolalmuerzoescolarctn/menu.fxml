@@ -21,8 +21,8 @@
                   </Text>
                </children>
             </Pane>
-            <Button layoutX="12.0" layoutY="90.0" mnemonicParsing="false" onAction="#abrirMenuProfe" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Profesores" />
-            <Button layoutX="13.0" layoutY="142.0" mnemonicParsing="false" onAction="#formularioProfe" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Profesores" />
+            <Button layoutX="12.0" layoutY="90.0" mnemonicParsing="false" onAction="#abrirMenuProfe" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Profesores" />
+            <Button layoutX="13.0" layoutY="142.0" mnemonicParsing="false" onAction="#formularioProfe" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Profesores" />
          </children>
       </Pane>
       <Pane layoutX="232.0" layoutY="109.6" prefHeight="386.0" prefWidth="185.0" style="-fx-border-style: dashed; -fx-border-radius: 10px;" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="231.0" AnchorPane.topAnchor="109.0">
@@ -36,8 +36,8 @@
                   </Text>
                </children>
             </Pane>
-            <Button layoutX="5.0" layoutY="90.0" mnemonicParsing="false" onAction="#abrirMenuAlumnos" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Alumnos" />
-            <Button layoutX="6.0" layoutY="142.0" mnemonicParsing="false" onAction="#formularioAlumno" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Alumnos" />
+            <Button layoutX="5.0" layoutY="90.0" mnemonicParsing="false" onAction="#abrirMenuAlumnos" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Alumnos" />
+            <Button layoutX="6.0" layoutY="142.0" mnemonicParsing="false" onAction="#formularioAlumno" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Alumnos" />
          </children>
       </Pane>
       <Pane layoutX="432.0" layoutY="112.0" prefHeight="384.0" prefWidth="200.0" style="-fx-border-style: dashed; -fx-border-radius: 10px;" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="111.0">
@@ -51,10 +51,10 @@
                   </Text>
                </children>
             </Pane>
-            <Button layoutX="12.0" layoutY="90.0" mnemonicParsing="false" onAction="#abrirMenuComida" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Comidas" />
-            <Button layoutX="13.0" layoutY="292.0" mnemonicParsing="false" onAction="#formularioComida" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Comidas" />
-            <Button layoutX="13.0" layoutY="340.0" mnemonicParsing="false" onAction="#comidaHoy" prefHeight="25.0" prefWidth="175.0" text="Ver comida de hoy" />
-            <Button layoutX="12.0" layoutY="134.0" mnemonicParsing="false" onAction="#abrirMenuSemana" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Semanas" />
+            <Button layoutX="12.0" layoutY="90.0" mnemonicParsing="false" onAction="#abrirMenuComida" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Comidas" />
+            <Button layoutX="13.0" layoutY="292.0" mnemonicParsing="false" onAction="#formularioComida" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="175.0" text="Ver Formulario de Comidas" />
+            <Button layoutX="13.0" layoutY="340.0" mnemonicParsing="false" onAction="#comidaHoy" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="175.0" text="Ver comida de hoy" />
+            <Button layoutX="12.0" layoutY="134.0" mnemonicParsing="false" onAction="#abrirMenuSemana" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="175.0" text="Abrir Menu de Semanas" />
          </children>
       </Pane>
       <Pane layoutX="12.0" layoutY="12.0" prefHeight="86.0" prefWidth="623.0" style="-fx-border-style: solid; -fx-border-radius: 10px;" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="11.0">
@@ -66,6 +66,6 @@
             </Text>
          </children>
       </Pane>
-      <Button layoutX="454.0" layoutY="41.0" mnemonicParsing="false" onAction="#volver" text="⬅ Volver al inicio de sesión" />
+      <Button layoutX="454.0" layoutY="41.0" mnemonicParsing="false" onAction="#volver" onKeyPressed="#abrirDoc" text="⬅ Volver al inicio de sesión" />
    </children>
 </AnchorPane>

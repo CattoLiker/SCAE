@@ -14,9 +14,9 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <PasswordField fx:id="TxtCodigo" layoutX="187.0" layoutY="109.0" prefHeight="25.0" prefWidth="226.0" />
-      <PasswordField fx:id="TxtContra1" layoutX="187.0" layoutY="211.0" prefHeight="25.0" prefWidth="226.0" />
-      <PasswordField fx:id="TxtContra2" layoutX="187.0" layoutY="267.0" prefHeight="25.0" prefWidth="226.0" />
+      <PasswordField fx:id="TxtCodigo" layoutX="187.0" layoutY="109.0" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="226.0" />
+      <PasswordField fx:id="TxtContra1" layoutX="187.0" layoutY="211.0" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="226.0" />
+      <PasswordField fx:id="TxtContra2" layoutX="187.0" layoutY="267.0" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="226.0" />
       <Label layoutX="31.0" layoutY="160.0" text="Introduzca username:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -32,13 +32,13 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="BtnCambiar" layoutX="217.0" layoutY="324.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="161.0" text="Cambiar" />
+      <Button fx:id="BtnCambiar" layoutX="217.0" layoutY="324.0" mnemonicParsing="false" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="161.0" text="Cambiar" />
       <Label layoutX="31.0" layoutY="111.0" text="Introduzca el codigo:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="TxtUsername" layoutX="187.0" layoutY="158.0" prefHeight="25.0" prefWidth="226.0" />
-      <Button layoutX="413.0" layoutY="23.0" mnemonicParsing="false" onAction="#volver" text="⬅ Volver al inicio de sesión" />
+      <TextField fx:id="TxtUsername" layoutX="187.0" layoutY="158.0" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="226.0" />
+      <Button layoutX="413.0" layoutY="23.0" mnemonicParsing="false" onAction="#volver" onKeyPressed="#abrirDoc" text="⬅ Volver al inicio de sesión" />
    </children>
 </Pane>
