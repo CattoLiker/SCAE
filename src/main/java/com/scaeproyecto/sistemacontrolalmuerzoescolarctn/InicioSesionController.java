@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
@@ -95,13 +96,13 @@ public class InicioSesionController {
             return;
         }
 
-        int usertype = 2;
+        int usertype = 0;
         try (Connection conn = ConeccionDB.getConnection()) {
             String sql = "SELECT TipoUsuario FROM USUARIO WHERE Username = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, Txtuser);
                 try (ResultSet rs = stmt.executeQuery()) {
-                    if(rs.next()) {
+                    if (rs.next()) {
                         usertype = rs.getInt("TipoUsuario");
                     }
                 }
@@ -121,24 +122,27 @@ public class InicioSesionController {
             } catch (IOException ex) {
                 System.getLogger(InicioSesionController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
-        }else if (usertype == 2){
+        } else if (usertype == 0) {
             try {
-                //si es admin
+                //si es comedor
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuInicioUser.fxml"));
                 Parent root = fxmlLoader.load();
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
+                stage.setFullScreen(true);
+                stage.setFullScreenExitHint("");
+                stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
                 stage.show(); //cargar menu 
             } catch (IOException ex) {
                 System.getLogger(InicioSesionController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
-        
+
         }
 
     }
-    
-        public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
+
+    public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
         // Cargar el nuevo FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(recurso));
         Parent root = fxmlLoader.load();
@@ -162,11 +166,11 @@ public class InicioSesionController {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     private void contrasena(ActionEvent event) {
         String contra = "MenuCambio.fxml";
-        
+
         try {
             abrirMenuOtro(event, contra);
         } catch (IOException e) {
@@ -177,7 +181,7 @@ public class InicioSesionController {
     @FXML
     private void registro(ActionEvent event) {
         String registro = "Registro.fxml";
-        
+
         try {
             abrirMenuOtro(event, registro);
         } catch (IOException e) {

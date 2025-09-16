@@ -33,6 +33,13 @@
                                              </font>
                                           </Label>
                                           <VBox prefHeight="92.0" prefWidth="463.0" />
+                                          <VBox prefHeight="92.0" prefWidth="480.0" />
+                                          <Label fx:id="elija" contentDisplay="CENTER" prefHeight="92.0" prefWidth="625.0" text="Bienvenidos al SCAE" textAlignment="CENTER" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="63.0" />
+                                             </font>
+                                          </Label>
+                                          <VBox prefHeight="92.0" prefWidth="466.0" />
                                        </children>
                                     </HBox>
                                  </children>
