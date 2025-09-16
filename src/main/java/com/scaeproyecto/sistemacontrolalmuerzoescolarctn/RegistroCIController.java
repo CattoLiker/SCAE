@@ -33,6 +33,8 @@ import javafx.stage.Stage;
 public class RegistroCIController implements Initializable {
 
     @FXML
+    private Button btnMenu;
+    @FXML
     private TextField user;
     @FXML
     private Button btnRegistro;
@@ -44,8 +46,6 @@ public class RegistroCIController implements Initializable {
     LocalTime limite = LocalTime.of(12, 30);
     LocalTime finServicio = LocalTime.of(13, 00);
     private int idComida;
-    @FXML
-    private Button btnMenu;
 
     /**
      * Initializes the controller class.
@@ -75,12 +75,16 @@ public class RegistroCIController implements Initializable {
         }
     }
 
-    private void aprobar() {
+    private void aprobar(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AccederComida.fxml"));
             Parent root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
+            // Obtener el Stage actual desde el botón o cualquier nodo que disparó el evento
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Reemplazar la escena
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
             stage.show();
 
         } catch (IOException ex) {
@@ -153,7 +157,7 @@ public class RegistroCIController implements Initializable {
                         insertstmt.setInt(5, SemanaMenu);
                         insertstmt.setBoolean(6, true);
                         insertstmt.executeUpdate();
-                        aprobar();
+                        aprobar(event);
                     }
                 }
             } catch (SQLException e) {
@@ -178,7 +182,7 @@ public class RegistroCIController implements Initializable {
                         insertstmt.setInt(5, SemanaMenu);
                         insertstmt.setBoolean(6, true);
                         insertstmt.executeUpdate();
-                        aprobar();
+                        aprobar(event);
 
                     } else {
                         String insertcomer = "INSERT INTO registroconsumo (Fecha,Observaciones,Estudiante_idEstudiante,SemanaMenuComidas_Comidas_idComidas,SemanaMenuComidas_SemanaMenu_idSemanaMenu,HaComido) values (?,?,?,?,?,?)";
@@ -190,7 +194,7 @@ public class RegistroCIController implements Initializable {
                         insertstmt.setInt(5, SemanaMenu);
                         insertstmt.setBoolean(6, true);
                         insertstmt.executeUpdate();
-                        aprobar();
+                        aprobar(event);
                     }
                 }
             } catch (SQLException e) {
@@ -210,19 +214,19 @@ public class RegistroCIController implements Initializable {
                 insertstmt.setInt(2, idComida);
                 insertstmt.setInt(3, SemanaMenu);
                 insertstmt.executeUpdate();
-                aprobar();
+                aprobar(event);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
         }
         if (LocalTime.now().isAfter(finServicio)) { //despues del servicio se registran los estudiantes que no comieron 
-            String sql = "INSERT INTO registroconsumo (idEstudiante, idComida, fecha, HaComido) "
+            String sql = "INSERT INTO registroconsumo (Estudiante_idEstudiante, SemanaMenuComidas_Comidas_idComidas, fecha, HaComido) "
                     + "SELECT e.idEstudiante, ?, CURRENT_DATE, false "
                     + "FROM estudiante e "
                     + "WHERE e.Estado = 1 "
                     + "AND e.idEstudiante NOT IN ("
-                    + "   SELECT r.idEstudiante FROM registroconsumo r WHERE r.fecha = CURRENT_DATE"
+                    + "   SELECT r.Estudiante_idEstudiante FROM registroconsumo r WHERE r.fecha = CURRENT_DATE"
                     + ")";
 
             try (Connection conn = ConeccionDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -237,29 +241,17 @@ public class RegistroCIController implements Initializable {
 
     }
 
-    public void abrirMenuOtro(ActionEvent event, String recurso) throws IOException {
-        // Cargar el nuevo FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(recurso));
-        Parent root = fxmlLoader.load();
-
-        // Obtener el Stage actual desde el botón o cualquier nodo que disparó el evento
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // Reemplazar la escena
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    
     @FXML
     private void volverMenu(ActionEvent event) {
-        String inicio = "MenuInicioUser.fxml";
-
         try {
-            abrirMenuOtro(event, inicio);
-        } catch (IOException e) {
-            e.printStackTrace();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuInicioUser.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
-
 }

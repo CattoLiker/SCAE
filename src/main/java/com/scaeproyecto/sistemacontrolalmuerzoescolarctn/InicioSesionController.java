@@ -95,7 +95,7 @@ public class InicioSesionController {
             return;
         }
 
-        int usertype = 2;
+        int usertype = 0;
         try (Connection conn = ConeccionDB.getConnection()) {
             String sql = "SELECT TipoUsuario FROM USUARIO WHERE Username = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -121,7 +121,7 @@ public class InicioSesionController {
             } catch (IOException ex) {
                 System.getLogger(InicioSesionController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
-        }else if (usertype == 0){
+        }else if (usertype == 2){
             try {
                 //si es admin
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuInicioUser.fxml"));

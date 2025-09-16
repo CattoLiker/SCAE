@@ -9,7 +9,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -137,7 +136,7 @@ public class AlumnoController implements Initializable {
         espeMecGen.setOnAction(e -> dropmenuEspe.setText(espeMecGen.getText()));
         espeAuto.setOnAction(e -> dropmenuEspe.setText(espeAuto.getText()));
         espeQca.setOnAction(e -> dropmenuEspe.setText(espeQca.getText()));
-
+        
         estadoActivo.setOnAction(e -> dropmenuEstado.setText(estadoActivo.getText()));
         estadoDesActivo.setOnAction(e -> dropmenuEstado.setText(estadoDesActivo.getText()));
 
@@ -221,7 +220,7 @@ public class AlumnoController implements Initializable {
         dropmenuSeccion.setText("Seleccionar Sección");
         dropmenuEspe.setDisable(true);
         dropmenuEspe.setText("Seleccionar Especialidad");
-
+        
         Alumno alumnoSeleccionado = TablaClientes.getSelectionModel().getSelectedItem();
         if (alumnoSeleccionado != null) {
             TxtCodigo.setText(String.valueOf(alumnoSeleccionado.getIdEstudiante()));
@@ -266,33 +265,12 @@ public class AlumnoController implements Initializable {
     @FXML
     private void modificar(ActionEvent event) {
         Alumno alumnoSeleccionado = TablaClientes.getSelectionModel().getSelectedItem();
-        int estadoOriginal = 1;
-        try (Connection conn = ConeccionDB.getConnection()) {
-            int idEstudiante = alumnoSeleccionado.getIdEstudiante();
-            String sql = "SELECT Estado FROM estudiante WHERE idEstudiante=?";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setInt(1, idEstudiante);
-                ResultSet resultado = pstmt.executeQuery();
-
-                if (resultado.next()) {
-                    estadoOriginal = resultado.getInt("Estado");
-//                    System.out.println(estadoOriginal);
-                } else {
-                    System.out.println("No encontro el estado?");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         if (alumnoSeleccionado == null) {
             Alert alerta2 = new Alert(Alert.AlertType.ERROR);
             alerta2.setTitle("Error");
             alerta2.setHeaderText(null);
             alerta2.setContentText("Selecciona un alumno para continuar");
-            alerta2.show();
+            alerta2.show(); 
             return;
         }
 
@@ -302,7 +280,7 @@ public class AlumnoController implements Initializable {
         String seccion = dropmenuSeccion.getText();
         String especialidad = dropmenuEspe.getText();
         String estado = dropmenuEstado.getText();
-        if ((!especialidad.equals("Construcciones Civiles") && !especialidad.equals("Química Industrial") && !especialidad.equals("Electrónica")) && seccion.equals("3ra")) {
+        if ((!especialidad.equals("Construcciones Civiles") && !especialidad.equals("Química Industrial") && !especialidad.equals("Electrónica")) && seccion.equals("3ra")){
             Alert alerta2 = new Alert(AlertType.ERROR);
             alerta2.setTitle("Error");
             alerta2.setHeaderText(null);
@@ -335,30 +313,16 @@ public class AlumnoController implements Initializable {
                     pstmt.setString(5, especialidad);
                     pstmt.setInt(6, estadoReal);
                     pstmt.setInt(7, idEstudiante);
+                    
 
                     int filasAfectadas = pstmt.executeUpdate();
                     if (filasAfectadas > 0) {
-                        if (estadoOriginal == 0 && estadoReal == 1) {
-                            try (Connection con = ConeccionDB.getConnection()) {
-                                String BorrarSql = "DELETE FROM registroconsumo WHERE Estudiante_idEstudiante = ? AND HaComido = 0";
-                                try (PreparedStatement stmt = con.prepareStatement(BorrarSql)) {
-                                    stmt.setInt(1, idEstudiante);
-                                    stmt.execute();
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-
                         Alert alerta2 = new Alert(AlertType.INFORMATION);
                         alerta2.setTitle("Confirmado");
                         alerta2.setHeaderText(null);
                         alerta2.setContentText("Alumno modificado correctamente");
                         alerta2.show();
                         cargarAlumnos();
-
                     } else {
                         Alert alerta2 = new Alert(AlertType.ERROR);
                         alerta2.setTitle("Error");
@@ -437,7 +401,7 @@ public class AlumnoController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
-        int codigo = 0;
+        int codigo=0;
         try {
             Integer.parseInt(TxtCodigo.getText());
             codigo = Integer.parseInt(TxtCodigo.getText());
@@ -449,7 +413,7 @@ public class AlumnoController implements Initializable {
             alerta2.show(); //verificar q el ci sea numercio
 
         }
-        if (codigo < 1000000) {
+        if(codigo<1000000){
             Alert alerta2 = new Alert(AlertType.ERROR);
             alerta2.setTitle("Error");
             alerta2.setHeaderText(null);
@@ -457,13 +421,13 @@ public class AlumnoController implements Initializable {
             alerta2.show();//verificar que el ci no sea un num cualquiera
             return;
         }
-
+       
         String nombre = TxtNombre.getText();
         String apellido = TxtApellido.getText();
         String curso = dropmenuCurso.getText();
         String seccion = dropmenuSeccion.getText();
         String especialidad = dropmenuEspe.getText();
-        if ((!especialidad.equals("Construcciones Civiles") && !especialidad.equals("Química Industrial") && !especialidad.equals("Electrónica")) && seccion.equals("3ra")) {
+       if ((!especialidad.equals("Construcciones Civiles") && !especialidad.equals("Química Industrial") && !especialidad.equals("Electrónica")) && seccion.equals("3ra")){
             Alert alerta2 = new Alert(AlertType.ERROR);
             alerta2.setTitle("Error");
             alerta2.setHeaderText(null);
@@ -489,8 +453,8 @@ public class AlumnoController implements Initializable {
                 pstmt.setInt(2, 1);
                 pstmt.setString(3, nombre);
                 pstmt.setString(4, apellido);
-                pstmt.setString(5, curso);
-                pstmt.setString(6, seccion);
+                pstmt.setInt(5, Character.getNumericValue(curso.charAt(0)));
+                pstmt.setInt(6, Character.getNumericValue(seccion.charAt(0)));
                 pstmt.setString(7, especialidad);
 
                 int filasAfectadas = pstmt.executeUpdate();
