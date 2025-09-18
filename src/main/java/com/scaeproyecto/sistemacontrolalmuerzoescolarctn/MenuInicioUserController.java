@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 public class MenuInicioUserController implements Initializable {
 
     LocalTime limite = LocalTime.of(13, 00);
+    LocalTime inicio = LocalTime.of(11, 00); 
     @FXML
     private Button btnHuella;
     @FXML

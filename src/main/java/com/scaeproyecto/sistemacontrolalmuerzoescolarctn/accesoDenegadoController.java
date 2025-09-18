@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 /**
  * FXML Controller class
@@ -41,6 +42,9 @@ public class accesoDenegadoController implements Initializable {
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             stage.show();
 
         } catch (IOException ex) {

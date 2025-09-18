@@ -59,7 +59,7 @@ public class RegistroCIController implements Initializable {
         fecha = LocalDate.now(); //fecha de hoy
         sqlDate = java.sql.Date.valueOf(fecha);
         semanaDelAno = semanaDelAno = fecha.get(WeekFields.ISO.weekOfYear());
-        SemanaMenu = ((semanaDelAno - 1) % 4) + 1;
+        SemanaMenu = ((semanaDelAno) % 4);
         diaSemana = fecha.getDayOfWeek().getValue();
         try (Connection conn = ConeccionDB.getConnection()) {
             String sql = "SELECT Comidas_idComidas FROM SemanaMenuComidas WHERE diaSemana = ? AND SemanaMenu_idSemanaMenu = ?";
@@ -166,7 +166,8 @@ public class RegistroCIController implements Initializable {
                 stmt.setDate(2, java.sql.Date.valueOf(fecha));
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) { //si el alumno ya comio 
-                        JOptionPane.showMessageDialog(null, "No puedes repetir la comidaprevio a las 12.30", "Error", JOptionPane.ERROR_MESSAGE);
+//                        JOptionPane.showMessageDialog(null, "No puedes repetir la comida previo a las 12:30", "Atencion", JOptionPane.ERROR_MESSAGE); ESTE ERA EL CRASH, NO HAY QUE CONVINAR JOPTIONPANE CON JAVAFX
+                        mostrarInfo("Atención", "No puedes repetir la comida previo a las 12:30.", event);
                         return;
                     } else {
                         String insertcomer = "INSERT INTO registroconsumo (Fecha,Observaciones,Estudiante_idEstudiante,SemanaMenuComidas_Comidas_idComidas,SemanaMenuComidas_SemanaMenu_idSemanaMenu,HaComido) values (?,?,?,?,?,?)";
@@ -224,12 +225,13 @@ public class RegistroCIController implements Initializable {
 
         }
         if (docenteExiste && LocalTime.now().isBefore(limite)) {
-            JOptionPane.showMessageDialog(null, "Los docentes solo pueden consumir el almuerzo a partir de las 12.30", "Atencion", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(null, "Los docentes solo pueden consumir el almuerzo a partir de las 12:30", "Atencion", JOptionPane.ERROR_MESSAGE); LO MISMO, ESTO CAUSA EL CRASH, FUCK JOPTIONPANE ALL MY HOMIES HATE JOPTIONPANE
+            mostrarInfo("Atención", "Los docentes solo pueden consumir el almuerzo a partir de las 12:30.", event);
             return;
         }
         if (docenteExiste && LocalTime.now().isAfter(limite)) {
             try (Connection conn = ConeccionDB.getConnection()) {
-                String insertrepetir = "INSERT INTO registrodocente(Docente_idDocente,SemanaMenuComidas_Comidas_idComidas,SemanaMenuComidas_SemanaMenu_idSemanaMenu) values (?,?,?,?,?,?)";
+                String insertrepetir = "INSERT INTO registrodocente(Docente_idDocente,SemanaMenuComidas_Comidas_idComidas,SemanaMenuComidas_SemanaMenu_idSemanaMenu, Fecha) values (?,?,?, curdate())";
                 PreparedStatement insertstmt = conn.prepareStatement(insertrepetir);
                 insertstmt.setInt(1, CInum);
                 insertstmt.setInt(2, idComida);
@@ -279,7 +281,15 @@ public class RegistroCIController implements Initializable {
         }
     }
     
-    
+    private void mostrarInfo(String titulo, String mensaje, ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        alert.initOwner(stage);
+        alert.showAndWait();
+    }
     
 
 }
