@@ -36,7 +36,7 @@ public class MenuInicioUserController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(LocalTime.now().isAfter(limite)){
+        if(LocalTime.now().isAfter(limite) || LocalTime.now().isBefore(inicio)){
             btnHuella.setVisible(false);
             btnCI.setVisible(false);
         }
