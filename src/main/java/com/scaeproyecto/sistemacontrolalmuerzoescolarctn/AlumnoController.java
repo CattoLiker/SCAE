@@ -309,7 +309,7 @@ public class AlumnoController implements Initializable {
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try (Connection conn = ConeccionDB.getConnection()) {
-                String sql = "UPDATE Estudiante SET Nombre=?, Apellido=?, Curso=?, Seccion=?, Especialidad=?, Estado=? WHERE idEstudiante=?";
+                String sql = "UPDATE estudiante SET Nombre=?, Apellido=?, Curso=?, Seccion=?, Especialidad=?, Estado=? WHERE idEstudiante=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, nombre);
                     pstmt.setString(2, apellido);
@@ -378,7 +378,7 @@ public class AlumnoController implements Initializable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                String sql = "DELETE FROM Estudiante WHERE idEstudiante=?";
+                String sql = "DELETE FROM estudiante WHERE idEstudiante=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setInt(1, idEstudiante);
 
@@ -459,7 +459,7 @@ public class AlumnoController implements Initializable {
             return;
         }
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "INSERT INTO Estudiante (idEstudiante, Estado, Nombre, Apellido, Curso, Seccion, Especialidad) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO estudiante (idEstudiante, Estado, Nombre, Apellido, Curso, Seccion, Especialidad) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, codigo);
                 pstmt.setInt(2, 1);
@@ -536,7 +536,7 @@ public class AlumnoController implements Initializable {
         listaAlumnos.clear();
 
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT idEstudiante, Nombre, Apellido, Curso, Seccion, Especialidad, Estado FROM Estudiante";
+            String sql = "SELECT idEstudiante, Nombre, Apellido, Curso, Seccion, Especialidad, Estado FROM estudiante";
             try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     String estadito = "NO ACTIVO";

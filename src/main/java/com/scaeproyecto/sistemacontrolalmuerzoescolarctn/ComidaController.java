@@ -114,7 +114,7 @@ public class ComidaController implements Initializable {
     private void cargarComidas() {
         listaComidas.clear();
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT idComidas, Nombre, Descripcion FROM Comidas";
+            String sql = "SELECT idComidas, Nombre, Descripcion FROM comidas";
             try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Comida comida = new Comida(
@@ -162,7 +162,7 @@ public class ComidaController implements Initializable {
         }
 
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "INSERT INTO Comidas (idComidas, Nombre, Descripcion) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO comidas (idComidas, Nombre, Descripcion) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, codigo);
                 pstmt.setString(2, nombre);
@@ -204,7 +204,7 @@ public class ComidaController implements Initializable {
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try (Connection conn = ConeccionDB.getConnection()) {
-                String sql = "UPDATE Comidas SET Nombre=?, Descripcion=? WHERE idComidas=?";
+                String sql = "UPDATE comidas SET Nombre=?, Descripcion=? WHERE idComidas=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, nombre);
                     pstmt.setString(2, descripcion);
@@ -250,7 +250,7 @@ public class ComidaController implements Initializable {
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try (Connection conn = ConeccionDB.getConnection()) {
                 
-                String sql = "DELETE FROM Comidas WHERE idComidas=?";
+                String sql = "DELETE FROM comidas WHERE idComidas=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setInt(1, comidaSeleccionada.getIdComidas());
 

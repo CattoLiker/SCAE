@@ -134,7 +134,7 @@ public class ComidaSemanaController implements Initializable {
         listaSemanaMenuComidas.clear();
         try (Connection conn = ConeccionDB.getConnection()) {
             String sql = "SELECT smc.DiaSemana, smc.Comidas_idComidas, smc.SemanaMenu_idSemanaMenu, c.Nombre AS nombreComida "
-                    + "FROM SemanaMenuComidas smc JOIN Comidas c ON smc.Comidas_idComidas = c.idComidas";
+                    + "FROM semanamenucomidas smc JOIN comidas c ON smc.Comidas_idComidas = c.idComidas";
             try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     SemanaMenuComidas smc = new SemanaMenuComidas(
@@ -168,7 +168,7 @@ public class ComidaSemanaController implements Initializable {
         }
 
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "INSERT INTO SemanaMenuComidas (DiaSemana, Comidas_idComidas, SemanaMenu_idSemanaMenu) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO semanamenucomidas (DiaSemana, Comidas_idComidas, SemanaMenu_idSemanaMenu) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, diaSemanaSeleccionado);
                 pstmt.setInt(2, idComidasSeleccionada);
@@ -215,7 +215,7 @@ public class ComidaSemanaController implements Initializable {
         }
 
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "UPDATE SemanaMenuComidas SET Comidas_idComidas=?, SemanaMenu_idSemanaMenu=?, DiaSemana=? WHERE DiaSemana=? AND Comidas_idComidas=? AND SemanaMenu_idSemanaMenu=?";
+            String sql = "UPDATE semanamenucomidas SET Comidas_idComidas=?, SemanaMenu_idSemanaMenu=?, DiaSemana=? WHERE DiaSemana=? AND Comidas_idComidas=? AND SemanaMenu_idSemanaMenu=?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, idComidasSeleccionada);
                 pstmt.setInt(2, idSemanaMenuSeleccionada);
@@ -265,7 +265,7 @@ public class ComidaSemanaController implements Initializable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                String sql = "DELETE FROM SemanaMenuComidas WHERE DiaSemana=? AND Comidas_idComidas=? AND SemanaMenu_idSemanaMenu=?";
+                String sql = "DELETE FROM semanamenucomidas WHERE DiaSemana=? AND Comidas_idComidas=? AND SemanaMenu_idSemanaMenu=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setInt(1, seleccion.getDiaSemana());
                     pstmt.setInt(2, seleccion.getIdComidas());
@@ -518,13 +518,13 @@ public class ComidaSemanaController implements Initializable {
 
             if (idSemanaActual == -1 && diaActual == -1) {
                 // Para nuevo registro
-                sql = "SELECT COUNT(*) FROM SemanaMenuComidas WHERE SemanaMenu_idSemanaMenu = ? AND DiaSemana = ?";
+                sql = "SELECT COUNT(*) FROM semanamenucomidas WHERE SemanaMenu_idSemanaMenu = ? AND DiaSemana = ?";
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, idSemanaNueva);
                 pstmt.setInt(2, diaNuevo);
             } else {
                 // Para modificar registro (excluir el actual)
-                sql = "SELECT COUNT(*) FROM SemanaMenuComidas WHERE SemanaMenu_idSemanaMenu = ? AND DiaSemana = ? AND (SemanaMenu_idSemanaMenu != ? OR DiaSemana != ?)";
+                sql = "SELECT COUNT(*) FROM semanamenucomidas WHERE SemanaMenu_idSemanaMenu = ? AND DiaSemana = ? AND (SemanaMenu_idSemanaMenu != ? OR DiaSemana != ?)";
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, idSemanaNueva);
                 pstmt.setInt(2, diaNuevo);

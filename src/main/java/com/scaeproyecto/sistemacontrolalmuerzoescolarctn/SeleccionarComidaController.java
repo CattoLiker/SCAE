@@ -38,7 +38,7 @@ public class SeleccionarComidaController {
     private void cargarComidas() {
         listaComidas.clear();
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT idComidas, Nombre, Descripcion FROM Comidas";
+            String sql = "SELECT idComidas, Nombre, Descripcion FROM comidas";
             try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Comida comida = new Comida(

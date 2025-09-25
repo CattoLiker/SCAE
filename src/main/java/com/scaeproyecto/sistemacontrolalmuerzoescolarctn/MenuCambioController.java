@@ -62,7 +62,7 @@ public class MenuCambioController implements Initializable {
         if(codigo.equals("sUp3rSeCrEt")) {
             try (Connection conn = ConeccionDB.getConnection()) {
                 // Verifica que el usuario exista
-                String sqlVerifica = "SELECT idUsuario FROM Usuario WHERE Username = ?";
+                String sqlVerifica = "SELECT idUsuario FROM usuario WHERE Username = ?";
                 PreparedStatement stmtVerifica = conn.prepareStatement(sqlVerifica);
                 stmtVerifica.setString(1, username);
                 ResultSet rs = stmtVerifica.executeQuery();
@@ -73,7 +73,7 @@ public class MenuCambioController implements Initializable {
                 }
 
                 // Actualiza la contraseña
-                String sqlUpdate = "UPDATE Usuario SET Contrasena = ? WHERE Username = ?";
+                String sqlUpdate = "UPDATE usuario SET Contrasena = ? WHERE Username = ?";
                 PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate);
                 stmtUpdate.setString(1, nuevaContra1);
                 stmtUpdate.setString(2, username);

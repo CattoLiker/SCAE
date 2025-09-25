@@ -119,7 +119,7 @@ public class RegistroHuellasController implements Initializable {
         }
         boolean existe=false;
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT idEstudiante FROM ESTUDIANTE WHERE idEstudiante = ?";
+            String sql = "SELECT idEstudiante FROM estudiante WHERE idEstudiante = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, TxtId);
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -147,7 +147,7 @@ public class RegistroHuellasController implements Initializable {
             try (Connection conn = ConeccionDB.getConnection();
             FileInputStream fis = new FileInputStream(archivo);
             ) {
-            String sql = "UPDATE Estudiante SET InformacionHuella FROM ESTUDIANTE WHERE idEstudiante = ?";
+            String sql = "UPDATE estudiante SET InformacionHuella FROM ESTUDIANTE WHERE idEstudiante = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setBinaryStream(1, fis, (int) archivo.length());
                 stmt.setString(2, TxtId); // identificando por id

@@ -60,7 +60,7 @@ public class RegistroController implements Initializable {
         }
         if (codigo.equals("sUp3rSeCrEt")) {
             try (Connection conn = ConeccionDB.getConnection()) {
-                String sql = "INSERT INTO Usuario (TipoUsuario, Contrasena, Username) VALUES (?, ?, ?)";
+                String sql = "INSERT INTO usuario (TipoUsuario, Contrasena, Username) VALUES (?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, 1); // Cambia el tipo de usuario según tu lógica (1 = Estudiante, por ejemplo)
                 stmt.setString(2, contrasena1);

@@ -102,7 +102,7 @@ public class ProfesorController implements Initializable {
     private void cargarProfesor() {
         listaProfesor.clear();
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT idDocente, Nombre, Apellido FROM Docente";
+            String sql = "SELECT idDocente, Nombre, Apellido FROM docente";
             try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Profesor Docente = new Profesor(
@@ -153,7 +153,7 @@ public class ProfesorController implements Initializable {
             return;
         }
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "INSERT INTO Docente (idDocente, Nombre, Apellido) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO docente (iddocente, nombre, apellido) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, codigo);
                 pstmt.setString(2, nombre);
@@ -194,7 +194,7 @@ public class ProfesorController implements Initializable {
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try (Connection conn = ConeccionDB.getConnection()) {
-                String sql = "UPDATE Docente SET Nombre=?, Apellido=? WHERE idDocente=?";
+                String sql = "UPDATE docente SET Nombre=?, Apellido=? WHERE iddocente=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, nombre);
                     pstmt.setString(2, apellido);
@@ -242,14 +242,14 @@ public class ProfesorController implements Initializable {
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try (Connection conn = ConeccionDB.getConnection()) {
-                String sql2 = "DELETE FROM registrodocente WHERE Docente_idDocente = ?";
+                String sql2 = "DELETE FROM registrodocente WHERE docente_iddocente = ?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql2)) {
                     pstmt.setInt(1, DocenteSeleccionado.getIdDocente());
                     pstmt.execute();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                String sql = "DELETE FROM Docente WHERE idDocente=?";
+                String sql = "DELETE FROM docente WHERE idDocente=?";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setInt(1, DocenteSeleccionado.getIdDocente());
 

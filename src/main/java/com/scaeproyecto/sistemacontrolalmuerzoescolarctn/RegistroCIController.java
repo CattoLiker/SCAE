@@ -62,7 +62,7 @@ public class RegistroCIController implements Initializable {
         SemanaMenu = ((semanaDelAno) % 4);
         diaSemana = fecha.getDayOfWeek().getValue();
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT Comidas_idComidas FROM SemanaMenuComidas WHERE diaSemana = ? AND SemanaMenu_idSemanaMenu = ?";
+            String sql = "SELECT Comidas_idComidas FROM semanamenucomidas WHERE diaSemana = ? AND SemanaMenu_idSemanaMenu = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, diaSemana);
             stmt.setInt(2, SemanaMenu);

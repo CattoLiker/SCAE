@@ -59,7 +59,7 @@ public class InicioSesionController {
         }
         boolean correctuser = false;
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT idUsuario FROM USUARIO WHERE Username = ?";
+            String sql = "SELECT idUsuario FROM usuario WHERE Username = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, Txtuser);
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -74,7 +74,7 @@ public class InicioSesionController {
 
         boolean correctpassword = false;
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT Contrasena FROM USUARIO WHERE Username = ?";
+            String sql = "SELECT Contrasena FROM usuario WHERE Username = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, Txtuser);
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -104,7 +104,7 @@ public class InicioSesionController {
 
         int usertype = 0;
         try (Connection conn = ConeccionDB.getConnection()) {
-            String sql = "SELECT TipoUsuario FROM USUARIO WHERE Username = ?";
+            String sql = "SELECT TipoUsuario FROM usuario WHERE Username = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, Txtuser);
                 try (ResultSet rs = stmt.executeQuery()) {
