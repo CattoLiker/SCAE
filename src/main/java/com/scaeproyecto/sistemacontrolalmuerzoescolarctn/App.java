@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.scene.input.KeyCombination;
 
 public class App extends Application {
 
@@ -48,7 +49,9 @@ public class App extends Application {
         // Continúa con la carga normal de la aplicación
         scene = new Scene(loadFXML("MenuInicio"));
         stage.setScene(scene);
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();
+        
     }
 
     private boolean testConexion() {

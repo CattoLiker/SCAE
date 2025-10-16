@@ -59,7 +59,7 @@ public class RegistroCIController implements Initializable {
         fecha = LocalDate.now(); //fecha de hoy
         sqlDate = java.sql.Date.valueOf(fecha);
         semanaDelAno = semanaDelAno = fecha.get(WeekFields.ISO.weekOfYear());
-        SemanaMenu = ((semanaDelAno) % 4);
+        SemanaMenu = ((semanaDelAno) % 4) + 1;
         diaSemana = fecha.getDayOfWeek().getValue();
         try (Connection conn = ConeccionDB.getConnection()) {
             String sql = "SELECT Comidas_idComidas FROM semanamenucomidas WHERE diaSemana = ? AND SemanaMenu_idSemanaMenu = ?";
@@ -243,25 +243,6 @@ public class RegistroCIController implements Initializable {
             }
 
         }
-        if (LocalTime.now().isAfter(finServicio)) { //despues del servicio se registran los estudiantes que no comieron 
-            String sql = "INSERT INTO registroconsumo (Estudiante_idEstudiante, SemanaMenuComidas_Comidas_idComidas, fecha, HaComido) "
-                    + "SELECT e.idEstudiante, ?, CURRENT_DATE, false "
-                    + "FROM estudiante e "
-                    + "WHERE e.Estado = 1 "
-                    + "AND e.idEstudiante NOT IN ("
-                    + "   SELECT r.Estudiante_idEstudiante FROM registroconsumo r WHERE r.fecha = CURRENT_DATE"
-                    + ")";
-
-            try (Connection conn = ConeccionDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setInt(1, idComida);
-                int filasInsertadas = stmt.executeUpdate();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        }
-
     }
 
     @FXML

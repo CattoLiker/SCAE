@@ -8,17 +8,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #8b0000;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.RegistroCIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #8b0000; -fx-border-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.RegistroCIController">
    <children>
-      <HBox prefHeight="360.0" prefWidth="1920.0">
+      <HBox prefHeight="360.0" prefWidth="1021.0">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" />
-            <VBox prefHeight="360.0" prefWidth="1641.0">
+            <VBox prefHeight="360.0" prefWidth="129.0" />
+            <VBox prefHeight="360.0" prefWidth="861.0">
                <children>
-                  <HBox prefHeight="198.0" prefWidth="1642.0" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="58.0" prefWidth="1642.0" />
+                  <HBox prefHeight="94.0" prefWidth="1478.0">
                      <children>
-                        <VBox prefHeight="100.0" prefWidth="615.0" />
+                        <VBox prefHeight="94.0" prefWidth="143.0" />
                         <Label text=" Introduzca su CI" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="64.0" />
@@ -33,12 +33,11 @@
             <VBox prefHeight="200.0" prefWidth="100.0" />
          </children>
       </HBox>
-      <HBox layoutY="360.0" prefHeight="360.0" prefWidth="1920.0">
+      <HBox layoutY="360.0" prefHeight="163.0" prefWidth="1920.0">
          <children>
-            <VBox prefHeight="360.0" prefWidth="714.0" />
-            <VBox prefHeight="342.0" prefWidth="586.0">
+            <VBox prefHeight="163.0" prefWidth="251.0" />
+            <VBox prefHeight="264.0" prefWidth="586.0">
                <children>
-                  <HBox prefHeight="130.0" prefWidth="574.0" />
                   <TextField fx:id="user" promptText="Introduzca su CI...">
                      <font>
                         <Font size="48.0" />
@@ -50,11 +49,11 @@
             <VBox prefHeight="360.0" prefWidth="639.0" />
          </children>
       </HBox>
-      <HBox layoutY="720.0" prefHeight="360.0" prefWidth="1920.0">
+      <HBox layoutY="522.0" prefHeight="230.0" prefWidth="1920.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0" />
-            <VBox prefHeight="360.0" prefWidth="595.0" />
-            <VBox prefHeight="360.0" prefWidth="614.0">
+            <VBox prefHeight="230.0" prefWidth="122.0" />
+            <VBox prefHeight="237.0" prefWidth="614.0">
                <children>
                   <HBox prefHeight="0.0" prefWidth="614.0" />
                   <HBox prefHeight="100.0" prefWidth="200.0">

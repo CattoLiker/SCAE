@@ -187,7 +187,7 @@ public class MenuController implements Initializable {
         LocalDate fecha = LocalDate.now();
         DayOfWeek diaSemana = fecha.getDayOfWeek();
 
-        int nroSemana = (fecha.get(WeekFields.ISO.weekOfWeekBasedYear())) % 4;
+        int nroSemana = ((fecha.get(WeekFields.ISO.weekOfWeekBasedYear())) % 4) + 1;
         
         int nroDiaSemana = diaSemana.getValue();
 

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1020.0" prefWidth="1980.0" style="-fx-background-color: #8b0000; -fx-border-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.accesoDenegadoController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #8b0000; -fx-border-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.accesoDenegadoController">
    <children>
       <Label layoutX="207.0" layoutY="104.0" prefHeight="46.0" prefWidth="260.0" text=" " textAlignment="CENTER" textFill="WHITE">
          <font>
@@ -22,7 +22,7 @@
                   <HBox prefHeight="82.0" prefWidth="1643.0" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="94.0" prefWidth="491.0" />
+                        <VBox prefHeight="100.0" prefWidth="267.0" />
                         <Label prefHeight="94.0" prefWidth="549.0" text="Acceso Denegado" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="64.0" />
@@ -30,9 +30,9 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Label prefHeight="474.0" prefWidth="1643.0" text="1-Si sos alumno, verifica que tu registro esté activo.&#10;2-Si ya estás registrado, revisa la última vez  que usaste&#10; el servicio,ya que el sistema se desactiva&#10; automáticamente si no se utiliza por un tiempo.&#10;3-En caso de dudas o ser docente,comunícate con &#10;el Departamento de Alimentación Escolar,profesora Luz Pintos" textFill="WHITE">
+                  <Label prefHeight="474.0" prefWidth="980.0" text="1-Si sos alumno, verifica que tu registro esté activo.&#10;2-Si ya estás registrado, revisa la última vez  que usaste&#10; el servicio,ya que el sistema se desactiva&#10; automáticamente si no se utiliza por un tiempo.&#10;3-En caso de dudas o ser docente,comunícate con &#10;el Departamento de Alimentación Escolar,profesora Luz Pintos" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="45.0" />
+                        <Font name="System Bold" size="29.0" />
                      </font>
                      <graphic>
                         <HBox prefHeight="289.0" prefWidth="96.0" />
@@ -40,7 +40,7 @@
                   </Label>
                   <HBox prefHeight="309.0" prefWidth="1643.0">
                      <children>
-                        <VBox prefHeight="299.0" prefWidth="668.0" />
+                        <VBox prefHeight="310.0" prefWidth="449.0" />
                         <VBox prefHeight="299.0" prefWidth="150.0">
                            <children>
                               <HBox prefHeight="0.0" prefWidth="150.0" />
