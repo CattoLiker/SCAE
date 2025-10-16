@@ -5,25 +5,25 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema SCAE
+-- Schema scae2
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema SCAE
+-- Schema scae2
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `SCAE` DEFAULT CHARACTER SET utf8 ;
-USE `SCAE` ;
+CREATE SCHEMA IF NOT EXISTS `scae2` DEFAULT CHARACTER SET utf8 ;
+USE `scae2` ;
 
 -- -----------------------------------------------------
--- Table `SCAE`.`Estudiante`
+-- Table `scae2`.`Estudiante`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SCAE`.`Estudiante` (
-  `idEstudiante` INT NOT NULL,
-  `Estado` TINYINT NOT NULL DEFAULT 0,
+CREATE TABLE IF NOT EXISTS `scae2`.`Estudiante` (
+  `idEstudiante` INT NOT NULL AUTO_INCREMENT,
+  `Estado` TINYINT NOT NULL,
   `Nombre` VARCHAR(90) NOT NULL,
   `Apellido` VARCHAR(90) NOT NULL,
-  `Curso` VARCHAR(6) NOT NULL,
-  `Seccion` VARCHAR(6) NOT NULL,
+  `Curso` INT(3) NOT NULL,
+  `Seccion` INT(3) NOT NULL,
   `Especialidad` VARCHAR(100) NOT NULL,
   `InformacionHuella` BLOB NULL,
   PRIMARY KEY (`idEstudiante`))
@@ -31,10 +31,10 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SCAE`.`Docente`
+-- Table `scae2`.`Docente`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SCAE`.`Docente` (
-  `idDocente` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `scae2`.`Docente` (
+  `idDocente` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(90) NOT NULL,
   `Apellido` VARCHAR(90) NOT NULL,
   PRIMARY KEY (`idDocente`))
@@ -42,9 +42,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SCAE`.`Comidas`
+-- Table `scae2`.`Comidas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SCAE`.`Comidas` (
+CREATE TABLE IF NOT EXISTS `scae2`.`Comidas` (
   `idComidas` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(75) NULL,
   `Descripcion` VARCHAR(255) NULL,
@@ -53,9 +53,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SCAE`.`SemanaMenu`
+-- Table `scae2`.`SemanaMenu`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SCAE`.`SemanaMenu` (
+CREATE TABLE IF NOT EXISTS `scae2`.`SemanaMenu` (
   `idSemanaMenu` INT(4) NOT NULL,
   `Descripcion` VARCHAR(255) NULL,
   PRIMARY KEY (`idSemanaMenu`))
@@ -63,31 +63,31 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SCAE`.`SemanaMenuComidas`
+-- Table `scae2`.`SemanaMenuComidas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SCAE`.`SemanaMenuComidas` (
+CREATE TABLE IF NOT EXISTS `scae2`.`SemanaMenuComidas` (
   `DiaSemana` INT(5) NOT NULL,
   `Comidas_idComidas` INT NOT NULL,
   `SemanaMenu_idSemanaMenu` INT NOT NULL,
-  PRIMARY KEY (`Comidas_idComidas`, `SemanaMenu_idSemanaMenu`, `DiaSemana`),
+  PRIMARY KEY (`Comidas_idComidas`, `SemanaMenu_idSemanaMenu`),
   INDEX `fk_SemanaMenuComidas_SemanaMenu1_idx` (`SemanaMenu_idSemanaMenu` ASC) VISIBLE,
   CONSTRAINT `fk_SemanaMenuComidas_Comidas`
     FOREIGN KEY (`Comidas_idComidas`)
-    REFERENCES `SCAE`.`Comidas` (`idComidas`)
+    REFERENCES `scae2`.`Comidas` (`idComidas`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_SemanaMenuComidas_SemanaMenu1`
     FOREIGN KEY (`SemanaMenu_idSemanaMenu`)
-    REFERENCES `SCAE`.`SemanaMenu` (`idSemanaMenu`)
+    REFERENCES `scae2`.`SemanaMenu` (`idSemanaMenu`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SCAE`.`RegistroConsumo`
+-- Table `scae2`.`RegistroConsumo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SCAE`.`RegistroConsumo` (
+CREATE TABLE IF NOT EXISTS `scae2`.`RegistroConsumo` (
   `idRegistroConsumo` INT NOT NULL AUTO_INCREMENT,
   `Fecha` DATE NOT NULL,
   `Observaciones` VARCHAR(255) NOT NULL,
@@ -100,21 +100,21 @@ CREATE TABLE IF NOT EXISTS `SCAE`.`RegistroConsumo` (
   INDEX `fk_RegistroConsumo_SemanaMenuComidas1_idx` (`SemanaMenuComidas_Comidas_idComidas` ASC, `SemanaMenuComidas_SemanaMenu_idSemanaMenu` ASC) VISIBLE,
   CONSTRAINT `fk_RegistroConsumo_Estudiante1`
     FOREIGN KEY (`Estudiante_idEstudiante`)
-    REFERENCES `SCAE`.`Estudiante` (`idEstudiante`)
+    REFERENCES `scae2`.`Estudiante` (`idEstudiante`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_RegistroConsumo_SemanaMenuComidas1`
     FOREIGN KEY (`SemanaMenuComidas_Comidas_idComidas` , `SemanaMenuComidas_SemanaMenu_idSemanaMenu`)
-    REFERENCES `SCAE`.`SemanaMenuComidas` (`Comidas_idComidas` , `SemanaMenu_idSemanaMenu`)
+    REFERENCES `scae2`.`SemanaMenuComidas` (`Comidas_idComidas` , `SemanaMenu_idSemanaMenu`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SCAE`.`Usuario`
+-- Table `scae2`.`Usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SCAE`.`Usuario` (
+CREATE TABLE IF NOT EXISTS `scae2`.`Usuario` (
   `idUsuario` INT NOT NULL AUTO_INCREMENT,
   `TipoUsuario` TINYINT NOT NULL,
   `Contrasena` VARCHAR(255) NOT NULL,
@@ -124,9 +124,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SCAE`.`Reporte`
+-- Table `scae2`.`Reporte`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SCAE`.`Reporte` (
+CREATE TABLE IF NOT EXISTS `scae2`.`Reporte` (
   `idReporte` INT NOT NULL AUTO_INCREMENT,
   `FechaGeneracion` DATE NOT NULL,
   `RegistroConsumo_idRegistroConsumo` INT NOT NULL,
@@ -136,21 +136,21 @@ CREATE TABLE IF NOT EXISTS `SCAE`.`Reporte` (
   INDEX `fk_Reporte_Usuario1_idx` (`Usuario_idUsuario` ASC) VISIBLE,
   CONSTRAINT `fk_Reporte_RegistroConsumo1`
     FOREIGN KEY (`RegistroConsumo_idRegistroConsumo`)
-    REFERENCES `SCAE`.`RegistroConsumo` (`idRegistroConsumo`)
+    REFERENCES `scae2`.`RegistroConsumo` (`idRegistroConsumo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Reporte_Usuario1`
     FOREIGN KEY (`Usuario_idUsuario`)
-    REFERENCES `SCAE`.`Usuario` (`idUsuario`)
+    REFERENCES `scae2`.`Usuario` (`idUsuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SCAE`.`RegistroDocente`
+-- Table `scae2`.`RegistroDocente`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SCAE`.`RegistroDocente` (
+CREATE TABLE IF NOT EXISTS `scae2`.`RegistroDocente` (
   `idRegistroDocente` INT NOT NULL AUTO_INCREMENT,
   `Docente_idDocente` INT NOT NULL,
   `SemanaMenuComidas_Comidas_idComidas` INT NOT NULL,
@@ -161,21 +161,21 @@ CREATE TABLE IF NOT EXISTS `SCAE`.`RegistroDocente` (
   INDEX `fk_RegistroDocente_SemanaMenuComidas1_idx` (`SemanaMenuComidas_Comidas_idComidas` ASC, `SemanaMenuComidas_SemanaMenu_idSemanaMenu` ASC) VISIBLE,
   CONSTRAINT `fk_RegistroDocente_Docente1`
     FOREIGN KEY (`Docente_idDocente`)
-    REFERENCES `SCAE`.`Docente` (`idDocente`)
+    REFERENCES `scae2`.`Docente` (`idDocente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_RegistroDocente_SemanaMenuComidas1`
     FOREIGN KEY (`SemanaMenuComidas_Comidas_idComidas` , `SemanaMenuComidas_SemanaMenu_idSemanaMenu`)
-    REFERENCES `SCAE`.`SemanaMenuComidas` (`Comidas_idComidas` , `SemanaMenu_idSemanaMenu`)
+    REFERENCES `scae2`.`SemanaMenuComidas` (`Comidas_idComidas` , `SemanaMenu_idSemanaMenu`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SCAE`.`ReporteDocente`
+-- Table `scae2`.`ReporteDocente`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SCAE`.`ReporteDocente` (
+CREATE TABLE IF NOT EXISTS `scae2`.`ReporteDocente` (
   `idReporteDocente` INT NOT NULL AUTO_INCREMENT,
   `FechaGeneracion` DATE NULL,
   `RegistroDocente_idRegistroDocente` INT NOT NULL,
@@ -183,7 +183,26 @@ CREATE TABLE IF NOT EXISTS `SCAE`.`ReporteDocente` (
   INDEX `fk_ReporteDocente_RegistroDocente1_idx` (`RegistroDocente_idRegistroDocente` ASC) VISIBLE,
   CONSTRAINT `fk_ReporteDocente_RegistroDocente1`
     FOREIGN KEY (`RegistroDocente_idRegistroDocente`)
-    REFERENCES `SCAE`.`RegistroDocente` (`idRegistroDocente`)
+    REFERENCES `scae2`.`RegistroDocente` (`idRegistroDocente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scae2`.`cantConsumida`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scae2`.`cantConsumida` (
+  `idcantConsumida` INT NOT NULL AUTO_INCREMENT,
+  `cantidad` INT NOT NULL,
+  `SemanaMenuComidas_Comidas_idComidas` INT NOT NULL,
+  `SemanaMenuComidas_SemanaMenu_idSemanaMenu` INT NOT NULL,
+  `Dia` INT(5) NOT NULL,
+  PRIMARY KEY (`idcantConsumida`, `SemanaMenuComidas_Comidas_idComidas`, `SemanaMenuComidas_SemanaMenu_idSemanaMenu`),
+  INDEX `fk_cantConsumida_SemanaMenuComidas1_idx` (`SemanaMenuComidas_Comidas_idComidas` ASC, `SemanaMenuComidas_SemanaMenu_idSemanaMenu` ASC) VISIBLE,
+  CONSTRAINT `fk_cantConsumida_SemanaMenuComidas1`
+    FOREIGN KEY (`SemanaMenuComidas_Comidas_idComidas` , `SemanaMenuComidas_SemanaMenu_idSemanaMenu`)
+    REFERENCES `scae2`.`SemanaMenuComidas` (`Comidas_idComidas` , `SemanaMenu_idSemanaMenu`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

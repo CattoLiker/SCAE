@@ -82,13 +82,59 @@ public class RegistroCIController implements Initializable {
     }
 
     private void aprobar(ActionEvent event) {
+        try (Connection conn = ConeccionDB.getConnection()) {
+            // Verificar si ya existe un registro para esta comida en el día actual
+            String checkSql = "SELECT idcantConsumida, cantidad FROM cantConsumida WHERE "
+                    + "SemanaMenuComidas_Comidas_idComidas = ? AND "
+                    + "SemanaMenuComidas_SemanaMenu_idSemanaMenu = ? AND "
+                    + "Dia = ?";
+
+            PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+            checkStmt.setInt(1, idComida);
+            checkStmt.setInt(2, SemanaMenu);
+            checkStmt.setInt(3, diaSemana);
+
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                // Si ya existe, actualizar la cantidad sumando +1
+                int idCantConsumida = rs.getInt("idcantConsumida");
+                int cantidadActual = rs.getInt("cantidad");
+
+                String updateSql = "UPDATE cantConsumida SET cantidad = ? WHERE idcantConsumida = ?";
+                PreparedStatement updateStmt = conn.prepareStatement(updateSql);
+                updateStmt.setInt(1, cantidadActual + 1);
+                updateStmt.setInt(2, idCantConsumida);
+                updateStmt.executeUpdate();
+
+                System.out.println("Cantidad actualizada: " + (cantidadActual + 1));
+            } else {
+                // Si no existe, crear un nuevo registro con cantidad = 1
+                String insertSql = "INSERT INTO cantConsumida (cantidad, SemanaMenuComidas_Comidas_idComidas, "
+                        + "SemanaMenuComidas_SemanaMenu_idSemanaMenu, Dia) VALUES (?, ?, ?, ?)";
+
+                PreparedStatement insertStmt = conn.prepareStatement(insertSql);
+                insertStmt.setInt(1, 1); // Cantidad inicial = 1
+                insertStmt.setInt(2, idComida);
+                insertStmt.setInt(3, SemanaMenu);
+                insertStmt.setInt(4, diaSemana);
+                insertStmt.executeUpdate();
+
+                System.out.println("Nuevo registro creado con cantidad = 1");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            mostrarError("Error al registrar consumo", "No se pudo registrar el consumo en la base de datos", event);
+            return;
+        }
+
+        // Redirigir a la siguiente pantalla
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AccederComida.fxml"));
             Parent root = fxmlLoader.load();
-            // Obtener el Stage actual desde el botón o cualquier nodo que disparó el evento
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            // Reemplazar la escena
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setFullScreen(true);
@@ -99,7 +145,17 @@ public class RegistroCIController implements Initializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
 
+// Método auxiliar para mostrar errores
+    private void mostrarError(String titulo, String mensaje, ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        alert.initOwner(stage);
+        alert.showAndWait();
     }
 
     @FXML
