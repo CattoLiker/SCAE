@@ -35,9 +35,10 @@ import javafx.stage.Stage;
  * @author abiga
  */
 public class RegistroCIController implements Initializable {
+
     @FXML
     private Button btnMenu;
-   
+
     @FXML
     private TextField user;
     @FXML
@@ -261,7 +262,7 @@ public class RegistroCIController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
+
     private void mostrarInfo(String titulo, String mensaje, ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
@@ -271,6 +272,5 @@ public class RegistroCIController implements Initializable {
         alert.initOwner(stage);
         alert.showAndWait();
     }
-    
 
 }

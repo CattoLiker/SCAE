@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8b0000; -fx-border-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.RegistroController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8b0000; -fx-border-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.RegistroController">
    <children>
       <Label layoutX="265.0" layoutY="61.0" prefHeight="35.0" prefWidth="97.0" text="Registro" textFill="WHITE">
          <font>
@@ -23,6 +23,6 @@
       <Label layoutX="100.0" layoutY="217.0" text="Contraseña" textFill="WHITE" />
       <PasswordField id="Contra2" fx:id="Contra2" layoutX="224.0" layoutY="261.0" onKeyPressed="#abrirDoc" prefHeight="25.0" prefWidth="178.0" />
       <Button id="btnRegistro" fx:id="registro" layoutX="261.0" layoutY="311.0" mnemonicParsing="false" onKeyPressed="#abrirDoc" text="Registrarse" />
-      <Button layoutX="424.0" layoutY="26.0" mnemonicParsing="false" onAction="#volver" onKeyPressed="#abrirDoc" text="⬅ Volver al inicio de sesión" />
+      <Button layoutX="424.0" layoutY="14.0" mnemonicParsing="false" onAction="#volver" onKeyPressed="#abrirDoc" text="⬅ Volver al inicio de sesión" />
    </children>
 </Pane>
