@@ -465,8 +465,8 @@ public class AlumnoController implements Initializable {
                 pstmt.setInt(2, 1);
                 pstmt.setString(3, nombre);
                 pstmt.setString(4, apellido);
-                pstmt.setInt(5, Character.getNumericValue(curso.charAt(0)));
-                pstmt.setInt(6, Character.getNumericValue(seccion.charAt(0)));
+                pstmt.setString(5, curso);
+                pstmt.setString(6, seccion);
                 pstmt.setString(7, especialidad);
 
                 int filasAfectadas = pstmt.executeUpdate();
