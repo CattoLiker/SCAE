@@ -31,8 +31,8 @@ import javafx.util.Duration;
  */
 public class MenuInicioUserController implements Initializable {
 
-    LocalTime limite = LocalTime.of(23, 0);
-    LocalTime inicio = LocalTime.of(1, 0);
+    LocalTime limite = LocalTime.of(23, 0); // Sirve para actualizar los botones, osea si es después de esta hora se desactivan
+    LocalTime inicio = LocalTime.of(1, 0); 
     LocalTime finServicio = LocalTime.of(23, 0);
 
     private LocalDate fecha = LocalDate.now();
