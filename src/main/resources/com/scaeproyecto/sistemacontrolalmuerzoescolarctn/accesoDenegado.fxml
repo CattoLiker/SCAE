@@ -14,10 +14,10 @@
             <Font name="System Bold" size="31.0" />
          </font>
       </Label>
-      <HBox prefHeight="1020.0" prefWidth="1980.0">
+      <HBox prefHeight="769.0" prefWidth="1027.0">
          <children>
             <VBox prefHeight="1020.0" prefWidth="0.0" />
-            <VBox prefHeight="1020.0" prefWidth="1643.0">
+            <VBox prefHeight="487.0" prefWidth="1110.0">
                <children>
                   <HBox prefHeight="82.0" prefWidth="1643.0" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
@@ -30,18 +30,18 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Label prefHeight="474.0" prefWidth="980.0" text="1-Si sos alumno, verifica que tu registro esté activo.&#10;2-Si ya estás registrado, revisa la última vez  que usaste&#10; el servicio,ya que el sistema se desactiva&#10; automáticamente si no se utiliza por un tiempo.&#10;3-En caso de dudas o ser docente,comunícate con &#10;el Departamento de Alimentación Escolar,profesora Luz Pintos" textFill="WHITE">
+                  <Label prefHeight="452.0" prefWidth="1018.0" text="1-Si sos alumno, verifica que tu registro esté activo.&#10;&#10;2-Si ya estás registrado, revisa la última vez  que usaste&#10; el servicio, ya que el sistema se desactiva&#10; automáticamente si no se utiliza por un tiempo.&#10;&#10;3-En caso de dudas o ser docente, comunícate con &#10;el Departamento de Alimentación Escolar, profesora Luz Pintos" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="29.0" />
                      </font>
                      <graphic>
-                        <HBox prefHeight="289.0" prefWidth="96.0" />
+                        <HBox prefHeight="289.0" prefWidth="77.0" />
                      </graphic>
                   </Label>
-                  <HBox prefHeight="309.0" prefWidth="1643.0">
+                  <HBox prefHeight="186.0" prefWidth="1039.0">
                      <children>
-                        <VBox prefHeight="310.0" prefWidth="449.0" />
-                        <VBox prefHeight="299.0" prefWidth="150.0">
+                        <VBox prefHeight="165.0" prefWidth="431.0" />
+                        <VBox prefHeight="181.0" prefWidth="150.0">
                            <children>
                               <HBox prefHeight="0.0" prefWidth="150.0" />
                               <Button fx:id="btnOk" mnemonicParsing="false" onAction="#ok" prefHeight="25.0" prefWidth="500.0" text="OK">
@@ -51,7 +51,7 @@
                               </Button>
                            </children>
                         </VBox>
-                        <VBox prefHeight="299.0" prefWidth="781.0" />
+                        <VBox prefHeight="252.0" prefWidth="433.0" />
                      </children>
                   </HBox>
                </children>

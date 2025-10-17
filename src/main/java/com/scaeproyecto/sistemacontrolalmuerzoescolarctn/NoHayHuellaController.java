@@ -34,7 +34,7 @@ public class NoHayHuellaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void ok(ActionEvent event) {
@@ -52,5 +52,5 @@ public class NoHayHuellaController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
+
 }

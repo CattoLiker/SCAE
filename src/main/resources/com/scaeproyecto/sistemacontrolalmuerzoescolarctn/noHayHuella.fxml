@@ -10,17 +10,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.NoHayHuellaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scaeproyecto.sistemacontrolalmuerzoescolarctn.NoHayHuellaController">
    <children>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8b0000; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane layoutY="1.6" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="766.0" prefWidth="1024.0" style="-fx-background-color: #8b0000; -fx-border-color: black;" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
          <children>
-            <VBox layoutX="7.0" prefHeight="1080.0" prefWidth="1920.0">
+            <VBox layoutX="7.0" prefHeight="768.0" prefWidth="1024.0">
                <children>
-                  <HBox prefHeight="121.0" prefWidth="1920.0" />
-                  <HBox prefHeight="776.0" prefWidth="1920.0">
+                  <HBox prefHeight="438.0" prefWidth="1024.0" />
+                  <HBox prefHeight="1110.0" prefWidth="1024.0">
                      <children>
-                        <VBox prefHeight="717.0" prefWidth="250.0" />
-                        <VBox prefHeight="638.0" prefWidth="599.0">
+                        <VBox prefHeight="720.0" prefWidth="261.0" />
+                        <VBox prefHeight="764.0" prefWidth="490.0">
                            <children>
                               <Label prefHeight="70.0" prefWidth="650.0" text="Servicio en desarrollo" textAlignment="CENTER" textFill="WHITE">
                                  <font>
@@ -29,7 +29,7 @@
                               </Label>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <VBox prefHeight="399.0" prefWidth="70.0" />
+                                    <VBox prefHeight="399.0" prefWidth="33.0" />
                                     <ImageView fitHeight="399.0" fitWidth="473.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../images/pngtree-vector-under-construction-icon-png-image_1028413-removebg-preview.png" />
@@ -40,7 +40,7 @@
                               </HBox>
                               <HBox prefHeight="210.0" prefWidth="494.0">
                                  <children>
-                                    <VBox prefHeight="169.0" prefWidth="64.0" />
+                                    <VBox prefHeight="210.0" prefWidth="40.0" />
                                     <VBox prefHeight="169.0" prefWidth="359.0">
                                        <children>
                                           <HBox prefHeight="100.0" prefWidth="200.0">
@@ -88,7 +88,6 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox prefHeight="638.0" prefWidth="920.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="360.0" prefWidth="1980.0" />
