@@ -258,7 +258,7 @@ public class MenuController implements Initializable {
                     desktop.open(tempFile);
                 } else {
                     System.err.println("La acción OPEN no está soportada en este sistema");
-                    mostrarError("Error", "No se puede abrir el archivo en este sistema.");
+                    mostrarError("Error", "No se puede abrir el archivo en est  e sistema.");
                 }
 
             } catch (Exception e) {
@@ -276,6 +276,18 @@ public class MenuController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void formularioConsumo(ActionEvent event) throws SQLException {
+        String forCom = "/reportes/reporteConsumo.jasper";
+
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("TITULO", "Reporte de consumo de comidas");
+
+        Connection conexion = ConeccionDB.getConnection();
+
+        ReporteUtilities.abrirJasper(forCom, parametros, conexion);
     }
     
 }

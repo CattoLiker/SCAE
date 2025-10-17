@@ -93,6 +93,7 @@ public class RegistroCIController implements Initializable {
             checkStmt.setInt(1, idComida);
             checkStmt.setInt(2, SemanaMenu);
             checkStmt.setInt(3, diaSemana);
+            
 
             ResultSet rs = checkStmt.executeQuery();
 
@@ -111,7 +112,7 @@ public class RegistroCIController implements Initializable {
             } else {
                 // Si no existe, crear un nuevo registro con cantidad = 1
                 String insertSql = "INSERT INTO cantConsumida (cantidad, SemanaMenuComidas_Comidas_idComidas, "
-                        + "SemanaMenuComidas_SemanaMenu_idSemanaMenu, Dia) VALUES (?, ?, ?, ?)";
+                        + "SemanaMenuComidas_SemanaMenu_idSemanaMenu, Dia, Fecha) VALUES (?, ?, ?, ?, now())";
 
                 PreparedStatement insertStmt = conn.prepareStatement(insertSql);
                 insertStmt.setInt(1, 1); // Cantidad inicial = 1
